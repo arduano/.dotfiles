@@ -1,7 +1,18 @@
 { config, pkgs, inputs, programs-sqlite-db, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ./flatpak ./cli ./networking ./power.nix ./bcache.nix ./sshd.nix ./sunshine ./filesystems.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./flatpak
+    ./cli
+    ./networking
+    ./power.nix
+    ./bcache.nix
+    ./sshd.nix
+    ./sunshine
+    ./filesystems.nix
+    ./sdk
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

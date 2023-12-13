@@ -24,10 +24,16 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    vscode-server = {
+      url = "github:nix-community/nixos-vscode-server";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # The output is your built and working system configuration
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
+    with inputs;
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -50,12 +56,13 @@
           specialArgs = {
             inherit inputs;
             programs-sqlite-db =
-              inputs.flake-programs-sqlite.packages.${system}.programs-sqlite;
+              flake-programs-sqlite.packages.${system}.programs-sqlite;
           };
           modules = [
             ./system
-            inputs.nix-flatpak.nixosModules.nix-flatpak
-            inputs.flake-programs-sqlite.nixosModules.programs-sqlite
+            nix-flatpak.nixosModules.nix-flatpak
+            flake-programs-sqlite.nixosModules.programs-sqlite
+            vscode-server.nixosModules.default
           ];
         };
       };
@@ -65,8 +72,8 @@
           extraSpecialArgs = { inherit inputs; inherit runtimePath; };
           modules = [
             ./home
-            inputs.plasma-manager.homeManagerModules.plasma-manager
-            inputs.nix-flatpak.homeManagerModules.nix-flatpak
+            plasma-manager.homeManagerModules.plasma-manager
+            nix-flatpak.homeManagerModules.nix-flatpak
           ];
         };
       };

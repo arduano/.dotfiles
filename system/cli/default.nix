@@ -12,6 +12,7 @@
     htop
     tmux
     git
+    gcc
     ncdu
     nload
   ];

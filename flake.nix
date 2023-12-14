@@ -11,7 +11,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # TODO: Third party dependencies
     plasma-manager = {
       url = "github:pjones/plasma-manager/trunk";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,6 +26,11 @@
 
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    fenix = {
+      url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -69,7 +73,11 @@
       homeConfigurations = {
         arduano = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          extraSpecialArgs = { inherit inputs; inherit runtimePath; };
+          extraSpecialArgs = {
+            inherit inputs;
+            inherit runtimePath;
+            inherit fenix;
+          };
           modules = [
             ./home
             plasma-manager.homeManagerModules.plasma-manager

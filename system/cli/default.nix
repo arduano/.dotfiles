@@ -15,6 +15,7 @@
     gcc
     ncdu
     nload
+    imagemagick
   ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;

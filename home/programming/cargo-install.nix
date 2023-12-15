@@ -35,6 +35,7 @@ in
     cargo-outdated
     cargo-audit
     cargo-license
+    cargo-flamegraph
     # (cargoInstall {
     #   name = "";
     #   version = "0.11.2";

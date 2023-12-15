@@ -1,6 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
+  services.kdeconnect.enable = true;
+  services.kdeconnect.indicator = true;
+
   # TODO: Plasma config. Run `nix run github:pjones/plasma-manager` for your current full config.
   # For more docs, visit https://github.com/pjones/plasma-manager
   programs.plasma = {

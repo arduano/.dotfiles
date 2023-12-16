@@ -16,6 +16,7 @@
     ncdu
     nload
     imagemagick
+    desktop-file-utils
   ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;

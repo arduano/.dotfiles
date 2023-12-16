@@ -20,6 +20,9 @@
     enable = true;
     userName = "arduano";
     userEmail = "leonid.shchurov@gmail.com";
+    extraConfig = {
+      pull.rebase = "false";
+    };
   };
 
   programs.direnv = {

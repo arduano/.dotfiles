@@ -34,7 +34,7 @@ let
       mainProgram = "dvm";
     };
   };
-in { 
+in {
   # home.packages = [ dvm pkgs.discord ];
-  home.packages = [ pkgs.discord ];
+  home.packages = [ pkgs.vesktop ];
 }

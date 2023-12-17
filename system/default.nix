@@ -13,6 +13,7 @@
     ./filesystems.nix
     ./sdk
     ./vscode.nix
+    ./misc.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

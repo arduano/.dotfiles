@@ -57,7 +57,7 @@
 
     firefox
     kate
-    vscode
+    vscode-fhs
     flameshot
   ];
 

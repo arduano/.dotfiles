@@ -1,27 +1,6 @@
 { config, pkgs, inputs, fenix, lib, ... }:
 
 let
-  stable-2023-12-04 = fenix.packages.${pkgs.system}.fromToolchainName {
-    name = "stable";
-    sha256 = "sha256-PjvuouwTsYfNKW5Vi5Ye7y+lL7SsWGBxCtBOOm2z14c=";
-  };
-
-  makeRustPlatform = pkgs.makeRustPlatform.override {
-    stdenv = pkgs.clangStdenv; # Nope
-    buildPackages = pkgs.buildPackages // { stdenv = pkgs.clangStdenv; }; # Nope
-  };
-
-  toolchain = stable-2023-12-04.toolchain.override {
-    stdenv = pkgs.clangStdenv;
-    buildPackages = pkgs.buildPackages // { stdenv = pkgs.clangStdenv; };
-  };
-
-  rustPlatform-stable-2023-12-04 = makeRustPlatform {
-    cargo = toolchain;
-    rustc = toolchain;
-    stdenv = pkgs.clangStdenv; # Nope
-  };
-
   pkgs' = pkgs.extend (self: super: {
     rust = super.rust.override {
       stdenv = pkgs.clangStdenv;
@@ -29,7 +8,17 @@ let
     };
   });
 
-  firedbg = pkgs'.rustPlatform.buildRustPackage rec {
+  stable-2023-12-04 = fenix.packages.${pkgs.system}.fromToolchainName {
+    name = "stable";
+    sha256 = "sha256-PjvuouwTsYfNKW5Vi5Ye7y+lL7SsWGBxCtBOOm2z14c=";
+  };
+
+  rustPlatform-stable-2023-12-04 = pkgs'.makeRustPlatform {
+    cargo = stable-2023-12-04.toolchain;
+    rustc = stable-2023-12-04.toolchain;
+  };
+
+  firedbg = rustPlatform-stable-2023-12-04.buildRustPackage rec {
     pname = "firedbg";
     version = "1.74.2";
 
@@ -56,6 +45,17 @@ let
     buildInputs = [ pkgs.openssl pkgs.lldb pkgs.libcxx pkgs.libcxxabi ];
 
     doCheck = false;
+
+    # preInstall = ''
+    #   ls
+    #   # Link firedbg-cli to firedbg
+    #   # ln -s $out/bin/firedbg $out/bin/firedbg-cli
+    # '';
+
+    postInstall = ''
+      ls target/x86_64-unknown-linux-gnu/release
+      cp target/x86_64-unknown-linux-gnu/release/firedbg-lib $out/bin/firedbg-lib
+    '';
 
     meta = with lib; {
       description =

@@ -2,7 +2,7 @@
 
 {
   # imports = [ ./nvm ];
-  imports = [ ./cargo-install.nix ./firedbg ];
+  imports = [ ./cargo-install.nix ];
 
   home.packages = with pkgs; [
     rustup
@@ -10,6 +10,7 @@
     patchelf
     gdb
     nixpkgs-fmt
+    lldb
 
     (pkgs.writeShellScriptBin "fixfmt" ''
       git add . && cargo fix --workspace --allow-staged && cargo fmt --all

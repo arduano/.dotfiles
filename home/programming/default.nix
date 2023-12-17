@@ -2,7 +2,7 @@
 
 {
   # imports = [ ./nvm ];
-  imports = [ ./cargo-install.nix ];
+  imports = [ ./cargo-install.nix ./firedbg ];
 
   home.packages = with pkgs; [
     rustup

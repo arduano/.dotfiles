@@ -14,6 +14,7 @@
     ./sdk
     ./vscode.nix
     ./misc.nix
+    ./vm.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -58,6 +59,10 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+
+  environment.sessionVariables = {
+    GTK_USE_PORTAL = "1";
+  };
 
   # Configure keymap in X11
   services.xserver = {

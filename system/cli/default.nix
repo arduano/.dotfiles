@@ -9,6 +9,7 @@
     nload
     neofetch
     fastfetch
+    pciutils
     htop
     tmux
     git

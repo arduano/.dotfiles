@@ -6,11 +6,13 @@
 
   home.packages = with pkgs; [
     rustup
-    python3
     patchelf
     gdb
     nixpkgs-fmt
     lldb
+
+    (python3.override { x11Support = true; })
+    python311Packages.tkinter
 
     nodejs_20
     nodePackages.yarn

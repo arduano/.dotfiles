@@ -1,5 +1,5 @@
 { config, pkgs, inputs, ... }:
 
 {
-  environment.systemPackages = [ pkgs.gparted ];
+  environment.systemPackages = with pkgs; [ gparted xdg-desktop-portal ];
 }

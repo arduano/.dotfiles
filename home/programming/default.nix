@@ -12,6 +12,10 @@
     nixpkgs-fmt
     lldb
 
+    nodejs_20
+    nodePackages.yarn
+    nodePackages."@withgraphite/graphite-cli"
+
     (pkgs.writeShellScriptBin "fixfmt" ''
       git add . && cargo fix --workspace --allow-staged && cargo fmt --all
     '')

@@ -56,6 +56,8 @@
     '')
 
     firefox
+    steam
+    vlc
     kate
     vscode-fhs
     flameshot

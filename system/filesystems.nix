@@ -3,6 +3,12 @@
 {
   system.fsPackages = with pkgs; [ sshfs ];
 
+  fileSystems."/home/arduano" =
+    {
+      device = "/dev/disk/by-uuid/9a3e36de-d2f2-4021-a10f-3f134fd8f62f";
+      fsType = "ext4";
+    };
+
   fileSystems."/mnt/fat" =
     {
       device = "/dev/disk/by-uuid/430eda30-4901-4aec-9fa5-69ab8cb322df";

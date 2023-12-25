@@ -121,6 +121,8 @@
   # TODO: https://github.com/wamserma/flake-programs-sqlite
   programs.command-not-found.dbPath = programs-sqlite-db;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Enable OpenGL
   hardware.opengl = {
     enable = true;

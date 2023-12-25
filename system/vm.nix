@@ -13,6 +13,7 @@
     win-spice
     looking-glass-client
     gnome.adwaita-icon-theme
+    virtiofsd
   ];
   virtualisation = {
     libvirtd = {
@@ -29,40 +30,49 @@
   };
   services.spice-vdagentd.enable = true;
 
-  boot.initrd.availableKernelModules = [ "vfio-pci" ];
-  boot.initrd.preDeviceCommands =
-    let
-      gpu = "0a:00.0";
-      gpuAudio = "0a:00.1";
-    in
-    ''
-      DEVS="0000:${gpu} 0000:${gpuAudio}"
-      for DEV in $DEVS; do
-        echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
-      done
-      modprobe -i vfio-pci
-    '';
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "amd_iommu=on" "pcie_aspm=off" ];
-  boot.kernelModules = [ "kvm-amd" ];
-
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 alex qemu-libvirtd -" # Looking glass
-    # "f /dev/shm/scream 0660 alex qemu-libvirtd -" # Scream
-  ];
-
-  # systemd.user.services.scream-ivshmem = {
-  #   enable = true;
-  #   description = "Scream IVSHMEM";
-  #   serviceConfig = {
-  #     ExecStart = "${pkgs.scream-receivers}/bin/scream-ivshmem-pulse /dev/shm/scream";
-  #     Restart = "always";
+  # environment.etc = {
+  #   "ovmf/edk2-x86_64-secure-code.fd" = {
+  #     source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-x86_64-secure-code.fd";
   #   };
-  #   wantedBy = [ "multi-user.target" ];
-  #   requires = [ "pipewire.service" ];
+
+  #   "ovmf/edk2-i386-vars.fd" = {
+  #     source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-i386-vars.fd";
+  #   };
   # };
 
+  boot =
+    with pkgs;
+    let
+      gpuIDs = [
+        "10de:1b06" # Graphics
+        "10de:10ef" # Audio
+      ];
+    in
+    {
+      initrd.kernelModules = [
+        "vfio_pci"
+        "vfio"
+        "vfio_iommu_type1"
+
+        "nvidia"
+        "nvidia_modeset"
+        "nvidia_uvm"
+        "nvidia_drm"
+      ];
+
+      kernelModules = [ "kvm-amd" ];
+
+      kernelParams = [
+        # enable IOMMU
+        "amd_iommu=on"
+        # Virtualize GPU
+        ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs)
+      ];
+    };
+
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/looking-glass 0660 arduano qemu-libvirtd -" # Looking glass
+  ];
 
   users.users.arduano.extraGroups = [ "libvirtd" ];
 }

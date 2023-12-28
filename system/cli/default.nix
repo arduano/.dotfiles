@@ -1,6 +1,10 @@
 { config, pkgs, inputs, ... }:
 
 {
+  imports = [
+    ./build-essentials.nix
+  ];
+
   environment.systemPackages = with pkgs; [
     vim
     wget
@@ -13,7 +17,6 @@
     htop
     tmux
     git
-    gcc
     ncdu
     nload
     imagemagick

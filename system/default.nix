@@ -15,6 +15,7 @@
     ./vscode.nix
     ./misc.nix
     ./vm.nix
+    ./nix-channel.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -62,6 +63,14 @@
 
   environment.sessionVariables = {
     GTK_USE_PORTAL = "1";
+    LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
+      libGL
+      libxkbcommon
+      xorg.libX11
+      xorg.libXcursor
+      xorg.libXi
+      xorg.libXrandr
+    ];
   };
 
   # Configure keymap in X11
@@ -96,14 +105,14 @@
   users.users.arduano = {
     isNormalUser = true;
     description = "arduano";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "fuse" ];
     packages = with pkgs; [ ];
   };
 
   users.users.recovery = {
     isNormalUser = true;
     description = "recovery";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "fuse" ];
     packages = with pkgs; [ ];
   };
 

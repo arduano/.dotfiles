@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports = [ ./tailscale.nix ];
@@ -11,4 +11,8 @@
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
   networking.firewall.enable = false;
+
+  # https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 }

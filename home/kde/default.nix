@@ -12,7 +12,7 @@
     workspace = {
       clickItemTo = "select";
       theme = "breeze-dark";
-      colorscheme = "BreezeDark";
+      colorScheme = "BreezeDark";
     };
 
     # Updating these may require a session restart

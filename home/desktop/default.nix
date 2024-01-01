@@ -8,5 +8,6 @@
     slack
     google-chrome
     xfce.xfce4-screenshooter
+    qpwgraph
   ];
 }

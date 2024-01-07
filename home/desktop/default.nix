@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./anydesk.nix ./discord.nix ];
+  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ];
 
   home.packages = with pkgs; [
     teams-for-linux

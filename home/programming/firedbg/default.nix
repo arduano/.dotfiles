@@ -9,7 +9,7 @@ let
   });
 
   stable-2023-12-04 = fenix.packages.${pkgs.system}.fromToolchainName {
-    name = "stable";
+    name = "1.74.1";
     sha256 = "sha256-PjvuouwTsYfNKW5Vi5Ye7y+lL7SsWGBxCtBOOm2z14c=";
   };
 
@@ -53,8 +53,9 @@ let
     # '';
 
     postInstall = ''
-      ls target/x86_64-unknown-linux-gnu/release
-      cp target/x86_64-unknown-linux-gnu/release/firedbg-lib $out/bin/firedbg-lib
+      cp target/x86_64-unknown-linux-gnu/release/firedbg $out/bin
+      cp target/x86_64-unknown-linux-gnu/release/firedbg-debugger $out/bin
+      cp target/x86_64-unknown-linux-gnu/release/firedbg-indexer $out/bin
     '';
 
     meta = with lib; {

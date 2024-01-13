@@ -23,6 +23,7 @@
     desktop-file-utils
     p7zip
     pv
+    nix-du
   ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;

@@ -18,7 +18,8 @@
 
   fileSystems."/mnt/fat" =
     {
-      device = "/dev/nvme0n1p2:/dev/sdb1";
+      # device = "/dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3";
+      device = "/dev/nvme0n1p2:/dev/sdc1";
       fsType = "bcachefs";
       options = [ "verbose" "nofail" "noatime" "x-systemd.device-timeout=10s" ];
       # options = [ "compression=zstd" ];

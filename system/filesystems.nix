@@ -2,6 +2,7 @@
 
 {
   system.fsPackages = with pkgs; [ sshfs ];
+  boot.supportedFilesystems = [ "bcachefs" ];
 
   fileSystems."/home/arduano" =
     {
@@ -9,10 +10,18 @@
       fsType = "ext4";
     };
 
+  # fileSystems."/mnt/fat" =
+  #   {
+  #     device = "/dev/disk/by-uuid/430eda30-4901-4aec-9fa5-69ab8cb322df";
+  #     fsType = "btrfs";
+  #   };
+
   fileSystems."/mnt/fat" =
     {
-      device = "/dev/disk/by-uuid/430eda30-4901-4aec-9fa5-69ab8cb322df";
-      fsType = "btrfs";
+      device = "/dev/nvme0n1p2:/dev/sdb1";
+      fsType = "bcachefs";
+      options = [ "verbose" "nofail" "noatime" "x-systemd.device-timeout=10s" ];
+      # options = [ "compression=zstd" ];
     };
 
   fileSystems."/mnt/z" = {
@@ -31,4 +40,9 @@
         "IdentityFile=/home/arduano/.ssh/nas"
       ];
   };
+
+  swapDevices = [{
+    device = "/swapfile";
+    size = 64 * 1024;
+  }];
 }

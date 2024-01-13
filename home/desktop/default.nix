@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ];
+  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ./7zip ];
 
   home.packages = with pkgs; [
     teams-for-linux
@@ -9,5 +9,8 @@
     google-chrome
     xfce.xfce4-screenshooter
     qpwgraph
+    zoom-us
+    gimp
+    qalculate-qt
   ];
 }

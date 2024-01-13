@@ -21,6 +21,8 @@
     nload
     imagemagick
     desktop-file-utils
+    p7zip
+    pv
   ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;

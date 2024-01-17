@@ -24,6 +24,8 @@
     p7zip
     pv
     nix-du
+    distrobox
+    usbutils
   ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;

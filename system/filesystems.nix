@@ -37,6 +37,7 @@
 
         # SSH options
         "reconnect" # handle connection drops
+        "delay_connect" # wait for network
         "ServerAliveInterval=15" # keep connections alive
         "IdentityFile=/home/arduano/.ssh/nas"
       ];

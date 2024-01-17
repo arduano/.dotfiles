@@ -16,6 +16,7 @@
     ./misc.nix
     ./vm.nix
     ./nix-channel.nix
+    ./platform-emu.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -57,6 +58,11 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+  };
+
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
@@ -73,7 +79,7 @@
           xorg.libXrandr
         ])
     ];
-    NIXPKGS_ALLOW_UNFREE="1";
+    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
   # Configure keymap in X11
@@ -108,7 +114,7 @@
   users.users.arduano = {
     isNormalUser = true;
     description = "arduano";
-    extraGroups = [ "networkmanager" "wheel" "fuse" ];
+    extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
     packages = with pkgs; [ ];
   };
 

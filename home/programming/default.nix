@@ -18,6 +18,8 @@
     nodePackages.yarn
     nodePackages."@withgraphite/graphite-cli"
 
+    minicom
+
     (pkgs.writeShellScriptBin "fixfmt" ''
       git add . && cargo fix --workspace --allow-staged && cargo fmt --all
     '')

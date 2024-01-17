@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ./7zip ];
+  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ./7zip ./nvidia-sdk ];
 
   home.packages = with pkgs; [
     teams-for-linux

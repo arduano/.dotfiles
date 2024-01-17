@@ -169,5 +169,5 @@ let
   };
 in
 {
-  home.packages = [ (builtins.trace "${p7zip-gui}" p7zip-gui) ];
+  home.packages = [ p7zip-gui ];
 }

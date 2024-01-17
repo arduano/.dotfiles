@@ -3,6 +3,11 @@ import shutil
 import os
 import sys
 
+# A script to inject non-volatile fish variables into the fish_variables file, if changes are required.
+# Fish tends to store both volatile and non-volatile variables in the same file, which makes it difficult to
+# track changes in version control. This script will merge the non-volatile variables from the reference file
+# into the real file if any changes are required, and leave the volatile variables alone.
+
 def parse_fish_variables(path):
     variables = []
     with open(path, 'r') as file:
@@ -52,7 +57,7 @@ def merge_variables(ref_path, real_path):
         shutil.copy(temp_file_path, real_path)
         os.remove(temp_file_path)
 
-# Example usage
+# Invoke the script from the args
 ref_file_path = sys.argv[1]
 real_file_path = sys.argv[2]
 merge_variables(ref_file_path, real_file_path)

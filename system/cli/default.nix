@@ -26,6 +26,7 @@
     nix-du
     distrobox
     usbutils
+    jq
   ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;

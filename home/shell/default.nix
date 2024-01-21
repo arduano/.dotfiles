@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, runtimePath, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 let
   anyNixShellFishInit = pkgs.writeText "any-nix-shell.fish" ''

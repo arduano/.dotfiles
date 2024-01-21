@@ -16,7 +16,9 @@
 
     nodejs_20
     nodePackages.yarn
-    nodePackages."@withgraphite/graphite-cli"
+    (import ./graphite {
+      inherit pkgs; nodejs = nodejs_20;
+    })."@withgraphite/graphite-cli-1.1.2"
 
     minicom
 

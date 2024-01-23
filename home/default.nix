@@ -49,10 +49,10 @@
 
     # TODO: Convenient aliases for switching home/system config, assuming it's in ~/.dotfiles
     (pkgs.writeShellScriptBin "switch-home" ''
-      home-manager switch -L -v --flake ~/.dotfiles
+      home-manager switch -L -v --flake ~/.dotfiles && xdg-desktop-menu forceupdate
     '')
     (pkgs.writeShellScriptBin "switch-system" ''
-      sudo nixos-rebuild switch -L -v --flake ~/.dotfiles
+      sudo nixos-rebuild switch -L -v --flake ~/.dotfiles && xdg-desktop-menu forceupdate
     '')
 
     firefox

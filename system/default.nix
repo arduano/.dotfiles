@@ -17,6 +17,7 @@
     ./vm.nix
     ./nix-channel.nix
     ./platform-emu.nix
+    ./vpn.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

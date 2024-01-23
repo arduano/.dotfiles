@@ -1,7 +1,7 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
 
-let nixPath = "/run/nixPath";
-
+let
+  nixPath = "/run/nixPath";
 in
 {
   systemd.tmpfiles.rules = [

@@ -14,6 +14,7 @@
     looking-glass-client
     gnome.adwaita-icon-theme
     virtiofsd
+    xorriso
   ];
   virtualisation = {
     libvirtd = {

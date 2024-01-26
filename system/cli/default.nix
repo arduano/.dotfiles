@@ -1,11 +1,8 @@
 { config, pkgs, inputs, ... }:
 
-{
-  imports = [
-    ./build-essentials.nix
-  ];
-
-  environment.systemPackages = with pkgs; [
+with pkgs;
+let
+  essentials = [
     vim
     wget
     curl
@@ -19,15 +16,31 @@
     git
     ncdu
     nload
-    imagemagick
-    desktop-file-utils
-    p7zip
     pv
-    nix-du
-    distrobox
-    usbutils
     jq
+    usbutils
+    nmap
   ];
-  users.defaultUserShell = pkgs.fish;
+
+  useful = [
+    imagemagick
+    p7zip
+    nix-du
+    ffmpeg
+  ];
+
+  others = [
+    distrobox
+  ];
+
+in
+{
+  imports = [
+    ./build-essentials.nix
+  ];
+
+  environment.systemPackages = essentials ++ useful ++ others;
+
+  users.defaultUserShell = fish;
   programs.fish.enable = true;
 }

@@ -1,0 +1,1 @@
+If you stumbled upon this, please avoid using this as reference for best practices. This config is pretty bad, I did it while I was still getting a grasp of NixOS.

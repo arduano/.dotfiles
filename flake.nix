@@ -33,10 +33,12 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   # The output is your built and working system configuration
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, ... }@inputs:
     with inputs;
     let
       lib = nixpkgs.lib;
@@ -67,6 +69,11 @@
             nix-flatpak.nixosModules.nix-flatpak
             flake-programs-sqlite.nixosModules.programs-sqlite
             vscode-server.nixosModules.default
+
+            nixos-hardware.nixosModules.common-pc
+            nixos-hardware.nixosModules.common-pc-ssd
+            nixos-hardware.nixosModules.common-pc-hdd
+            nixos-hardware.nixosModules.common-cpu-amd
           ];
         };
       };

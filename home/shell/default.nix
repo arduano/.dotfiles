@@ -23,7 +23,8 @@ let
       platforms = with platforms; unix;
     };
   };
-in {
+in
+{
   programs.fish = {
     enable = true;
 
@@ -41,10 +42,18 @@ in {
     fishPlugins.bass
     anyNixShellFishPlugin
 
-    kitty
     tdrop
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Noto" "FantasqueSansMono" ]; })
   ];
+
+  programs.kitty = {
+    enable = true;
+    settings = {
+      term = "xterm-256color";
+      scrollback_lines = 10000;
+      confirm_os_window_close = 0;
+    };
+  };
 
   home.activation = {
     copyFishVars = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

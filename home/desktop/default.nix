@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ./7zip ./nvidia-sdk ];
+  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ./nvidia-sdk ];
 
   home.packages = with pkgs; [
     teams-for-linux
@@ -12,5 +12,7 @@
     zoom-us
     gimp
     qalculate-qt
+
+    arduano.p7zip-gui
   ];
 }

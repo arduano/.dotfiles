@@ -49,10 +49,14 @@
 
     # TODO: Convenient aliases for switching home/system config, assuming it's in ~/.dotfiles
     (pkgs.writeShellScriptBin "switch-home" ''
-      home-manager switch -L -v --flake ~/.dotfiles && xdg-desktop-menu forceupdate
+      nix flake lock --update-input arduano-modules "$HOME/.dotfiles" &&
+        home-manager switch -L -v --flake "$HOME/.dotfiles?submodules=1" &&
+        xdg-desktop-menu forceupdate
     '')
     (pkgs.writeShellScriptBin "switch-system" ''
-      sudo nixos-rebuild switch -L -v --flake ~/.dotfiles && xdg-desktop-menu forceupdate
+      nix flake lock --update-input arduano-modules "$HOME/.dotfiles" &&
+        sudo nixos-rebuild switch -L -v --flake "$HOME/.dotfiles?submodules=1" &&
+        xdg-desktop-menu forceupdate
     '')
 
     firefox

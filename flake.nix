@@ -86,7 +86,7 @@
       };
       homeConfigurations = {
         arduano = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = nixpkgs.legacyPackages.${system};
           extraSpecialArgs = {
             inherit inputs;
             inherit runtimePath;
@@ -96,6 +96,8 @@
             ./home
             plasma-manager.homeManagerModules.plasma-manager
             nix-flatpak.homeManagerModules.nix-flatpak
+
+            arduano-modules.homeModules
           ];
         };
       };

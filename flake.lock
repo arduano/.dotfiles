@@ -2,10 +2,11 @@
   "nodes": {
     "arduano-modules": {
       "locked": {
-        "dirtyRev": "a3e1f76c033e12548de90326ed7679aa6b849b8f-dirty",
-        "dirtyShortRev": "a3e1f76-dirty",
-        "lastModified": 1706403054,
+        "lastModified": 1706404227,
         "narHash": "sha256-ac/AG+J8tTnnu78AgpyB2ckIaV3Kex3ANTqmedjxhF8=",
+        "ref": "refs/heads/master",
+        "rev": "3f566502fd8ca2eb5e36ef5a2d1c6ad8c2a5b074",
+        "revCount": 5,
         "type": "git",
         "url": "file:./share"
       },

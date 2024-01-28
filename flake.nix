@@ -6,6 +6,10 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
+    arduano-modules = {
+      url = "git+file:./share";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +42,7 @@
   };
 
   # The output is your built and working system configuration
-  outputs = { self, nixpkgs, nixos-hardware, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, arduano-modules, ... }@inputs:
     with inputs;
     let
       lib = nixpkgs.lib;
@@ -54,6 +58,7 @@
         assert lib.assertMsg (lib.hasPrefix rootStr pathStr)
           "${pathStr} does not start with ${rootStr}";
         runtimeRoot + (lib.removePrefix rootStr pathStr);
+
     in
     {
       nixosConfigurations = {
@@ -74,12 +79,14 @@
             nixos-hardware.nixosModules.common-pc-ssd
             nixos-hardware.nixosModules.common-pc-hdd
             nixos-hardware.nixosModules.common-cpu-amd
+
+            arduano-modules.nixosModules
           ];
         };
       };
       homeConfigurations = {
         arduano = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          inherit pkgs;
           extraSpecialArgs = {
             inherit inputs;
             inherit runtimePath;

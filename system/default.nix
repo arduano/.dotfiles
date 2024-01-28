@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./arduano.nix
     ./hardware-configuration.nix
     ./flatpak
     ./cli
@@ -9,7 +10,6 @@
     ./power.nix
     ./bcache.nix
     ./sshd.nix
-    ./sunshine
     ./filesystems.nix
     ./sdk
     ./vscode.nix

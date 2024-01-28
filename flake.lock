@@ -1,5 +1,19 @@
 {
   "nodes": {
+    "arduano-modules": {
+      "locked": {
+        "dirtyRev": "44aef7c10baf4e064a69e32b7f0572927294918b-dirty",
+        "dirtyShortRev": "44aef7c-dirty",
+        "lastModified": 1706402011,
+        "narHash": "sha256-JG3WN5lSMAE/mgz1vi3U1oIzXUerG5j0wiivSgN4pSs=",
+        "type": "git",
+        "url": "file:./share"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:./share"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -153,6 +167,7 @@
     },
     "root": {
       "inputs": {
+        "arduano-modules": "arduano-modules",
         "fenix": "fenix",
         "flake-programs-sqlite": "flake-programs-sqlite",
         "home-manager": "home-manager",

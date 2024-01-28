@@ -14,7 +14,6 @@
     ./vscode.nix
     ./misc.nix
     ./vm.nix
-    ./nix-channel.nix
     ./platform-emu.nix
     ./vpn.nix
   ];

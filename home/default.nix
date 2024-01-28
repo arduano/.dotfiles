@@ -1,12 +1,15 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./desktop ./kde ./power ./shell ./programming ];
+  imports = [ ./desktop ./kde ./power ./programming ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "arduano";
   home.homeDirectory = "/home/arduano";
+
+  arduano.shell.enable = true;
+  arduano.shell.enable-gui = true;
 
   # TODO: https://github.com/nix-community/home-manager/issues/2064
   systemd.user.targets.tray = {

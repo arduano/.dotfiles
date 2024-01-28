@@ -8,7 +8,6 @@
     ./cli
     ./networking
     ./power.nix
-    ./bcache.nix
     ./sshd.nix
     ./filesystems.nix
     ./sdk

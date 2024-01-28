@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./lmstudio.nix ./nvidia-sdk ];
+  imports = [ ./lmstudio.nix ];
 
   services.arduano.anydesk.enable = true;
 

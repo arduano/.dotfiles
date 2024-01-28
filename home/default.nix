@@ -47,15 +47,16 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
-    # TODO: Convenient aliases for switching home/system config, assuming it's in ~/.dotfiles
     (pkgs.writeShellScriptBin "switch-home" ''
-      nix flake lock --update-input arduano-modules "$HOME/.dotfiles" &&
-        home-manager switch -L -v --flake "$HOME/.dotfiles?submodules=1" &&
+      cd ~/.dotfiles &&
+        nix flake lock --update-input arduano-modules . &&
+        home-manager switch -L -v --flake ".?submodules=1" &&
         xdg-desktop-menu forceupdate
     '')
     (pkgs.writeShellScriptBin "switch-system" ''
-      nix flake lock --update-input arduano-modules "$HOME/.dotfiles" &&
-        sudo nixos-rebuild switch -L -v --flake "$HOME/.dotfiles?submodules=1" &&
+      cd ~/.dotfiles &&
+        nix flake lock --update-input arduano-modules . &&
+        sudo nixos-rebuild switch -L -v --flake ".?submodules=1" &&
         xdg-desktop-menu forceupdate
     '')
 
@@ -66,6 +67,7 @@
     vscode-fhs
     flameshot
     konversation
+    vesktop
     libreoffice
   ];
 

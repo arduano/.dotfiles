@@ -1,7 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./anydesk.nix ./discord.nix ./lmstudio.nix ./nvidia-sdk ];
+  imports = [ ./lmstudio.nix ./nvidia-sdk ];
+
+  services.arduano.anydesk.enable = true;
 
   home.packages = with pkgs; [
     teams-for-linux

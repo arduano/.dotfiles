@@ -54,10 +54,24 @@
         sudo nixos-rebuild switch -L -v --flake ".?submodules=1" &&
         xdg-desktop-menu forceupdate
     '')
+    (pkgs.writeShellScriptBin "switch-all" ''
+      switch-system &&
+        switch-home
+    '')
 
     (pkgs.writeShellScriptBin "nrun" ''
       # Run the first arg, with the rest of the args as arguments, in a nix shell
-      nix run "nixpkgs#$1" -- ''${@:2}
+      NIXPKGS_ALLOW_UNFREE=1 nix run --impure "nixpkgs#$1" -- ''${@:2}
+    '')
+
+    (pkgs.writeShellScriptBin "run-full-os-gc" ''
+      sudo nix-env --delete-generations +1 &&
+        sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system +1 &&
+        nix-env --delete-generations +1 &&
+        home-manager expire-generations "-0 days" &&
+        nix store gc &&
+        switch-system &&
+        switch-home
     '')
 
     firefox

@@ -12,18 +12,24 @@
 
   # fileSystems."/mnt/fat" =
   #   {
-  #     device = "/dev/disk/by-uuid/430eda30-4901-4aec-9fa5-69ab8cb322df";
-  #     fsType = "btrfs";
+  #     # device = "/dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3";
+  #     device = "/dev/nvme0n1p2:/dev/sdc1";
+  #     fsType = "bcachefs";
+  #     options = [ "verbose" "nofail" "noatime" "x-systemd.device-timeout=10s" ];
+  #     # options = [ "compression=zstd" ];
   #   };
 
-  fileSystems."/mnt/fat" =
-    {
-      # device = "/dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3";
-      device = "/dev/nvme0n1p2:/dev/sdc1";
-      fsType = "bcachefs";
-      options = [ "verbose" "nofail" "noatime" "x-systemd.device-timeout=10s" ];
-      # options = [ "compression=zstd" ];
+  # TODO: Using a oneshot service at the moment as the above doesn't work
+  systemd.services.init-fat = {
+    after = [ "multi-user.target" ];
+    script = ''
+      mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3 /mnt/fat
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
     };
+  };
 
   fileSystems."/mnt/z" = {
     device = "arduano@192.168.1.51:/mnt/raid5";

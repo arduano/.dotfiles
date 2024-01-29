@@ -55,6 +55,11 @@
         xdg-desktop-menu forceupdate
     '')
 
+    (pkgs.writeShellScriptBin "nrun" ''
+      # Run the first arg, with the rest of the args as arguments, in a nix shell
+      nix run "nixpkgs#$1" -- ''${@:2}
+    '')
+
     firefox
     steam
     vlc

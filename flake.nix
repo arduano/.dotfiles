@@ -8,6 +8,7 @@
 
     arduano-modules = {
       url = "git+file:./share";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
@@ -27,11 +28,6 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
-
-    vscode-server = {
-      url = "github:nix-community/nixos-vscode-server";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     fenix = {
       url = "github:nix-community/fenix";
@@ -73,7 +69,6 @@
             ./system
             nix-flatpak.nixosModules.nix-flatpak
             flake-programs-sqlite.nixosModules.programs-sqlite
-            vscode-server.nixosModules.default
 
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-pc-ssd

@@ -11,7 +11,6 @@
     ./sshd.nix
     ./filesystems.nix
     ./sdk
-    ./vscode.nix
     ./misc.nix
     ./vm.nix
     ./platform-emu.nix

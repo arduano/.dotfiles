@@ -1,11 +1,17 @@
 {
   "nodes": {
     "arduano-modules": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "vscode-server": "vscode-server"
+      },
       "locked": {
-        "dirtyRev": "6a1a225e695ab0925ac96fd9c63dd327f1a0728f-dirty",
-        "dirtyShortRev": "6a1a225-dirty",
-        "lastModified": 1706447785,
-        "narHash": "sha256-NBM00bCbosJU+ZBj4IxgEQ8AkzVzvN5MW27zaCD6J9U=",
+        "dirtyRev": "3e0688f4267057864188ca418f058cec62b1956d-dirty",
+        "dirtyShortRev": "3e0688f-dirty",
+        "lastModified": 1706448365,
+        "narHash": "sha256-Kf7o1I/aRSZIaOpNUjltSITmh+D0bg0zfNmC4CGH9Kw=",
         "type": "git",
         "url": "file:./share"
       },
@@ -174,8 +180,7 @@
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "plasma-manager": "plasma-manager",
-        "vscode-server": "vscode-server"
+        "plasma-manager": "plasma-manager"
       }
     },
     "rust-analyzer-src": {
@@ -229,6 +234,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
+          "arduano-modules",
           "nixpkgs"
         ]
       },

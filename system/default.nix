@@ -6,7 +6,6 @@
     ./hardware-configuration.nix
     ./flatpak
     ./cli
-    ./networking
     ./power.nix
     ./sshd.nix
     ./filesystems.nix
@@ -31,9 +30,6 @@
 
   environment.systemPackages = with pkgs;
     [ inputs.home-manager.packages.${pkgs.system}.default ];
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Australia/Sydney";

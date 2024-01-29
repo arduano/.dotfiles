@@ -8,10 +8,11 @@
         "vscode-server": "vscode-server"
       },
       "locked": {
-        "dirtyRev": "3e0688f4267057864188ca418f058cec62b1956d-dirty",
-        "dirtyShortRev": "3e0688f-dirty",
-        "lastModified": 1706448365,
-        "narHash": "sha256-Kf7o1I/aRSZIaOpNUjltSITmh+D0bg0zfNmC4CGH9Kw=",
+        "lastModified": 1706513198,
+        "narHash": "sha256-utp4xych0Qnxq6Iwz+DkpgauMZdvX/GrDs2DDBc5xS4=",
+        "ref": "refs/heads/master",
+        "rev": "71fec6ed392db13d482e72034ec10705b80bf96b",
+        "revCount": 10,
         "type": "git",
         "url": "file:./share"
       },

@@ -77,9 +77,9 @@
   };
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -125,6 +125,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.cudaSupport = true;
 
   # Network discovery
   services.avahi.enable = true;
@@ -133,8 +134,8 @@
   # TODO: https://github.com/wamserma/flake-programs-sqlite
   programs.command-not-found.dbPath = programs-sqlite-db;
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_testing;
 
   # Enable OpenGL
   hardware.opengl = {

@@ -1,8 +1,10 @@
 { config, pkgs, inputs, ... }:
 
 {
-  # imports = [ ./nvm ];
-  imports = [ ./cargo-install.nix ./firedbg ];
+  imports = [
+    ./cargo-install.nix
+    # ./firedbg
+  ];
 
   home.packages = with pkgs; [
     rustup

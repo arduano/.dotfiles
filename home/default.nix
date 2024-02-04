@@ -72,6 +72,14 @@
         switch-home
     '')
 
+    (pkgs.writeShellScriptBin "screen-ocr-grab" ''
+      ${xfce.xfce4-screenshooter}/bin/xfce4-screenshooter -r -s /tmp/ocr.png
+      text=$(${easyocr}/bin/easyocr -l en -f /tmp/ocr.png --paragraph True --output_format json | ${jq}/bin/jq -r .text)
+      echo $text | ${xclip}/bin/xclip -selection clipboard
+      ${libnotify}/bin/notify-send "OCR" "Copied to clipboard: $text"
+      rm /tmp/ocr.png
+    '')
+
     firefox
     steam
     vlc

@@ -1,15 +1,12 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./desktop ./kde ./power ./programming ];
+  imports = [ ./desktop ./kde ./power ./programming ./arduano.nix ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "arduano";
   home.homeDirectory = "/home/arduano";
-
-  arduano.shell.enable = true;
-  arduano.shell.enable-gui = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

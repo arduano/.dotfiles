@@ -8,17 +8,17 @@
         "vscode-server": "vscode-server"
       },
       "locked": {
-        "lastModified": 1706524052,
-        "narHash": "sha256-QHKFb8L0KuSJav2WC4YKgLUwyt/+IMyY/7Y95ZclRrA=",
+        "lastModified": 1707008997,
+        "narHash": "sha256-7isjwtPOxFU+IVtxeDufUZfVdjLg8NK2i7EuBDTK45g=",
         "ref": "refs/heads/master",
-        "rev": "17d95495e0f9137eaa62152dea324d9f7b8e2a95",
-        "revCount": 13,
+        "rev": "7353ccd9073f2881b1b2f3747acbc4585857b622",
+        "revCount": 14,
         "type": "git",
-        "url": "file:./share"
+        "url": "file:///home/arduano/.dotfiles/share"
       },
       "original": {
         "type": "git",
-        "url": "file:./share"
+        "url": "file:///home/arduano/.dotfiles/share"
       }
     },
     "fenix": {

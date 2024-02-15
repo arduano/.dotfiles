@@ -20,6 +20,7 @@ let
     jq
     usbutils
     nmap
+    xz
   ];
 
   useful = [

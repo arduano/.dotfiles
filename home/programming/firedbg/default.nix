@@ -4,7 +4,7 @@ let
   pkgs' = pkgs.extend (self: super: {
     rust = super.rust.override {
       stdenv = pkgs.clangStdenv;
-      buildPackages = pkgs.buildPackages // { stdenv = pkgs.clangStdenv; };
+      pkgsBuildHost = pkgs.pkgsBuildHost // { stdenv = pkgs.clangStdenv; };
     };
   });
 

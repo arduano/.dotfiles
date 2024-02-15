@@ -1,9 +1,15 @@
 { config, pkgs, inputs, ... }:
 
+let
+  nodepkgs = (import ./node {
+    inherit pkgs; nodejs = pkgs.nodejs_20;
+  });
+in
+
 {
   imports = [
     ./cargo-install.nix
-    # ./firedbg
+    ./firedbg
   ];
 
   home.packages = with pkgs; [
@@ -18,9 +24,8 @@
 
     nodejs_20
     nodePackages.yarn
-    (import ./graphite {
-      inherit pkgs; nodejs = nodejs_20;
-    })."@withgraphite/graphite-cli"
+    nodepkgs."@withgraphite/graphite-cli"
+    nodepkgs."@marp-team/marp-cli"
 
     minicom
 

@@ -10,7 +10,7 @@
     slack
     google-chrome
     xfce.xfce4-screenshooter
-    easyocr
+
     qpwgraph
     zoom-us
     gimp

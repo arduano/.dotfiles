@@ -22,12 +22,14 @@
   # TODO: Using a oneshot service at the moment as the above doesn't work
   systemd.services.init-fat = {
     after = [ "multi-user.target" ];
+    enable = true;
     script = ''
-      mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3 /mnt/fat
+      ${pkgs.mount}/bin/mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3 /mnt/fat
     '';
     serviceConfig = {
       Type = "oneshot";
       User = "root";
+      Group = "root";
     };
   };
 

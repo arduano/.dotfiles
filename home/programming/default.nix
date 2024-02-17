@@ -40,6 +40,10 @@ in
     userEmail = "leonid.shchurov@gmail.com";
     extraConfig = {
       pull.rebase = "false";
+      gpg.format = "ssh";
+      commit.gpgsign = "true";
+      user.signingkey = "~/.ssh/github.pub";
+      fetch.writeCommitGraph = "true";
     };
   };
 

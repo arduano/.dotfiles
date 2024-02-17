@@ -42,7 +42,7 @@ in
       pull.rebase = "false";
       gpg.format = "ssh";
       commit.gpgsign = "true";
-      user.signingkey = "~/.ssh/github.pub";
+      user.signingkey = "/home/arduano/.ssh/github.pub";
       fetch.writeCommitGraph = "true";
     };
   };

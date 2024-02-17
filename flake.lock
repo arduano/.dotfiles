@@ -9,10 +9,11 @@
         "vscode-server": "vscode-server"
       },
       "locked": {
-        "dirtyRev": "cf2ad30b6e9ccd6c26068a86a736a8d3a084a13c-dirty",
-        "dirtyShortRev": "cf2ad30-dirty",
-        "lastModified": 1707826003,
+        "lastModified": 1708136428,
         "narHash": "sha256-LF1D/+N9RVcxwZLvqJyDVQphU31k5I1QmVwp+OqV1tA=",
+        "ref": "refs/heads/master",
+        "rev": "fe307351f4eb8f0bec467a2c9e9a0b0bdf9cf45c",
+        "revCount": 16,
         "type": "git",
         "url": "file:///home/arduano/.dotfiles/share"
       },

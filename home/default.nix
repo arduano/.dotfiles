@@ -42,12 +42,14 @@
 
     (pkgs.writeShellScriptBin "switch-home" ''
       cd ~/.dotfiles &&
-        home-manager switch -L -v --flake . &&
+        nix flake lock --update-input arduano-modules . &&
+        home-manager switch -L -v --flake ".?submodules=1" &&
         xdg-desktop-menu forceupdate
     '')
     (pkgs.writeShellScriptBin "switch-system" ''
       cd ~/.dotfiles &&
-        sudo nixos-rebuild switch -L -v --flake . &&
+        nix flake lock --update-input arduano-modules . &&
+        sudo nixos-rebuild switch -L -v --flake ".?submodules=1" &&
         xdg-desktop-menu forceupdate
     '')
     (pkgs.writeShellScriptBin "switch-all" ''

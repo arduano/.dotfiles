@@ -67,6 +67,9 @@
           inherit system;
           specialArgs = {
             inherit inputs;
+            inherit runtimePath;
+            inherit fenix;
+
             programs-sqlite-db =
               flake-programs-sqlite.packages.${system}.programs-sqlite;
           };
@@ -80,27 +83,29 @@
             nixos-hardware.nixosModules.common-pc-hdd
             nixos-hardware.nixosModules.common-cpu-amd
 
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.users.arduano =
+                {
+                  imports = [
+                    ./home
+                    plasma-manager.homeManagerModules.plasma-manager
+                    nix-flatpak.homeManagerModules.nix-flatpak
+
+                    (import ./share/homeModules)
+                    (import ./share/overlayModule.nix)
+                  ];
+                };
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                inherit runtimePath;
+                inherit fenix;
+              };
+            }
+
             (import ./share/nixModules)
             (import ./share/overlayModule.nix)
             vscode-server.nixosModules.default
-          ];
-        };
-      };
-      homeConfigurations = {
-        arduano = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
-          extraSpecialArgs = {
-            inherit inputs;
-            inherit runtimePath;
-            inherit fenix;
-          };
-          modules = [
-            ./home
-            plasma-manager.homeManagerModules.plasma-manager
-            nix-flatpak.homeManagerModules.nix-flatpak
-
-            (import ./share/homeModules)
-            (import ./share/overlayModule.nix)
           ];
         };
       };

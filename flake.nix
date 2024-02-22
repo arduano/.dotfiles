@@ -7,7 +7,7 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
     arduano-modules = {
-      url = "git+file:///home/arduano/.dotfiles/share";
+      url = "git+file:./share";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

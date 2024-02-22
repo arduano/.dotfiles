@@ -1,0 +1,15 @@
+diff --git a/TIDALDL-PY/setup.py b/TIDALDL-PY/setup.py
+index 656c1f2..51797f4 100644
+--- a/TIDALDL-PY/setup.py
++++ b/TIDALDL-PY/setup.py
+@@ -1,9 +1,8 @@
+ from setuptools import setup, find_packages
+-from tidal_dl.printf import VERSION
+ 
+ setup(
+     name='tidal-dl',
+-    version=VERSION,
++    version="1.0.0",
+     license="Apache2",
+     description="Tidal Music Downloader.",
+ 

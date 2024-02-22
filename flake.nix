@@ -6,11 +6,6 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
-    arduano-modules = {
-      url = "git+file:./share";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,11 +29,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    vscode-server = {
+      url = "github:nix-community/nixos-vscode-server";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   # The output is your built and working system configuration
-  outputs = { self, nixpkgs, nixos-hardware, arduano-modules, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, vscode-server, flake-utils, ... }@inputs:
     with inputs;
     let
       lib = nixpkgs.lib;
@@ -75,7 +80,9 @@
             nixos-hardware.nixosModules.common-pc-hdd
             nixos-hardware.nixosModules.common-cpu-amd
 
-            arduano-modules.nixosModules
+            (import ./share/nixModules)
+            (import ./share/overlayModule.nix)
+            vscode-server.nixosModules.default
           ];
         };
       };
@@ -92,9 +99,23 @@
             plasma-manager.homeManagerModules.plasma-manager
             nix-flatpak.homeManagerModules.nix-flatpak
 
-            arduano-modules.homeModules
+            (import ./share/homeModules)
+            (import ./share/overlayModule.nix)
           ];
         };
       };
+
+      packages = flake-utils.lib.eachDefaultSystem
+        (system:
+          let
+            pkgs = import nixpkgs {
+              inherit system;
+              overlays = [ (import ./share/overlay.nix) ];
+            };
+          in
+          {
+            packages = pkgs.arduano;
+          }
+        );
     };
 }

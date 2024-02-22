@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "arduano-modules": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "vscode-server": "vscode-server"
-      },
-      "locked": {
-        "dirtyRev": "fe307351f4eb8f0bec467a2c9e9a0b0bdf9cf45c-dirty",
-        "dirtyShortRev": "fe30735-dirty",
-        "lastModified": 1708136428,
-        "narHash": "sha256-Tm2M1GIsyDtxxrkM5j41Ewk70ENjXLpSfHKr1aMwi4s=",
-        "type": "git",
-        "url": "file:./share"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:./share"
-      }
-    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -66,24 +45,6 @@
     "flake-utils": {
       "inputs": {
         "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1705309234,
-        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems_2"
       },
       "locked": {
         "lastModified": 1681202837,
@@ -192,14 +153,14 @@
     },
     "root": {
       "inputs": {
-        "arduano-modules": "arduano-modules",
         "fenix": "fenix",
         "flake-programs-sqlite": "flake-programs-sqlite",
         "home-manager": "home-manager",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "plasma-manager": "plasma-manager"
+        "plasma-manager": "plasma-manager",
+        "vscode-server": "vscode-server"
       }
     },
     "rust-analyzer-src": {
@@ -234,21 +195,6 @@
         "type": "github"
       }
     },
-    "systems_2": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
     "utils": {
       "locked": {
         "lastModified": 1678901627,
@@ -266,9 +212,8 @@
     },
     "vscode-server": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils",
         "nixpkgs": [
-          "arduano-modules",
           "nixpkgs"
         ]
       },

@@ -1,0 +1,15 @@
+diff --git a/TIDALDL-PY/tidal_dl/__init__.py b/TIDALDL-PY/tidal_dl/__init__.py
+index 353db5d..741767c 100644
+--- a/TIDALDL-PY/tidal_dl/__init__.py
++++ b/TIDALDL-PY/tidal_dl/__init__.py
+@@ -12,6 +12,10 @@ import sys
+ import getopt
+ import aigpy
+ 
++# Add current file's directory to sys.path
++import os
++sys.path.append(os.path.dirname(os.path.realpath(__file__)))
++
+ from events import *
+ from settings import *
+ from gui import startGui

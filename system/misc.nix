@@ -1,5 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [ gparted xdg-desktop-portal ];
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+  };
+  environment.systemPackages = with pkgs; [ xdg-desktop-portal ];
 }

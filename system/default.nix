@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, programs-sqlite-db, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -51,11 +51,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-  };
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
@@ -130,9 +125,6 @@
   # Network discovery
   services.avahi.enable = true;
   services.avahi.publish.userServices = true;
-
-  # TODO: https://github.com/wamserma/flake-programs-sqlite
-  programs.command-not-found.dbPath = programs-sqlite-db;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;

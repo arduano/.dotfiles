@@ -64,7 +64,7 @@ stdenv.mkDerivation rec {
 
   buildPhase = ''
     ls
-    make 7zFM 7zG OPTFLAGS="''${CXXFLAGS}"
+    make -j 7zFM 7zG OPTFLAGS="''${CXXFLAGS}"
   '';
 
   installPhase = ''
@@ -72,8 +72,8 @@ stdenv.mkDerivation rec {
     make install DEST_DIR="$out" DEST_HOME="/" DEST_MAN="/share/man"
 
     # Remove files that are provided by the p7zip package
-    rm -rf $out/lib/p7zip/{7z.so,Codecs}
-    rm -rf $out/share/{doc,man}
+    # rm -rf $out/lib/p7zip/{7z.so,Codecs}
+    # rm -rf $out/share/{doc,man}
 
     # Convert `/usr/lib/p7zip/7zG` to its respective nix path in $out/bin/7zG
     sed -i "s|/lib/p7zip/7zG|$out/lib/p7zip/7zG|g" $out/bin/7zG
@@ -81,10 +81,14 @@ stdenv.mkDerivation rec {
     # Install icons and desktop files
     mkdir -p $out/share/icons/hicolor/32x32/apps
     cp GUI/p7zip_32.png $out/share/icons/hicolor/32x32/apps/p7zip.png
-    mkdir -p $out/share/{applications,kde4/services/ServiceMenus}
-    cp GUI/kde4/*.desktop $out/share/kde4/services/ServiceMenus
+
+    # mkdir -p $out/share/kde4/services/ServiceMenus
+    # cp GUI/kde4/*.desktop $out/share/kde4/services/ServiceMenus
+
     mkdir -p $out/share/kservices5/ServiceMenus
     cp GUI/kde4/*.desktop $out/share/kservices5/ServiceMenus
+
+    mkdir -p $out/share/applications
     cp ${./7zFM.desktop} $out/share/applications
     chmod +x $out/bin/p7zipForFilemanager
   '';

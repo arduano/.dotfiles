@@ -34,10 +34,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    flake-utils.url = "github:numtide/flake-utils";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
@@ -60,55 +57,56 @@
           "${pathStr} does not start with ${rootStr}";
         runtimeRoot + (lib.removePrefix rootStr pathStr);
 
-    in
-    {
-      nixosConfigurations = {
-        main-pc = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs;
-            inherit runtimePath;
-            inherit fenix;
-
-            programs-sqlite-db =
-              flake-programs-sqlite.packages.${system}.programs-sqlite;
-          };
-          modules = [
-            ./system
-            nix-flatpak.nixosModules.nix-flatpak
-            flake-programs-sqlite.nixosModules.programs-sqlite
-
-            nixos-hardware.nixosModules.common-pc
-            nixos-hardware.nixosModules.common-pc-ssd
-            nixos-hardware.nixosModules.common-pc-hdd
-            nixos-hardware.nixosModules.common-cpu-amd
-
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.users.arduano =
-                {
-                  imports = [
-                    ./home
-                    plasma-manager.homeManagerModules.plasma-manager
-                    nix-flatpak.homeManagerModules.nix-flatpak
-
-                    (import ./share/homeModules)
-                    (import ./share/overlayModule.nix)
-                  ];
-                };
-              home-manager.extraSpecialArgs = {
+      systems =
+        {
+          nixosConfigurations = {
+            main-pc = lib.nixosSystem {
+              inherit system;
+              specialArgs = {
                 inherit inputs;
                 inherit runtimePath;
                 inherit fenix;
               };
-            }
+              modules = [
+                ./system
+                nix-flatpak.nixosModules.nix-flatpak
 
-            (import ./share/nixModules)
-            (import ./share/overlayModule.nix)
-            vscode-server.nixosModules.default
-          ];
+                # TODO: https://github.com/wamserma/flake-programs-sqlite
+                flake-programs-sqlite.nixosModules.programs-sqlite
+
+                nixos-hardware.nixosModules.common-pc
+                nixos-hardware.nixosModules.common-pc-ssd
+                nixos-hardware.nixosModules.common-pc-hdd
+                nixos-hardware.nixosModules.common-cpu-amd
+
+                inputs.home-manager.nixosModules.home-manager
+                {
+                  home-manager.users.arduano =
+                    {
+                      imports = [
+                        ./home
+                        plasma-manager.homeManagerModules.plasma-manager
+                        nix-flatpak.homeManagerModules.nix-flatpak
+
+                        (import ./share/homeModules)
+                        (import ./share/overlayModule.nix)
+                      ];
+                    };
+                  home-manager.extraSpecialArgs = {
+                    inherit inputs;
+                    inherit runtimePath;
+                    inherit fenix;
+                  };
+                }
+
+                (import ./share/nixModules)
+                (import ./share/overlayModule.nix)
+                vscode-server.nixosModules.default
+              ];
+            };
+          };
         };
-      };
+
 
       packages = flake-utils.lib.eachDefaultSystem
         (system:
@@ -122,5 +120,7 @@
             packages = pkgs.arduano;
           }
         );
-    };
+
+    in
+    packages // systems;
 }

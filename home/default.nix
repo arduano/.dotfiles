@@ -40,21 +40,12 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
-    (pkgs.writeShellScriptBin "switch-home" ''
-      cd ~/.dotfiles &&
-        nix flake lock --update-input arduano-modules . &&
-        home-manager switch -L -v --flake ".?submodules=1" &&
-        xdg-desktop-menu forceupdate
-    '')
     (pkgs.writeShellScriptBin "switch-system" ''
-      cd ~/.dotfiles &&
-        nix flake lock --update-input arduano-modules . &&
-        sudo nixos-rebuild switch -L -v --flake ".?submodules=1" &&
-        xdg-desktop-menu forceupdate
+      sudo nixos-rebuild switch -L -v --flake /home/$HOME/.dotfiles &&
+      xdg-desktop-menu forceupdate
     '')
-    (pkgs.writeShellScriptBin "switch-all" ''
-      switch-system &&
-        switch-home
+    (pkgs.writeShellScriptBin "switch" ''
+      switch-system
     '')
 
     (pkgs.writeShellScriptBin "nrun" ''
@@ -68,8 +59,7 @@
         nix-env --delete-generations +1 &&
         home-manager expire-generations "-0 days" &&
         nix store gc &&
-        switch-system &&
-        switch-home
+        switch
     '')
 
     # (pkgs.writeShellScriptBin "screen-ocr-grab" ''
@@ -79,6 +69,8 @@
     #   ${libnotify}/bin/notify-send "OCR" "Copied to clipboard: $text"
     #   rm /tmp/ocr.png
     # '')
+
+
 
     firefox
     steam

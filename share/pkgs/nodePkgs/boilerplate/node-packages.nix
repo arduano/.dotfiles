@@ -76,13 +76,13 @@ let
         sha512 = "C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==";
       };
     };
-    "@types/node-20.11.17" = {
+    "@types/node-20.11.20" = {
       name = "_at_types_slash_node";
       packageName = "@types/node";
-      version = "20.11.17";
+      version = "20.11.20";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@types/node/-/node-20.11.17.tgz";
-        sha512 = "QmgQZGWu1Yw9TDyAP9ZzpFJKynYNeOvwMJmaxABfieQoVoiVOS6MN1WSpqpRcbeA5+RW82kraAVxCCJg+780Qw==";
+        url = "https://registry.npmjs.org/@types/node/-/node-20.11.20.tgz";
+        sha512 = "7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==";
       };
     };
     "@types/yauzl-2.10.3" = {
@@ -751,22 +751,22 @@ let
         sha512 = "lks+lVC8dgGyh97jxvxeYTWQFvh4uw4yC12gVl63Cg30sjPX4wuGcdkICVXDAESr6OJGjqGA8Iz5mkeN6zlD7A==";
       };
     };
-    "http-proxy-agent-7.0.1" = {
+    "http-proxy-agent-7.0.2" = {
       name = "http-proxy-agent";
       packageName = "http-proxy-agent";
-      version = "7.0.1";
+      version = "7.0.2";
       src = fetchurl {
-        url = "https://registry.npmjs.org/http-proxy-agent/-/http-proxy-agent-7.0.1.tgz";
-        sha512 = "My1KCEPs6A0hb4qCVzYp8iEvA8j8YqcvXLZZH8C9OFuTYpYjHE7N2dtG3mRl1HMD4+VGXpF3XcDVcxGBT7yDZQ==";
+        url = "https://registry.npmjs.org/http-proxy-agent/-/http-proxy-agent-7.0.2.tgz";
+        sha512 = "T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==";
       };
     };
-    "https-proxy-agent-7.0.3" = {
+    "https-proxy-agent-7.0.4" = {
       name = "https-proxy-agent";
       packageName = "https-proxy-agent";
-      version = "7.0.3";
+      version = "7.0.4";
       src = fetchurl {
-        url = "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-7.0.3.tgz";
-        sha512 = "kCnwztfX0KZJSLOBrcL0emLeFako55NWMovvyPP2AjsghNk9RB1yjSI+jVumPHYZsNXegNoqupSW9IY3afSH8w==";
+        url = "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-7.0.4.tgz";
+        sha512 = "wlwpilI7YdjSkWaQ/7omYBMTliDcmCN8OLihO6I9B86g06lMyAoqgoDpV0XqoaPOKj+0DIdAvnsWfyAAhmimcg==";
       };
     };
     "iconv-lite-0.6.3" = {
@@ -1399,13 +1399,13 @@ let
         sha512 = "94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==";
       };
     };
-    "socks-2.8.0" = {
+    "socks-2.8.1" = {
       name = "socks";
       packageName = "socks";
-      version = "2.8.0";
+      version = "2.8.1";
       src = fetchurl {
-        url = "https://registry.npmjs.org/socks/-/socks-2.8.0.tgz";
-        sha512 = "AvXLNBlmf/AN7g6ZuCRNtwbLFacfNBYvy7pchLnpJ1aqCw7FPOK0HEC/LxOZxWiJpqwnjYPxxxNxXYOgX8+3fw==";
+        url = "https://registry.npmjs.org/socks/-/socks-2.8.1.tgz";
+        sha512 = "B6w7tkwNid7ToxjZ08rQMT8M9BJAf8DKx8Ft4NivzH0zBUfd6jldGcisJn/RLgxcX3FPNDdNQCUEMMT79b+oCQ==";
       };
     };
     "socks-proxy-agent-8.0.2" = {
@@ -1462,13 +1462,13 @@ let
         sha512 = "OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==";
       };
     };
-    "streamx-2.15.8" = {
+    "streamx-2.16.1" = {
       name = "streamx";
       packageName = "streamx";
-      version = "2.15.8";
+      version = "2.16.1";
       src = fetchurl {
-        url = "https://registry.npmjs.org/streamx/-/streamx-2.15.8.tgz";
-        sha512 = "6pwMeMY/SuISiRsuS8TeIrAzyFbG5gGPHFQsYjUr/pbBadaL1PCWmzKw+CHZSwainfvcF6Si6cVLq4XTEwswFQ==";
+        url = "https://registry.npmjs.org/streamx/-/streamx-2.16.1.tgz";
+        sha512 = "m9QYj6WygWyWa3H1YY69amr4nVgy61xfjys7xO7kviL5rfIEc2naf+ewFiOA+aEJD7y0JO3h2GoiUv4TDwEGzQ==";
       };
     };
     "string-width-4.2.3" = {
@@ -1765,10 +1765,10 @@ in
   "@withgraphite/graphite-cli" = nodeEnv.buildNodePackage {
     name = "_at_withgraphite_slash_graphite-cli";
     packageName = "@withgraphite/graphite-cli";
-    version = "1.1.5";
+    version = "1.2.3";
     src = fetchurl {
-      url = "https://registry.npmjs.org/@withgraphite/graphite-cli/-/graphite-cli-1.1.5.tgz";
-      sha512 = "4IlCUQ/uCsa1eTea9E3sQdJd/SOcgdM/CJH8SlAxW6frxqurkSfBZ63PHnWvxwj+PRkpM4pms/UHaS7YFVsZjQ==";
+      url = "https://registry.npmjs.org/@withgraphite/graphite-cli/-/graphite-cli-1.2.3.tgz";
+      sha512 = "xbBfAq9ycDJAqxRVB9/QIdDbpLVlpGifs6He0eJPadxN4aeaGY5PfJw+uZQbjgY5jhuwgl6DRIYlcNAJeX9f6A==";
     };
     dependencies = [
       sources."ansi-regex-5.0.1"
@@ -1821,7 +1821,7 @@ in
       sources."@marp-team/marpit-svg-polyfill-2.1.0"
       sources."@puppeteer/browsers-1.8.0"
       sources."@tootallnate/quickjs-emscripten-0.23.0"
-      sources."@types/node-20.11.17"
+      sources."@types/node-20.11.20"
       sources."@types/yauzl-2.10.3"
       sources."accepts-1.3.8"
       sources."agent-base-7.1.0"
@@ -1896,8 +1896,8 @@ in
       sources."has-flag-3.0.0"
       sources."highlight.js-11.8.0"
       sources."http-errors-1.6.3"
-      sources."http-proxy-agent-7.0.1"
-      sources."https-proxy-agent-7.0.3"
+      sources."http-proxy-agent-7.0.2"
+      sources."https-proxy-agent-7.0.4"
       sources."iconv-lite-0.6.3"
       sources."ieee754-1.2.1"
       sources."import-fresh-3.3.0"
@@ -1975,7 +1975,7 @@ in
       sources."setprototypeof-1.1.0"
       sources."simple-swizzle-0.2.2"
       sources."smart-buffer-4.2.0"
-      sources."socks-2.8.0"
+      sources."socks-2.8.1"
       sources."socks-proxy-agent-8.0.2"
       sources."source-map-0.6.1"
       sources."source-map-js-1.0.2"
@@ -1986,7 +1986,7 @@ in
       })
       sources."sprintf-js-1.1.3"
       sources."statuses-1.5.0"
-      sources."streamx-2.15.8"
+      sources."streamx-2.16.1"
       sources."string-width-4.2.3"
       sources."strip-ansi-6.0.1"
       sources."supports-color-5.5.0"

@@ -18,11 +18,6 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Bootloader.
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.device = "/dev/nvme1n1p1";
-  # boot.loader.grub.useOSProber = true;
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 

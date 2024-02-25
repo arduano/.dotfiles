@@ -7,6 +7,7 @@
   wxwidgets_gtk3 = callPackage ./wxwidgets { };
   p7zip-gui = callPackage ./p7zip-gui { };
   tidal-dl = callPackage ./tidal-dl { };
+  nodePkgs = callPackage ./nodePkgs { };
 
   groups = {
     build-essentials = with pkgs; [
@@ -44,6 +45,34 @@
       p7zip
       nix-du
       ffmpeg
+      arduano.nodePkgs."@marp-team/marp-cli"
+    ];
+
+    shell-programming = with pkgs; [
+      arduano.nodePkgs."@withgraphite/graphite-cli"
+
+      (python3.override { x11Support = true; })
+      python311Packages.tkinter
+
+      nodejs_20
+      nodePackages.yarn
+
+      rustup
+      gdb
+      nixpkgs-fmt
+      lldb
+
+      minicom
+
+      cargo-fuzz
+      cargo-outdated
+      cargo-audit
+      cargo-license
+      cargo-flamegraph
+
+      (pkgs.writeShellScriptBin "fixfmt" ''
+        git add . && cargo fix --workspace --allow-staged && cargo fmt --all
+      '')
     ];
 
     gui-useful = with pkgs; [

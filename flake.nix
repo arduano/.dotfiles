@@ -24,11 +24,6 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,7 +60,6 @@
               specialArgs = {
                 inherit inputs;
                 inherit runtimePath;
-                inherit fenix;
               };
               modules = [
                 ./system
@@ -95,7 +89,6 @@
                   home-manager.extraSpecialArgs = {
                     inherit inputs;
                     inherit runtimePath;
-                    inherit fenix;
                   };
                 }
 

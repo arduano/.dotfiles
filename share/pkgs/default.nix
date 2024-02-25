@@ -18,7 +18,6 @@
       ninja
     ];
 
-
     shell-essentials = with pkgs; [
       vim
       wget

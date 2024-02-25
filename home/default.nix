@@ -41,11 +41,8 @@
     # '')
 
     (pkgs.writeShellScriptBin "switch-system" ''
-      sudo nixos-rebuild switch -L -v --flake /home/$HOME/.dotfiles &&
+      sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
       xdg-desktop-menu forceupdate
-    '')
-    (pkgs.writeShellScriptBin "switch" ''
-      switch-system
     '')
 
     (pkgs.writeShellScriptBin "nrun" ''

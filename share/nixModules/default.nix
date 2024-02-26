@@ -5,5 +5,6 @@
     ./vscode
     ./networking
     ./shell
+    ./portals
   ];
 }

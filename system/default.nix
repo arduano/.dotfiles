@@ -5,15 +5,12 @@
     ./arduano.nix
     ./hardware-configuration.nix
     ./flatpak
-    ./cli
     ./power.nix
     ./sshd.nix
     ./filesystems.nix
     ./sdk
-    ./misc.nix
     ./vm.nix
     ./platform-emu.nix
-    ./vpn.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

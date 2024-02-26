@@ -2,11 +2,11 @@
 
 with lib;
 let
-  cfg = config.services.arduano.sunshine;
+  cfg = config.arduano.sunshine;
 in
 {
   options = {
-    services.arduano.sunshine = {
+    arduano.sunshine = {
       enable = mkEnableOption "sunshine";
 
       package = mkOption {

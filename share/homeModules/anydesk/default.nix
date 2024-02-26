@@ -2,11 +2,11 @@
 
 with lib;
 let
-  cfg = config.services.arduano.anydesk;
+  cfg = config.arduano.anydesk;
 in
 {
   options = {
-    services.arduano.anydesk =
+    arduano.anydesk =
       {
         enable = mkEnableOption "anydesk";
 

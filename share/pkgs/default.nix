@@ -76,8 +76,11 @@
       '')
     ];
 
-    gui-essential = with pkgs; [
+    gui-root = with pkgs; [
       gparted
+    ];
+
+    gui-user = with pkgs; [
       qpwgraph
       qalculate-qt
       teams-for-linux
@@ -86,10 +89,15 @@
       zoom-us
       gimp
       arduano.p7zip-gui
-    ];
-
-    gui-useful = with pkgs; [
-      xfce.xfce4-screenshooter
+      firefox
+      steam
+      vlc
+      kate
+      vscode-fhs
+      flameshot
+      konversation
+      vesktop
+      libreoffice
     ];
   };
 }

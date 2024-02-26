@@ -5,5 +5,6 @@
     ./trayTargetFix
     ./mangohud
     ./programming
+    ./kdeSetup
   ];
 }

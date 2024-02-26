@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./kde ./power ./arduano.nix ];
+  imports = [ ./arduano.nix ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -66,19 +66,7 @@
     #   ${libnotify}/bin/notify-send "OCR" "Copied to clipboard: $text"
     #   rm /tmp/ocr.png
     # '')
-
-
-
-    firefox
-    steam
-    vlc
-    kate
-    vscode-fhs
-    flameshot
-    konversation
-    vesktop
-    libreoffice
-  ];
+  ] ++ pkgs.arduano.groups.gui-user;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

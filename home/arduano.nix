@@ -5,6 +5,7 @@
   arduano.shell.enable-gui = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
+  arduano.kdeSetup.enable = true;
 
   services.arduano.anydesk.enable = true;
 }

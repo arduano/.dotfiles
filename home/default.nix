@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ./desktop ./kde ./power ./arduano.nix ];
+  imports = [ ./kde ./power ./arduano.nix ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.

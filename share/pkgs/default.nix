@@ -46,6 +46,7 @@
       nix-du
       ffmpeg
       arduano.nodePkgs."@marp-team/marp-cli"
+      ollama
     ];
 
     shell-programming = with pkgs; [
@@ -75,8 +76,20 @@
       '')
     ];
 
-    gui-useful = with pkgs; [
+    gui-essential = with pkgs; [
       gparted
+      qpwgraph
+      qalculate-qt
+      teams-for-linux
+      slack
+      google-chrome
+      zoom-us
+      gimp
+      arduano.p7zip-gui
+    ];
+
+    gui-useful = with pkgs; [
+      xfce.xfce4-screenshooter
     ];
   };
 }

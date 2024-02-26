@@ -14,13 +14,8 @@ in
       services.kdeconnect.enable = true;
       services.kdeconnect.indicator = true;
 
-      home.file.".config/powermanagementprofilesrc".source =
-        config.lib.file.mkOutOfStoreSymlink
-          (runtimePath ./powermanagementprofilesrc);
-
-      home.file.".config/kscreenlockerrc".source =
-        config.lib.file.mkOutOfStoreSymlink
-          (runtimePath ./kscreenlockerrc);
+      home.file.".config/powermanagementprofilesrc".source = ./powermanagementprofilesrc;
+      home.file.".config/kscreenlockerrc".source = ./kscreenlockerrc;
 
       # TODO: Plasma config. Run `nix run github:pjones/plasma-manager` for your current full config.
       # For more docs, visit https://github.com/pjones/plasma-manager

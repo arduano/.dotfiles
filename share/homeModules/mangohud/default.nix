@@ -9,11 +9,10 @@ in
     arduano.mangohud.enable = mkEnableOption "enable mangohud";
   };
 
-  config = mkIf cfg.enable
-    {
-      programs.mangohud = {
-        enable = true;
-        enableSessionWide = true;
-      };
+  config = mkIf cfg.enable {
+    programs.mangohud = {
+      enable = true;
+      enableSessionWide = true;
     };
+  };
 }

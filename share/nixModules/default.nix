@@ -4,5 +4,6 @@
     ./nixChannel
     ./vscode
     ./networking
+    ./shell
   ];
 }

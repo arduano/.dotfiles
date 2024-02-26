@@ -6,14 +6,12 @@ let
 in
 {
   options = {
-    arduano.vscode-server =
-      {
-        enable = mkEnableOption "enable vscode server";
-      };
+    arduano.vscode-server = {
+      enable = mkEnableOption "enable vscode server";
+    };
   };
 
-  config = mkIf cfg.enable
-    {
-      services.vscode-server.enable = true;
-    };
+  config = mkIf cfg.enable {
+    services.vscode-server.enable = true;
+  };
 }

@@ -6,18 +6,17 @@ let
 in
 {
   options = {
-    services.arduano.sunshine =
-      {
-        enable = mkEnableOption "sunshine";
+    services.arduano.sunshine = {
+      enable = mkEnableOption "sunshine";
 
-        package = mkOption {
-          type = types.package;
-          default = pkgs.arduano.sunshine_patched.override {
-            cudaSupport = true;
-            stdenv = pkgs.cudaPackages.backendStdenv;
-          };
+      package = mkOption {
+        type = types.package;
+        default = pkgs.arduano.sunshine_patched.override {
+          cudaSupport = true;
+          stdenv = pkgs.cudaPackages.backendStdenv;
         };
       };
+    };
   };
 
   config = mkIf cfg.enable {

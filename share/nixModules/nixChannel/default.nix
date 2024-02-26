@@ -14,14 +14,13 @@ in
       };
   };
 
-  config = mkIf cfg.enable
-    {
-      systemd.tmpfiles.rules = [
-        "L+ ${nixPath} - - - - ${pkgs.path}"
-      ];
+  config = mkIf cfg.enable {
+    systemd.tmpfiles.rules = [
+      "L+ ${nixPath} - - - - ${pkgs.path}"
+    ];
 
-      nix = {
-        nixPath = [ "nixpkgs=${nixPath}" ];
-      };
+    nix = {
+      nixPath = [ "nixpkgs=${nixPath}" ];
     };
+  };
 }

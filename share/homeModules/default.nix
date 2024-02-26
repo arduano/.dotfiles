@@ -4,5 +4,6 @@
     ./shell
     ./trayTargetFix
     ./mangohud
+    ./programming
   ];
 }

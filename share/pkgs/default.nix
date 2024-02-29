@@ -8,6 +8,7 @@
   p7zip-gui = callPackage ./p7zip-gui { };
   tidal-dl = callPackage ./tidal-dl { };
   nodePkgs = callPackage ./nodePkgs { };
+  gpustat = callPackage ./gpustat { };
 
   groups = {
     build-essentials = with pkgs; [

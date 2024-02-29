@@ -20,8 +20,8 @@
 
   networking.hostName = "main-pc"; # Define your hostname.
 
-  environment.systemPackages = with pkgs;
-    [ inputs.home-manager.packages.${pkgs.system}.default ];
+  # environment.systemPackages = with pkgs;
+  #   [ inputs.home-manager.packages.${pkgs.system}.default ];
 
   # Set your time zone.
   time.timeZone = "Australia/Sydney";

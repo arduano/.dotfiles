@@ -14,5 +14,8 @@ in
       enable = true;
       enableSessionWide = true;
     };
+    home.packages = with pkgs; [
+      goverlay
+    ];
   };
 }

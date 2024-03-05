@@ -16,6 +16,7 @@ let
   commonHomeModules = [
     nix-flatpak.homeManagerModules.nix-flatpak
     vscode-server.homeModules.default
+    plasma-manager.homeManagerModules.plasma-manager
     (import ./share/homeModules)
     (import ./share/overlayModule.nix)
   ];
@@ -48,7 +49,6 @@ in
     ];
     homeModules = [
       ./main-pc/home
-      plasma-manager.homeManagerModules.plasma-manager
     ];
   };
 

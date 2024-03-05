@@ -122,6 +122,8 @@
       libreoffice
       mpv
       peek
+      signal-desktop
+      plexamp
     ];
   };
 }

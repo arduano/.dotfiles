@@ -12,8 +12,6 @@
 
   networking.hostName = "home-nas"; # Define your hostname.
 
-  arduano.sunshine.enable = true;
-
   arduano.syncNixChannel.enable = true;
 
   # arduano.vscode-server.enable = true;

@@ -9,22 +9,16 @@
   home.homeDirectory = "/home/arduano";
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
 
   arduano.shell.enable = true;
-  arduano.shell.enable-gui = true;
-  arduano.mangohud.enable = true;
   arduano.programming.enable = true;
-  arduano.kdeSetup.enable = true;
-  arduano.anydesk.enable = true;
 
   services.vscode-server.enable = true;
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    arduano.gpustat
-  ] ++ pkgs.arduano.groups.gui-user;
+  ];
 
 
   home.sessionVariables = {

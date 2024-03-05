@@ -51,4 +51,17 @@ in
       plasma-manager.homeManagerModules.plasma-manager
     ];
   };
+
+  nixosConfigurations.home-nas = makeSystem {
+    systemModules = [
+      ./home-nas/system
+      nixos-hardware.nixosModules.common-pc
+      nixos-hardware.nixosModules.common-pc-ssd
+      nixos-hardware.nixosModules.common-pc-hdd
+      nixos-hardware.nixosModules.common-cpu-intel
+    ];
+    homeModules = [
+      ./home-nas/home
+    ];
+  };
 }

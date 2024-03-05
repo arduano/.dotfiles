@@ -39,68 +39,71 @@
     with inputs;
     let
       lib = nixpkgs.lib;
-      system = "x86_64-linux";
 
-      systems = {
-        nixosConfigurations = {
-          main-pc = lib.nixosSystem {
-            inherit system;
-            specialArgs = {
+      commonSystemModules = [
+        nix-flatpak.nixosModules.nix-flatpak
+        inputs.home-manager.nixosModules.home-manager
+        (import ./share/nixModules)
+        (import ./share/overlayModule.nix)
+
+        # TODO: https://github.com/wamserma/flake-programs-sqlite
+        flake-programs-sqlite.nixosModules.programs-sqlite
+      ];
+
+      commonHomeModules = [
+        nix-flatpak.homeManagerModules.nix-flatpak
+        vscode-server.homeModules.default
+        (import ./share/homeModules)
+        (import ./share/overlayModule.nix)
+      ];
+
+      makeSystem = { systemModules ? [ ], homeModules ? [ ], extraArgs ? { }, system ? "x86_64-linux" }:
+        lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = extraArgs // {
+            inherit inputs;
+          };
+          modules = commonSystemModules ++ systemModules ++ [{
+            home-manager.users.arduano = {
+              imports = commonHomeModules ++ homeModules;
+            };
+            home-manager.extraSpecialArgs = {
               inherit inputs;
             };
-            modules = [
-              ./system
-              nix-flatpak.nixosModules.nix-flatpak
-
-              # TODO: https://github.com/wamserma/flake-programs-sqlite
-              flake-programs-sqlite.nixosModules.programs-sqlite
-
-              nixos-hardware.nixosModules.common-pc
-              nixos-hardware.nixosModules.common-pc-ssd
-              nixos-hardware.nixosModules.common-pc-hdd
-              nixos-hardware.nixosModules.common-cpu-amd
-
-              inputs.home-manager.nixosModules.home-manager
-              {
-                home-manager.users.arduano =
-                  {
-                    imports = [
-                      ./home
-                      plasma-manager.homeManagerModules.plasma-manager
-                      nix-flatpak.homeManagerModules.nix-flatpak
-                      vscode-server.homeModules.default
-
-                      (import ./share/homeModules)
-                      (import ./share/overlayModule.nix)
-                    ];
-                  };
-                home-manager.extraSpecialArgs = {
-                  inherit inputs;
-                };
-              }
-
-              (import ./share/nixModules)
-              (import ./share/overlayModule.nix)
-              # vscode-server.nixosModules.default
-            ];
-          };
+          }];
         };
+
+      # systems = {
+      #   nixosConfigurations.main-pc = makeSystem {
+      #     systemModules = [
+      #       ./main-pc/system
+      #       nixos-hardware.nixosModules.common-pc
+      #       nixos-hardware.nixosModules.common-pc-ssd
+      #       nixos-hardware.nixosModules.common-pc-hdd
+      #       nixos-hardware.nixosModules.common-cpu-amd
+      #     ];
+      #     homeModules = [
+      #       ./main-pc/home
+      #       plasma-manager.homeManagerModules.plasma-manager
+      #     ];
+      #   };
+      # };
+
+      systems = (import ./systems.nix) inputs;
+
+          packages= flake-utils. lib. eachDefaultSystem
+          ( system:
+        let
+          pkgs= import nixpkgs{
+        inherit system;
+        overlays = [ (import ./share/overlay.nix) ];
       };
-
-
-      packages = flake-utils.lib.eachDefaultSystem
-        (system:
-          let
-            pkgs = import nixpkgs {
-              inherit system;
-              overlays = [ (import ./share/overlay.nix) ];
-            };
-          in
-          {
-            packages = pkgs.arduano;
-          }
-        );
-
     in
-    packages // systems;
-}
+    {
+      packages = pkgs.arduano;
+    }
+    );
+
+  in
+  packages // systems;
+  }

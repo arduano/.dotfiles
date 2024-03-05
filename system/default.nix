@@ -50,16 +50,16 @@
 
   environment.sessionVariables = {
     GTK_USE_PORTAL = "1";
-    LD_LIBRARY_PATH = with pkgs; [
-      (lib.makeLibraryPath
-        [
-          libxkbcommon
-          xorg.libX11
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXrandr
-        ])
-    ];
+    # LD_LIBRARY_PATH = with pkgs; [
+    #   (lib.makeLibraryPath
+    #     [
+    #       libxkbcommon
+    #       xorg.libX11
+    #       xorg.libXcursor
+    #       xorg.libXi
+    #       xorg.libXrandr
+    #     ])
+    # ];
     NIXPKGS_ALLOW_UNFREE = "1";
   };
 
@@ -120,6 +120,9 @@
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxPackages_testing;
+  # environment.systemPackages = with pkgs;
+  #   [ inputs.home-manager.packages.${pkgs.system}.default ];
+
 
   # Enable OpenGL
   hardware.opengl = {

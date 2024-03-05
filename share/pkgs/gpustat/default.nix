@@ -14,16 +14,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "gpustat";
-  version = "0.1.1";
+  version = "0.1.3";
 
   src = fetchFromGitHub {
     owner = "arduano";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-NvX6IDzjCJrj41qzSGDiHN74Og2gw4sodRSWYLfwr14=";
+    sha256 = "sha256-rPYJ8pjSzvIufgH96KawCe7skF5NPlmbgJ1iIexazLc=";
   };
 
-  cargoSha256 = "sha256-LwA0pOUBchXOhejv59ogs8rH5VuwiWY6JlNjjdiyJTE=";
+  cargoSha256 = "sha256-e4Nt/G8TS2zSaREBq+igbYsdPeRcC+xxmYCNfajOflo=";
 
   nativeBuildInputs = [ pkg-config cmake makeWrapper ];
   buildInputs = [
@@ -37,10 +37,18 @@ rustPlatform.buildRustPackage rec {
     wayland
   ];
 
+  postInstall = ''
+    mkdir -p $out/share/applications
+    mkdir -p $out/share/pixmaps
+
+    cp $src/assets/gpustat.desktop $out/share/applications
+    cp $src/assets/icon_* $out/share/pixmaps
+  '';
+
   # Wrap the program in a script that sets the LD_LIBRARY_PATH environment variable
   # so that it can find the shared libraries it depends on.
   postFixup = ''
-    wrapProgram $out/bin/gpustat --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath buildInputs}
+    wrapProgram $out/bin/gpustat --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}:/run/opengl-driver/lib"
   '';
 
   meta = with lib; {

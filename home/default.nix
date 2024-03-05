@@ -23,6 +23,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    arduano.gpustat
+
     (pkgs.writeShellScriptBin "switch-system" ''
       sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
       xdg-desktop-menu forceupdate

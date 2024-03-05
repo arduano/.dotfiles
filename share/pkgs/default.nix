@@ -30,6 +30,7 @@
       fastfetch
       pciutils
       htop
+      btop
       tmux
       git
       ncdu
@@ -39,6 +40,7 @@
       usbutils
       nmap
       xz
+      powertop
     ];
 
     shell-useful = with pkgs; [
@@ -99,6 +101,8 @@
       konversation
       vesktop
       libreoffice
+      mpv
+      peek
     ];
   };
 }

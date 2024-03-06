@@ -40,19 +40,35 @@
     let
       systems = (import ./systems.nix) inputs;
 
+      iso = flake-utils.lib.eachDefaultSystem (system:
+        let
+        in
+        { }
+      );
+
       packages = flake-utils.lib.eachDefaultSystem
         (system:
           let
+            baseIso = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs;
+              };
+              modules = [ ./iso.nix ];
+            };
+
             pkgs = import nixpkgs {
               inherit system;
               overlays = [ (import ./share/overlay.nix) ];
             };
           in
           {
-            packages = pkgs.arduano;
+            packages = pkgs.arduano // {
+              baseIso = baseIso.config.system.build.isoImage;
+            };
           }
         );
 
     in
-    packages // systems;
+    iso // packages // systems;
 }

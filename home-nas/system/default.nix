@@ -21,7 +21,7 @@
   arduano.shell.enable = true;
 
   # networking.useDHCP = lib.mkDefault true;
-  networking.interfaces.enp5s0.ipv4.addresses = [{
+  networking.interfaces.enp3s0.ipv4.addresses = [{
     address = "192.168.1.51";
     prefixLength = 24;
   }];

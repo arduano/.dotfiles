@@ -18,7 +18,7 @@
   # services.vscode-server.enable = true;
 
   arduano.networking.enable = true;
-  arduano.shell.enable = true;
+  # arduano.shell.enable = true;
 
   # networking.useDHCP = lib.mkDefault true;
   networking.interfaces.enp3s0.ipv4.addresses = [{
@@ -79,8 +79,6 @@
       AllowTcpForwarding = "yes";
     };
   };
-
-  users.motd = "${pkgs.cowsay}/bin/cowsay ${pkgs.fortune}/bin/fortune My Message";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

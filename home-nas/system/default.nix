@@ -31,6 +31,8 @@
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root ++ gui-root;
 
+  virtualisation.docker.enable = true;
+
   services.mullvad-vpn = {
     enable = true;
     package = pkgs.mullvad-vpn;

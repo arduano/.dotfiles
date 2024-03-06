@@ -80,6 +80,8 @@
     };
   };
 
+  users.motd = "${pkgs.cowsay}/bin/cowsay ${pkgs.fortune}/bin/fortune My Message"
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 

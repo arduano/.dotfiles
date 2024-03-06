@@ -6,6 +6,8 @@
     (import ./share/overlayModule.nix)
   ];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "bcachefs" ];
 

@@ -9,8 +9,15 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/sda:/dev/sdb:/dev/sdc:/dev/sdd:/dev/nvme0n1p1";
+    {
+      device = "/dev/sda:/dev/sdb:/dev/sdc:/dev/sdd:/dev/nvme0n1p1";
       fsType = "bcachefs";
+    };
+
+  fileSystems."/boot" =
+    {
+      device = "/dev/disk/by-label/boot";
+      fsType = "vfat";
     };
 
   swapDevices = [ ];

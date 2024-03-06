@@ -1,4 +1,4 @@
-set fish_greeting # Disable greeting
+# set fish_greeting # Disable greeting
 
 function _tide_item_nix_env
     test -n "$ANY_NIX_SHELL_PKGS" && _tide_print_item nix_env $tide_nix_env_icon' ' $ANY_NIX_SHELL_PKGS

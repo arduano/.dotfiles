@@ -33,7 +33,7 @@
   };
 
   fileSystems."/mnt/z" = {
-    device = "arduano@192.168.1.51:/mnt/raid5";
+    device = "arduano@192.168.1.51:/mnt/store";
     fsType = "sshfs";
     options =
       [

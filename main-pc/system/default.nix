@@ -70,8 +70,17 @@
   nixpkgs.config.cudaSupport = true;
 
   # Network discovery
-  services.avahi.enable = true;
-  services.avahi.publish.userServices = true;
+  services.avahi = {
+    enable = true;
+    reflector = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      userServices = true;
+      workstation = true;
+    };
+  };
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxPackages_testing;

@@ -8,10 +8,9 @@ let
 in
 {
   options = {
-    arduano.syncNixChannel =
-      {
-        enable = mkEnableOption "nix channel syncing";
-      };
+    arduano.syncNixChannel = {
+      enable = mkEnableOption "nix channel syncing";
+    };
   };
 
   config = mkIf cfg.enable {

@@ -6,15 +6,13 @@ let
 in
 {
   options = {
-    arduano.shell =
-      {
-        enable = mkEnableOption "arduano's shell config";
-      };
+    arduano.shell = {
+      enable = mkEnableOption "arduano's shell config";
+    };
   };
 
-  config =
-    mkIf cfg.enable {
-      users.defaultUserShell = pkgs.fish;
-      programs.fish.enable = true;
-    };
+  config = mkIf cfg.enable {
+    users.defaultUserShell = pkgs.fish;
+    programs.fish.enable = true;
+  };
 }

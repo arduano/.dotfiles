@@ -45,17 +45,5 @@ in
         ExecStart = "${config.security.wrapperDir}/sunshine ${./sunshine.conf}";
       };
     };
-
-    services.avahi = {
-      enable = true;
-      reflector = true;
-      nssmdns4 = true;
-      publish = {
-        enable = true;
-        addresses = true;
-        userServices = true;
-        workstation = true;
-      };
-    };
   };
 }

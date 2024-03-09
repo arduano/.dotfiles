@@ -8,11 +8,10 @@ let
 in
 {
   options = {
-    arduano.networking =
-      {
-        enable = mkEnableOption "networking";
-        useFirewall = mkEnableOption "use firewall";
-      };
+    arduano.networking = {
+      enable = mkEnableOption "networking";
+      useFirewall = mkEnableOption "use firewall";
+    };
   };
 
   config =

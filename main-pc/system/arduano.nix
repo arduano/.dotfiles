@@ -3,9 +3,6 @@
 
   arduano.syncNixChannel.enable = true;
 
-  # arduano.vscode-server.enable = true;
-  # services.vscode-server.enable = true;
-
   arduano.networking.enable = true;
   arduano.shell.enable = true;
   arduano.portals.enable = true;
@@ -20,7 +17,6 @@
 
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root ++ gui-root;
-
 
   services.mullvad-vpn = {
     enable = true;

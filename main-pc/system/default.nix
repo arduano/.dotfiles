@@ -7,10 +7,8 @@
     ./flatpak
     ./power.nix
     ./sshd.nix
-    ./filesystems.nix
     ./sdk
     ./vm.nix
-    ./platform-emu.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -19,9 +17,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "main-pc"; # Define your hostname.
-
-  # environment.systemPackages = with pkgs;
-  #   [ inputs.home-manager.packages.${pkgs.system}.default ];
 
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
@@ -46,21 +41,10 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
 
   environment.sessionVariables = {
     GTK_USE_PORTAL = "1";
-    # LD_LIBRARY_PATH = with pkgs; [
-    #   (lib.makeLibraryPath
-    #     [
-    #       libxkbcommon
-    #       xorg.libX11
-    #       xorg.libXcursor
-    #       xorg.libXi
-    #       xorg.libXrandr
-    #     ])
-    # ];
-    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
   # Configure keymap in X11

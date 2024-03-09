@@ -24,7 +24,7 @@
   networking.interfaces.enp3s0.ipv4.addresses = [{
     address = "192.168.1.51";
     prefixLength = 24;
-  }];
+  }];t
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 

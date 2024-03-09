@@ -14,16 +14,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "gpustat";
-  version = "0.1.3";
+  version = "0.1.4";
 
   src = fetchFromGitHub {
     owner = "arduano";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-rPYJ8pjSzvIufgH96KawCe7skF5NPlmbgJ1iIexazLc=";
+    sha256 = "sha256-bgw9KrSiswfpKHn+qP1IiYgIuRzje+Ql/Mr0VqHvrbQ=";
   };
 
-  cargoSha256 = "sha256-e4Nt/G8TS2zSaREBq+igbYsdPeRcC+xxmYCNfajOflo=";
+  cargoSha256 = "sha256-sUxuiOjBIn/5jckezX6S6TQtoiqjHnlOn8fRdaVRwYM=";
 
   nativeBuildInputs = [ pkg-config cmake makeWrapper ];
   buildInputs = [

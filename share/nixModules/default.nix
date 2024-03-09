@@ -6,5 +6,6 @@
     ./networking
     ./shell
     ./portals
+    ./locale
   ];
 }

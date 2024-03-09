@@ -4,7 +4,6 @@ let
   lib = nixpkgs.lib;
 
   commonSystemModules = [
-    nix-flatpak.nixosModules.nix-flatpak
     inputs.home-manager.nixosModules.home-manager
     (import ./share/nixModules)
     (import ./share/overlayModule.nix)
@@ -14,7 +13,6 @@ let
   ];
 
   commonHomeModules = [
-    nix-flatpak.homeManagerModules.nix-flatpak
     vscode-server.homeModules.default
     plasma-manager.homeManagerModules.plasma-manager
     (import ./share/homeModules)

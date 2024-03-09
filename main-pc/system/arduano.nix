@@ -6,6 +6,7 @@
   arduano.networking.enable = true;
   arduano.shell.enable = true;
   arduano.portals.enable = true;
+  arduano.locale.enable = true;
 
   # networking.useDHCP = lib.mkDefault true;
   networking.interfaces.enp5s0.ipv4.addresses = [{
@@ -22,4 +23,17 @@
     enable = true;
     package = pkgs.mullvad-vpn;
   };
+
+  services.openssh = {
+    enable = true;
+    ports = [ 45754 ];
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+  };
+
+  services.xserver.xautolock.enable = false;
+  services.xserver.xautolock.time = 99999999;
+  services.logind.powerKey = "suspend";
 }

@@ -19,12 +19,13 @@
 
   arduano.networking.enable = true;
   # arduano.shell.enable = true;
+  arduano.locale.enable = true;
 
   # networking.useDHCP = lib.mkDefault true;
   networking.interfaces.enp3s0.ipv4.addresses = [{
     address = "192.168.1.51";
     prefixLength = 24;
-  }];t
+  }];
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
@@ -36,24 +37,6 @@
   services.mullvad-vpn = {
     enable = true;
     package = pkgs.mullvad-vpn;
-  };
-
-  # Set your time zone.
-  time.timeZone = "Australia/Sydney";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_AU.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_AU.UTF-8";
-    LC_IDENTIFICATION = "en_AU.UTF-8";
-    LC_MEASUREMENT = "en_AU.UTF-8";
-    LC_MONETARY = "en_AU.UTF-8";
-    LC_NAME = "en_AU.UTF-8";
-    LC_NUMERIC = "en_AU.UTF-8";
-    LC_PAPER = "en_AU.UTF-8";
-    LC_TELEPHONE = "en_AU.UTF-8";
-    LC_TIME = "en_AU.UTF-8";
   };
 
   users.users.arduano = {

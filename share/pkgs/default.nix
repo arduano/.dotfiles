@@ -124,6 +124,7 @@
       peek
       signal-desktop
       plexamp
+      kdenlive
     ];
   };
 }

@@ -55,6 +55,8 @@ in
           enable = true;
         };
 
+        programs.zoxide.enable = true;
+
         home.packages = with pkgs; [
           fishPlugins.fzf-fish
           fzf

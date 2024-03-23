@@ -41,6 +41,7 @@
       nmap
       xz
       powertop
+      gh
 
       (pkgs.writeShellScriptBin "switch-system" ''
         sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
@@ -69,6 +70,7 @@
       ffmpeg
       arduano.nodePkgs."@marp-team/marp-cli"
       ollama
+      xclip
     ];
 
     shell-programming = with pkgs; [
@@ -100,6 +102,7 @@
 
     gui-root = with pkgs; [
       gparted
+      kdePackages.isoimagewriter
     ];
 
     gui-user = with pkgs; [

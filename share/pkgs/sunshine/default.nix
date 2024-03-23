@@ -6,7 +6,7 @@
 }:
 sunshine.overrideAttrs (oldAttrs: rec {
   pname = "sunshine";
-  version = "0.22.2";
+  version = if (oldAttrs.version == "0.22.0") then "0.22.2" else (throw ("updated, got " + oldAttrs.version));
 
   src = fetchFromGitHub {
     owner = "LizardByte";

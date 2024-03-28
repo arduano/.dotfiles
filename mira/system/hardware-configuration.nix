@@ -6,4 +6,8 @@
   boot.initrd.kernelModules = [ "nvme" ];
   fileSystems."/" = { device = "/dev/vda1"; fsType = "ext4"; };
 
+  swapDevices = [{
+    device = "/swapfile";
+    size = 6 * 1024;
+  }];
 }

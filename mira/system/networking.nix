@@ -18,20 +18,20 @@
           { address = "170.64.226.96"; prefixLength = 20; }
           { address = "10.49.0.5"; prefixLength = 16; }
         ];
-        ipv6.addresses = [
-          { address = "2400:6180:10:200::59:0"; prefixLength = 64; }
-          { address = "fe80::3c2b:abff:feaa:eab"; prefixLength = 64; }
-        ];
+        # ipv6.addresses = [
+        #   { address = "2400:6180:10:200::59:0"; prefixLength = 64; }
+        #   { address = "fe80::3c2b:abff:feaa:eab"; prefixLength = 64; }
+        # ];
         ipv4.routes = [{ address = "170.64.224.1"; prefixLength = 32; }];
-        ipv6.routes = [{ address = "2400:6180:10:200::1"; prefixLength = 128; }];
+        # ipv6.routes = [{ address = "2400:6180:10:200::1"; prefixLength = 128; }];
       };
       eth1 = {
         ipv4.addresses = [
           { address = "10.126.0.2"; prefixLength = 20; }
         ];
-        ipv6.addresses = [
-          { address = "fe80::1017:ceff:fee8:411c"; prefixLength = 64; }
-        ];
+        # ipv6.addresses = [
+        #   { address = "fe80::1017:ceff:fee8:411c"; prefixLength = 64; }
+        # ];
       };
     };
   };

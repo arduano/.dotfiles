@@ -128,6 +128,7 @@
       signal-desktop
       plexamp
       kdenlive
+      qbittorrent
     ];
   };
 }

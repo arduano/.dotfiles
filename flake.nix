@@ -1,6 +1,5 @@
 {
-  # The description of the flake. Can be anything.
-  description = "My first flake!";
+  description = "Arduano's systems";
 
   # The inputs of the flake, usually some git repositories, e.g. `nixpkgs`
   inputs = {

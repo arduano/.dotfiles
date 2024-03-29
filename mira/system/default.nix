@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ./networking.nix
+    ./caddy.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

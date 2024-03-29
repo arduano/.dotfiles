@@ -2,13 +2,14 @@
   imports = [
     ./hardware-configuration.nix
     ./networking.nix
-    ./caddy.nix
+    # ./caddy.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "mira";
   networking.domain = "";
+  networking.firewall.enable = false;
 
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
@@ -26,7 +27,6 @@
 
   arduano.shell.enable = true;
   arduano.locale.enable = true;
-
 
   environment.systemPackages = with pkgs.arduano.groups;
     shell-essentials ++ [

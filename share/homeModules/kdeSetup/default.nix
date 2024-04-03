@@ -64,27 +64,27 @@ in
       configFile = {
         kwinrulesrc = {
           # `rules` is a comma separated list of the properties
-          General = { rules = "anydesk"; };
+          General = { rules.value = "anydesk"; };
 
           anydesk = {
-            Description = "Window settings for anydesk";
-            clientmachine = "localhost";
-            minimize = true;
-            minimizerule = 3;
-            title = "AnyDesk";
-            titlematch = 1;
-            types = 1;
-            windowrole = "MainWindow#1";
-            wmclass = "anydesk";
-            wmclassmatch = 1;
+            Description.value = "Window settings for anydesk";
+            clientmachine.value = "localhost";
+            minimize.value = true;
+            minimizerule.value = 3;
+            title.value = "AnyDesk";
+            titlematch.value = 1;
+            types.value = 1;
+            windowrole.value = "MainWindow#1";
+            wmclass.value = "anydesk";
+            wmclassmatch.value = 1;
           };
         };
 
-        ksmserverrc.General.loginMode = "emptySession";
+        ksmserverrc.General.loginMode.value = "emptySession";
 
         kdeglobals = {
-          General.TerminalApplication = "kitty";
-          General.TerminalService = "kitty.desktop";
+          General.TerminalApplication.value = "kitty";
+          General.TerminalService.value = "kitty.desktop";
         };
       };
     };

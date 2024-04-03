@@ -44,7 +44,7 @@
       gh
 
       (pkgs.writeShellScriptBin "switch-system" ''
-        sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
+        nice -19 sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
         xdg-desktop-menu forceupdate
       '')
 
@@ -57,7 +57,6 @@
         sudo nix-env --delete-generations +1 &&
           sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system +1 &&
           nix-env --delete-generations +1 &&
-          home-manager expire-generations "-0 days" &&
           nix store gc &&
           switch
       '')

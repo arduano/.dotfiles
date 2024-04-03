@@ -6,6 +6,7 @@
     ./hardware-configuration.nix
     ./sdk
     ./vm.nix
+    ./ollama.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

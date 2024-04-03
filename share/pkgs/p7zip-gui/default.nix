@@ -82,8 +82,8 @@ stdenv.mkDerivation rec {
     mkdir -p $out/share/icons/hicolor/32x32/apps
     cp GUI/p7zip_32.png $out/share/icons/hicolor/32x32/apps/p7zip.png
 
-    # mkdir -p $out/share/kde4/services/ServiceMenus
-    # cp GUI/kde4/*.desktop $out/share/kde4/services/ServiceMenus
+    mkdir -p $out/share/kde4/services/ServiceMenus
+    cp GUI/kde4/*.desktop $out/share/kde4/services/ServiceMenus
 
     mkdir -p $out/share/kservices5/ServiceMenus
     cp GUI/kde4/*.desktop $out/share/kservices5/ServiceMenus

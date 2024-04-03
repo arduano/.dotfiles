@@ -69,7 +69,6 @@
       nix-du
       ffmpeg
       arduano.nodePkgs."@marp-team/marp-cli"
-      ollama
       xclip
     ];
 
@@ -80,6 +79,7 @@
       python311Packages.tkinter
 
       nodejs_20
+      bun
       nodePackages.yarn
 
       rustup

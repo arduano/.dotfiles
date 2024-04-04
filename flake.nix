@@ -46,7 +46,7 @@
       packages = flake-utils.lib.eachDefaultSystem
         (system:
           let
-            oldAttrs.version = nixpkgs.lib.nixosSystem {
+            baseIso = nixpkgs.lib.nixosSystem {
               inherit system;
               specialArgs = {
                 inherit inputs;

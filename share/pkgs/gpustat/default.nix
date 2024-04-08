@@ -14,16 +14,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "gpustat";
-  version = "0.1.4";
+  version = "0.1.5";
 
   src = fetchFromGitHub {
     owner = "arduano";
-    repo = pname;
+    repo = "gpustat";
     rev = "v${version}";
-    sha256 = "sha256-bgw9KrSiswfpKHn+qP1IiYgIuRzje+Ql/Mr0VqHvrbQ=";
+    sha256 = "sha256-M9P/qfw/tp9ogkNOE3b2fD2rGFnii1/VwmqJHqXb7Mg=";
   };
 
-  cargoSha256 = "sha256-sUxuiOjBIn/5jckezX6S6TQtoiqjHnlOn8fRdaVRwYM=";
+  cargoSha256 = "sha256-po/pEMZEtySZnz7l2FI7Wqbmp2CiWBijchKGkqlIMPU=";
 
   nativeBuildInputs = [ pkg-config cmake makeWrapper ];
   buildInputs = [
@@ -38,11 +38,10 @@ rustPlatform.buildRustPackage rec {
   ];
 
   postInstall = ''
-    mkdir -p $out/share/applications
-    mkdir -p $out/share/pixmaps
+    mkdir -p $out/share/applications $out/share/pixmaps
 
-    cp $src/assets/gpustat.desktop $out/share/applications
-    cp $src/assets/icon_* $out/share/pixmaps
+    cp assets/gpustat.desktop $out/share/applications
+    cp assets/gpustat_icon_* $out/share/pixmaps
   '';
 
   # Wrap the program in a script that sets the LD_LIBRARY_PATH environment variable

@@ -86,6 +86,7 @@
       enable = true;
       user = "arduano";
       configDir = "/home/arduano/.config/syncthing";
+      guiAddress = "0.0.0.0:8384";
     };
   };
 

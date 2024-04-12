@@ -1,4 +1,4 @@
-it { sunshine
+{ sunshine
 , ...
 }:
 sunshine.overrideAttrs (oldAttrs: rec {

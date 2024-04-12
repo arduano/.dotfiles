@@ -81,6 +81,14 @@
     };
   };
 
+  services = {
+    syncthing = {
+      enable = true;
+      user = "arduano";
+      configDir = "/home/arduano/.config/syncthing";
+    };
+  };
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
 

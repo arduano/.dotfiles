@@ -128,6 +128,7 @@
       plexamp
       kdenlive
       qbittorrent
+      drawing
     ];
   };
 }

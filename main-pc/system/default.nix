@@ -14,13 +14,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "main-pc"; # Define your hostname.
+  networking.hostName = "main-pc"; # Dmefine your hostname.
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   environment.sessionVariables = {
@@ -63,8 +63,8 @@
   };
 
   # Enable automatic login for the user.
-  # services.xserver.displayManager.autoLogin.enable = true;
-  # services.xserver.displayManager.autoLogin.user = "arduano";
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.autoLogin.user = "arduano";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

@@ -2,7 +2,7 @@
 , ...
 }:
 sunshine.overrideAttrs (oldAttrs: rec {
-  patches = oldAttrs.patches ++ [
+  patches = [
     ./screens.patch
   ];
 

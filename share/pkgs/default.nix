@@ -26,7 +26,6 @@
       curl
       ripgrep
       nload
-      neofetch
       fastfetch
       pciutils
       htop
@@ -69,6 +68,7 @@
       ffmpeg
       arduano.nodePkgs."@marp-team/marp-cli"
       xclip
+      sapling
     ];
 
     shell-programming = with pkgs; [
@@ -127,6 +127,7 @@
       signal-desktop
       plexamp
       kdenlive
+      krita
       qbittorrent
       drawing
     ];

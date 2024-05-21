@@ -54,6 +54,14 @@
               modules = [ ./iso.nix ];
             };
 
+            baseGuiIso = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs;
+              };
+              modules = [ ./iso-gui.nix ];
+            };
+
             pkgs = import nixpkgs {
               inherit system;
               overlays = [ (import ./share/overlay.nix) ];
@@ -62,6 +70,7 @@
           {
             packages = pkgs.arduano // {
               baseIso = baseIso.config.system.build.isoImage;
+              baseGuiIso = baseGuiIso.config.system.build.isoImage;
             };
           }
         );

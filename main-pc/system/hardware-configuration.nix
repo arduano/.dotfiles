@@ -20,7 +20,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/33A4-F05B";
+    device = "/dev/disk/by-uuid/4B55-71D4";
     fsType = "vfat";
   };
 
@@ -42,7 +42,7 @@
   systemd.services.init-fat = {
     wantedBy = [ "default.target" ];
     script = ''
-      ${pkgs.mount}/bin/mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/a905ac1e-4f85-914e-a929-843aea587ef3 /mnt/fat
+      ${pkgs.mount}/bin/mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/7207f8fb-b959-434f-8b91-95cad148e3ef /mnt/fat
     '';
     serviceConfig = {
       Type = "oneshot";

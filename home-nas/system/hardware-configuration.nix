@@ -10,7 +10,7 @@
 
   fileSystems."/" =
     {
-      device = "/dev/sda:/dev/sdb:/dev/sdc:/dev/sdd:/dev/nvme0n1p1";
+      device = "/dev/sda:/dev/sdb:/dev/sdc:/dev/sdd:/dev/nvme0n1p2";
       fsType = "bcachefs";
       options = [ "degraded" ];
     };

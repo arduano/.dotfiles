@@ -50,6 +50,16 @@ in
     ];
   };
 
+  nixosConfigurations.laptop = makeSystem {
+    systemModules = [
+      ./laptop/system
+      nixos-hardware.nixosModules.framework-16-7040-amd
+    ];
+    homeModules = [
+      ./laptop/home
+    ];
+  };
+
   nixosConfigurations.home-nas = makeSystem {
     systemModules = [
       ./home-nas/system

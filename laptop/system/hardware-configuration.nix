@@ -33,6 +33,8 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  hardware.enableRedistributableFirmware = true;
+
   # fileSystems."/mnt/z" = {
   #   device = "arduano@192.168.1.51:/mnt/store";
   #   fsType = "sshfs";

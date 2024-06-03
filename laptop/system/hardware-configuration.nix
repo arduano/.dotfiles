@@ -6,10 +6,10 @@
 {
   imports = [ ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "framework_laptop" "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ framework-laptop-kmod ];
 
   system.fsPackages = with pkgs; [ sshfs ];
   boot.supportedFilesystems = [ "bcachefs" ];

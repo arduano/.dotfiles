@@ -11,7 +11,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "main-pc"; # Dmefine your hostname.
+  networking.hostName = "laptop"; # Dmefine your hostname.
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;

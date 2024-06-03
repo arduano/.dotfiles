@@ -8,8 +8,6 @@
   arduano.portals.enable = true;
   arduano.locale.enable = true;
 
-  networking.useDHCP = true;
-
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 

@@ -16,13 +16,13 @@
 
   fileSystems."/" =
     {
-      device = "UUID=a44e5e50-b2c4-497f-b05b-f6cea3cf51d9";
+      device = "/dev/disk/by-uuid/a44e5e50-b2c4-497f-b05b-f6cea3cf51d9";
       fsType = "bcachefs";
     };
 
   fileSystems."/home/arduano" =
     {
-      device = "UUID=d67a4d0f-de0e-4e46-bc11-012b053dab72";
+      device = "/dev/disk/by-uuid/d67a4d0f-de0e-4e46-bc11-012b053dab72";
       fsType = "bcachefs";
     };
 

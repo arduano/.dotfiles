@@ -130,6 +130,7 @@
       krita
       qbittorrent
       drawing
+      yakuake
     ];
   };
 }

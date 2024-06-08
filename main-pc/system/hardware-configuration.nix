@@ -10,6 +10,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  hardware.enableRedistributableFirmware = true;
 
   system.fsPackages = with pkgs; [ sshfs ];
   boot.supportedFilesystems = [ "bcachefs" ];

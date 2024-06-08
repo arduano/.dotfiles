@@ -10,6 +10,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ framework-laptop-kmod ];
+  hardware.enableRedistributableFirmware = true;
 
   system.fsPackages = with pkgs; [ sshfs ];
   boot.supportedFilesystems = [ "bcachefs" ];
@@ -33,7 +34,6 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  hardware.enableRedistributableFirmware = true;
 
   # fileSystems."/mnt/z" = {
   #   device = "arduano@192.168.1.51:/mnt/store";

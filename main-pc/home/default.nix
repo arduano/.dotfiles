@@ -15,8 +15,11 @@
   arduano.shell.enable-gui = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
-  arduano.kdeSetup.enable = true;
   arduano.anydesk.enable = true;
+
+  arduano.kdeSetup.enable = true;
+  arduano.kdeSetup.powermanagementFile = ./powermanagementprofilesrc;
+  arduano.kdeSetup.screenlockerFile = ./kscreenlockerrc;
 
   services.vscode-server.enable = true;
 

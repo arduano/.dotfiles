@@ -16,6 +16,8 @@
     package = pkgs.mullvad-vpn;
   };
 
+  services.fprintd.enable = true;
+
   services.openssh = {
     enable = true;
     ports = [ 45754 ];
@@ -24,4 +26,6 @@
       PasswordAuthentication = false;
     };
   };
+
+  services.logind.powerKey = "suspend";
 }

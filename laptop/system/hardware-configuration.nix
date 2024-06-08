@@ -29,20 +29,20 @@
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/E6EE-7E23";
+      device = "/dev/disk/by-label/boot";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
 
   # fileSystems."/mnt/z" = {
-  #   device = "arduano@192.168.1.51:/mnt/store";
+  #   device = "arduano@100.82.173.47:/mnt/store";
   #   fsType = "sshfs";
   #   options = [
   #     # Filesystem options
   #     "allow_other" # for non-root access
   #     "_netdev" # this is a network fs
-  #     # "x-systemd.automount" # mount on demand
+  #     "x-systemd.automount" # mount on demand
 
   #     # SSH options
   #     "reconnect" # handle connection drops
@@ -52,10 +52,9 @@
   #   ];
   # };
 
-  # swapDevices = [{
-  #   device = "/swapfile";
-  #   size = 64 * 1024;
-  # }];
+  swapDevices = [{
+    device = "/dev/disk/by-label/swap";
+  }];
 
   nixpkgs.hostPlatform = "x86_64-linux";
 }

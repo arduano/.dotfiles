@@ -1,7 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ];
+  imports = [
+    # ./hyprland.nix
+  ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -23,6 +25,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    # libsForQt5.polonium
+    # krohnkite
+    # libsForQt5.krohnkite
   ] ++ pkgs.arduano.groups.gui-user;
 
 

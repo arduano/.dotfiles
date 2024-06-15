@@ -7,6 +7,7 @@
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  hardware.enableRedistributableFirmware = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 

@@ -7,6 +7,7 @@
     polkit_gnome
     brightnessctl
     hyprshot
+    networkmanagerapplet
   ];
 
   services.mako = {
@@ -29,6 +30,4 @@
   programs.fuzzel = {
     enable = true;
   };
-
-  services.network-manager-applet.enable = true;
 }

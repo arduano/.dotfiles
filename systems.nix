@@ -42,7 +42,6 @@ in
       ./main-pc/system
       nixos-hardware.nixosModules.common-pc
       nixos-hardware.nixosModules.common-pc-ssd
-      nixos-hardware.nixosModules.common-pc-hdd
       nixos-hardware.nixosModules.common-cpu-amd
     ];
     homeModules = [
@@ -65,7 +64,6 @@ in
       ./home-nas/system
       nixos-hardware.nixosModules.common-pc
       nixos-hardware.nixosModules.common-pc-ssd
-      nixos-hardware.nixosModules.common-pc-hdd
       nixos-hardware.nixosModules.common-cpu-intel
     ];
     homeModules = [

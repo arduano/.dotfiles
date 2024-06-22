@@ -78,8 +78,9 @@
       python311Packages.tkinter
 
       nodejs_20
-      bun
       nodePackages.yarn
+      bun
+      deno
 
       rustup
       gdb

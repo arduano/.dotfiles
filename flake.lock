@@ -8,11 +8,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1718386941,
-        "narHash": "sha256-W54ASg6VJyuOuSfsJlVeZOWVnZ+snWNov7ccyofIE6U=",
+        "lastModified": 1718436764,
+        "narHash": "sha256-Rxyp5KQgzJZdfHkS4h+2thY6PnWRoYy/iTTHWYWgAJE=",
         "owner": "wamserma",
         "repo": "flake-programs-sqlite",
-        "rev": "17ce489c74573e07afd02e8d1bdfdb0651048abe",
+        "rev": "d604b50294edfb26c21a63a919c0ae938e699e74",
         "type": "github"
       },
       "original": {
@@ -80,11 +80,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1718349360,
-        "narHash": "sha256-SuPne4BMqh9/IkKIAG47Cu5qfmntAaqlHdX1yuFoDO0=",
+        "lastModified": 1718459188,
+        "narHash": "sha256-umwY+ivE98n/6EwEtobOlqf1t9VddhPIIZ6rVmFXlHg=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "ae5c8dcc4d0182d07d75df2dc97112de822cb9d6",
+        "rev": "0cd562157274df3783840bdcb0ce6d9c4cf4aa29",
         "type": "github"
       },
       "original": {
@@ -119,11 +119,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1718299582,
-        "narHash": "sha256-XHncuv56N++i4la5n3lH2P8dz8kOCvOdbNFT2p8SnHI=",
+        "lastModified": 1718494124,
+        "narHash": "sha256-Xs4HYhSTIepqRtttIHFSfuQoIiqBL7fJaKk1266aJGE=",
         "owner": "pjones",
         "repo": "plasma-manager",
-        "rev": "4d5b25e9281e466bf7e190f9107a28189300d9bb",
+        "rev": "e2f2036ae74f9a25e0274b517ef204c52b5d928e",
         "type": "github"
       },
       "original": {

@@ -51,6 +51,18 @@
     };
   };
 
+  networking.networkmanager = {
+    # settings = {
+    #   logging = {
+    #     level = "DEBUG";
+    #   };
+    # };
+    wifi = {
+      # powersave = true;
+      # scanRandMacAddress = false;
+    };
+  };
+
   # programs.hyprland = {
   #   # Install the packages from nixpkgs
   #   enable = true;

@@ -16,8 +16,10 @@
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
-  environment.systemPackages = with pkgs.arduano.groups;
-    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
+  environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
+    printrun
+  ] ++
+  build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 
   services.mullvad-vpn = {
     enable = true;

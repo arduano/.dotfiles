@@ -111,6 +111,7 @@
       teams-for-linux
       slack
       google-chrome
+      brave
       zoom-us
       gimp
       arduano.p7zip-gui
@@ -132,6 +133,8 @@
       qbittorrent
       drawing
       yakuake
+      libsForQt5.kamoso
+      (callPackage ./imhex { })
     ];
   };
 }

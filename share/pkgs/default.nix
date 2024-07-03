@@ -107,7 +107,7 @@
 
     gui-user = with pkgs; [
       qpwgraph
-      qalculate-qt
+      # qalculate-qt # broken
       teams-for-linux
       slack
       google-chrome

@@ -23,6 +23,16 @@
         swtpm.enable = true;
         ovmf.enable = true;
         ovmf.packages = [ pkgs.OVMFFull.fd ];
+        verbatimConfig = ''
+          namespaces = []
+          cgroup_device_acl = [
+             "/dev/null", "/dev/full", "/dev/zero",
+             "/dev/random", "/dev/urandom",
+             "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+             "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+             "/dev/kvmfr0"
+          ]
+        '';
       };
       onBoot = "ignore";
       onShutdown = "shutdown";
@@ -30,6 +40,20 @@
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
+
+  # set /etc/looking-glass-client.ini
+  environment.etc."looking-glass-client.ini".text = ''
+    [app]
+    shmFile=/dev/kvmfr0
+
+    [win]
+    fullscreen=yes
+  '';
+
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    /home/arduano         192.168.122.0/24(rw,sync,no_subtree_check,anonuid=1000,anongid=1000)
+  '';
 
   # virtualisation.vmware.host.enable = true;
 
@@ -61,6 +85,8 @@
         "nvidia_modeset"
         "nvidia_uvm"
         "nvidia_drm"
+
+        "kvmfr"
       ];
 
       kernelModules = [ "kvm-amd" ];
@@ -70,8 +96,20 @@
         "amd_iommu=on"
         # Virtualize GPU
         ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs)
+
+        # Enable kvmfr
+        "kvmfr.static_size_mb=64"
+      ];
+
+      # Enable kvmfr
+      extraModulePackages = [
+        config.boot.kernelPackages.kvmfr
       ];
     };
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="kvmfr", OWNER="arduano", GROUP="libvirtd", MODE="0660"
+  '';
 
   systemd.tmpfiles.rules = [
     "f /dev/shm/looking-glass 0660 arduano qemu-libvirtd -" # Looking glass

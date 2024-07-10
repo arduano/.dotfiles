@@ -81,6 +81,11 @@
     };
   };
 
+  services.kubo = {
+    enable = true;
+    dataDir = "/mnt/store/.ipfs";
+  };
+
   services = {
     syncthing = {
       enable = true;

@@ -81,15 +81,6 @@
     };
   };
 
-  services.kubo = {
-    enable = true;
-    dataDir = "/mnt/store/.ipfs";
-    settings.Addresses.API = [ "/ip4/127.0.0.1/tcp/5001" ];
-    settings.Mounts.IPFS = "/mnt/store/kubo/ipfs";
-    settings.Mounts.IPNS = "/mnt/store/kubo/ipns";
-    autoMount = true;
-  };
-
   services = {
     syncthing = {
       enable = true;

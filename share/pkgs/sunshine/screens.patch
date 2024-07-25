@@ -1,20 +1,14 @@
 diff --git a/src/platform/linux/x11grab.cpp b/src/platform/linux/x11grab.cpp
-index 6bd3018..1275cb7 100644
+index bcb2ff30..2c688239 100644
 --- a/src/platform/linux/x11grab.cpp
 +++ b/src/platform/linux/x11grab.cpp
-@@ -440,20 +440,37 @@ namespace platf {
-           return -1;
+@@ -437,25 +437,37 @@ namespace platf {
+           }
          }
-
--        if (result->crtc) {
--          crtc_info_t crt_info { x11::rr::GetCrtcInfo(xdisplay.get(), screenr.get(), result->crtc) };
--          BOOST_LOG(info)
--            << "Streaming display: "sv << result->name << " with res "sv << crt_info->width << 'x' << crt_info->height << " offset by "sv << crt_info->x << 'x' << crt_info->y;
--
--          width = crt_info->width;
--          height = crt_info->height;
--          offset_x = crt_info->x;
--          offset_y = crt_info->y;
+ 
+-        if (!result) {
+-          BOOST_LOG(error) << "Could not stream display number ["sv << streamedMonitor << "], there are only ["sv << monitor << "] displays."sv;
+-          return -1;
 +        // if (result->crtc) {
 +        //   crtc_info_t crt_info { x11::rr::GetCrtcInfo(xdisplay.get(), screenr.get(), result->crtc) };
 +        //   BOOST_LOG(info)
@@ -31,24 +25,34 @@ index 6bd3018..1275cb7 100644
 +        //   height = xattr.height;
 +        // }
 +
-+        width = 1920;
-+        height = 1080;
++        width = 2560;
++        height = 1440;
 +        offset_y = 0;
 +
 +        if (monitor == 1) {
 +          offset_x = 0;
-+        }
+         }
+-
+-        if (result->crtc) {
+-          crtc_info_t crt_info { x11::rr::GetCrtcInfo(xdisplay.get(), screenr.get(), result->crtc) };
+-          BOOST_LOG(info)
+-            << "Streaming display: "sv << result->name << " with res "sv << crt_info->width << 'x' << crt_info->height << " offset by "sv << crt_info->x << 'x' << crt_info->y;
+-
+-          width = crt_info->width;
+-          height = crt_info->height;
+-          offset_x = crt_info->x;
+-          offset_y = crt_info->y;
 +        else if (monitor == 2) {
-+          offset_x = 1920;
++          offset_x = width;
 +        }
 +        else if (monitor == 3) {
-+          offset_x = 3840;
++          offset_x = width * 2;
          }
          else {
 -          BOOST_LOG(warning) << "Couldn't get requested display info, defaulting to recording entire virtual desktop"sv;
 -          width = xattr.width;
 -          height = xattr.height;
-+          offset_x = 1920;
++          offset_x = width;
          }
        }
        else {

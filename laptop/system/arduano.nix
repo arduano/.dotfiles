@@ -1,6 +1,4 @@
 { pkgs, ... }: {
-  arduano.sunshine.enable = true;
-
   arduano.syncNixChannel.enable = true;
 
   arduano.networking.enable = true;
@@ -26,7 +24,7 @@
   '';
 
   systemd.sleep.extraConfig = ''
-    # HibernateDelaySec=30m
+    HibernateDelaySec=30m
     SuspendState=mem
   '';
 

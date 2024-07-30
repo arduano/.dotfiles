@@ -1,5 +1,6 @@
 { pkgs, ... }: {
-  arduano.sunshine.enable = true;
+  # BROKEN
+  # arduano.sunshine.enable = true;
 
   arduano.syncNixChannel.enable = true;
 
@@ -17,7 +18,8 @@
   networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
-    printrun
+    # BROKEN
+    # printrun # For 3d printing
   ] ++
   build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 

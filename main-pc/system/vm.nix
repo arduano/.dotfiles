@@ -12,7 +12,7 @@
     win-virtio
     win-spice
     looking-glass-client
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     virtiofsd
     xorriso
   ];

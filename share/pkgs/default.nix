@@ -68,7 +68,9 @@
       ffmpeg
       arduano.nodePkgs."@marp-team/marp-cli"
       xclip
-      sapling
+
+      # BROKEN
+      # sapling
     ];
 
     shell-programming = with pkgs; [
@@ -107,7 +109,7 @@
 
     gui-user = with pkgs; [
       qpwgraph
-      # qalculate-qt # broken
+      qalculate-qt
       teams-for-linux
       slack
       google-chrome

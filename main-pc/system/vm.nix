@@ -12,7 +12,7 @@
     win-virtio
     win-spice
     looking-glass-client
-    adwaita-icon-theme
+    gnome.adwaita-icon-theme
     virtiofsd
     xorriso
   ];
@@ -86,7 +86,7 @@
         "nvidia_uvm"
         "nvidia_drm"
 
-        "kvmfr"
+        # "kvmfr" # BROKEN
       ];
 
       kernelModules = [ "kvm-amd" ];
@@ -98,18 +98,19 @@
         ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs)
 
         # Enable kvmfr
-        "kvmfr.static_size_mb=64"
+        # "kvmfr.static_size_mb=64" # BROKEN
       ];
 
       # Enable kvmfr
       extraModulePackages = [
-        config.boot.kernelPackages.kvmfr
+        # config.boot.kernelPackages.kvmfr # BROKEN
       ];
     };
 
-  services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="arduano", GROUP="libvirtd", MODE="0660"
-  '';
+  # BROKEN
+  # services.udev.extraRules = ''
+  #   SUBSYSTEM=="kvmfr", OWNER="arduano", GROUP="libvirtd", MODE="0660"
+  # '';
 
   systemd.tmpfiles.rules = [
     "f /dev/shm/looking-glass 0660 arduano qemu-libvirtd -" # Looking glass

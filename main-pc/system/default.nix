@@ -81,8 +81,7 @@
     };
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_6_9;
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
 
   environment.systemPackages = with pkgs;

@@ -7,5 +7,6 @@
     ./shell
     ./portals
     ./locale
+    ./nix-ld
   ];
 }

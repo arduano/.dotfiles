@@ -8,6 +8,7 @@
   arduano.shell.enable = true;
   arduano.portals.enable = true;
   arduano.locale.enable = true;
+  arduano.nix-ld.enable = true;
 
   # networking.useDHCP = lib.mkDefault true;
   networking.interfaces.enp5s0.ipv4.addresses = [{

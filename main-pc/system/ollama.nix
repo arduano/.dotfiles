@@ -6,7 +6,6 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    # BROKEN
-    # ollama
+    ollama
   ];
 }

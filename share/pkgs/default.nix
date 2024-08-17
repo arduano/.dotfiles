@@ -64,7 +64,6 @@
     shell-useful = with pkgs; [
       imagemagick
       p7zip
-      # nix-du # BROKEN
       ffmpeg
       arduano.nodePkgs."@marp-team/marp-cli"
       xclip
@@ -107,7 +106,7 @@
 
     gui-user = with pkgs; [
       qpwgraph
-      # qalculate-qt # BROKEN
+      qalculate-qt
       teams-for-linux
       slack
       google-chrome

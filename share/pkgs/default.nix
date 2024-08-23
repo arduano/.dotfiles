@@ -89,8 +89,8 @@
       minicom
 
       cargo-fuzz
-      cargo-outdated
-      cargo-audit
+      # cargo-outdated # BROKEN
+      # cargo-audit # BROKEN
       cargo-license
       cargo-flamegraph
 

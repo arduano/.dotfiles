@@ -49,7 +49,7 @@
   users.users.arduano = {
     isNormalUser = true;
     description = "arduano";
-    extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "fuse" "docker" "dialout" ];
     packages = with pkgs; [ ];
   };
 

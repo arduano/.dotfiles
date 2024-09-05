@@ -41,6 +41,7 @@
       xz
       powertop
       gh
+      unzip
 
       (pkgs.writeShellScriptBin "switch-system" ''
         nice -19 sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
@@ -78,7 +79,6 @@
 
       nodejs_20
       nodePackages.yarn
-      bun
       deno
 
       rustup

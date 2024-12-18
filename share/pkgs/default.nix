@@ -2,13 +2,14 @@
 , pkgs
 }:
 
-{
+rec {
   sunshine_patched = callPackage ./sunshine { };
   wxwidgets_gtk3 = callPackage ./wxwidgets { };
   p7zip-gui = callPackage ./p7zip-gui { };
   tidal-dl = callPackage ./tidal-dl { };
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
+  windsurf = callPackage ./windsurf { };
 
   groups = {
     build-essentials = with pkgs; [
@@ -134,6 +135,7 @@
       yakuake
       libsForQt5.kamoso
       (callPackage ./imhex { })
+      windsurf
     ];
   };
 }

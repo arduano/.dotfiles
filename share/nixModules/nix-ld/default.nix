@@ -12,19 +12,22 @@ in
   };
 
   config = mkIf cfg.enable {
-  # Enable nix ld
-  programs.nix-ld.enable = true;
+    # Enable nix ld
+    programs.nix-ld.enable = true;
 
-  # Sets up all the libraries to load
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    zlib
-    fuse3
-    icu
-    nss
-    openssl
-    curl
-    expat
-  ];
+    # Sets up all the libraries to load
+    programs.nix-ld.libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      fuse3
+      icu
+      nss
+      openssl
+      curl
+      expat
+    ];
+
+    # Enable envfs, which helps with similar things to nix-ld
+    services.envfs.enable = true;
   };
 }

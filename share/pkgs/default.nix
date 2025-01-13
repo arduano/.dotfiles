@@ -81,6 +81,7 @@ rec {
       nodejs_20
       nodePackages.yarn
       deno
+      pnpm
 
       rustup
       gdb

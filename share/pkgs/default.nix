@@ -83,6 +83,7 @@ rec {
       deno
       pnpm
 
+      dotnet-sdk_8
       rustup
       gdb
       nixpkgs-fmt
@@ -114,7 +115,7 @@ rec {
       google-chrome
       brave
       zoom-us
-      gimp
+      # gimp # BROKEN
       arduano.p7zip-gui
       firefox
       steam
@@ -135,7 +136,7 @@ rec {
       drawing
       yakuake
       libsForQt5.kamoso
-      (callPackage ./imhex { })
+      # (callPackage ./imhex { })
       windsurf
     ];
   };

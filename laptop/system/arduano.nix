@@ -17,6 +17,8 @@
 
   services.fprintd.enable = true;
 
+  virtualisation.docker.enable = true;
+
   services.logind.extraConfig = ''
     HandlePowerKey=suspend
     IdleAction=suspend

@@ -46,8 +46,8 @@ in
     inherit commandLineArgs useVSCodeRipgrep sourceExecutableName;
 
     src = fetchurl {
-      url = "https://windsurf-stable.codeiumdata.com/linux-x64/stable/bf4345439764c543a1e5ff3517bbce5a22128bca/Windsurf-linux-x64-1.0.7.tar.gz";
-      sha256 = "sha256:186dd39hddg94zqjv4ckfqfal7ihp6fm71xqyp6bxw494a6gmxw1";
+      url = "https://windsurf-stable.codeiumdata.com/linux-x64/stable/b195fa8f6708b2d32692f64ba2809ad303f79173/Windsurf-linux-x64-1.2.5.tar.gz";
+      sha256 = "sha256-jIQX9NoH3CTSh8g6/RqB+gh8w/w0e9j8gH1TfCbvKqM=";
     };
 
     # We don't test vscode on CI, instead we test vscodium

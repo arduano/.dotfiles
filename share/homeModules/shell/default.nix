@@ -95,7 +95,11 @@ in
       guiConfig = mkIf cfg.enable-gui {
         home.packages = with pkgs; [
           tdrop
-          (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Noto" "FantasqueSansMono" ]; })
+          nerd-fonts.fira-code
+          nerd-fonts.droid-sans-mono
+          nerd-fonts.noto
+          nerd-fonts.fantasque-sans-mono
+          nerd-fonts.symbols-only
         ];
 
         programs.kitty = {
@@ -104,6 +108,7 @@ in
             term = "xterm-256color";
             scrollback_lines = 10000;
             confirm_os_window_close = 0;
+            font = "NotoMono NFM";
           };
         };
       };

@@ -87,7 +87,7 @@ rec {
       rustup
       gdb
       nixpkgs-fmt
-      lldb
+      # lldb # BROKEN
 
       minicom
 

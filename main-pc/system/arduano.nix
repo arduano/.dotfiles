@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   # BROKEN
   # arduano.sunshine.enable = true;
 
@@ -10,13 +10,13 @@
   arduano.locale.enable = true;
   arduano.nix-ld.enable = true;
 
-  # networking.useDHCP = lib.mkDefault true;
-  networking.interfaces.enp5s0.ipv4.addresses = [{
-    address = "192.168.1.52";
-    prefixLength = 24;
-  }];
-  networking.defaultGateway = "192.168.1.1";
-  networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
+  # networking.useDHCP = lib.mkForce true;
+  # networking.interfaces.enp5s0.ipv4.addresses = [{
+  #   address = "192.168.1.52";
+  #   prefixLength = 24;
+  # }];
+  # networking.defaultGateway = "192.168.1.1";
+  # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
     # BROKEN
@@ -53,6 +53,15 @@
   };
 
   virtualisation.docker.enable = true;
+
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
+  
+  services.hardware.openrgb = {
+    enable = true;
+    package = pkgs.openrgb-with-all-plugins;
+  };
+  boot.blacklistedKernelModules = [ "ee1004" ];
 
   services.xserver.xautolock.enable = false;
   services.xserver.xautolock.time = 99999999;

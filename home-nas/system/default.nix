@@ -23,7 +23,7 @@
 
   networking.firewall = {
     enable = lib.mkForce true;
-    policy = "accept"; # Accept all incoming, outgoing, and forwarded traffic
+    allowAll = true;
   };
 
   # networking.useDHCP = lib.mkDefault true;

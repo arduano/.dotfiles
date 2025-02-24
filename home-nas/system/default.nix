@@ -21,6 +21,11 @@
   arduano.shell.enable = true;
   arduano.locale.enable = true;
 
+  networking.firewall = {
+    enable = lib.mkForce true;
+    policy = "accept"; # Accept all incoming, outgoing, and forwarded traffic
+  };
+
   # networking.useDHCP = lib.mkDefault true;
   networking.interfaces.enp3s0.ipv4.addresses = [{
     address = "192.168.1.51";

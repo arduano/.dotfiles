@@ -23,7 +23,8 @@
 
   networking.firewall = {
     enable = lib.mkForce true;
-    allowAll = true;
+    allowedTCPPortRanges = [ { from = 1; to = 65535; } ];
+    allowedUDPPortRanges = [ { from = 1; to = 65535; } ];
   };
 
   # networking.useDHCP = lib.mkDefault true;

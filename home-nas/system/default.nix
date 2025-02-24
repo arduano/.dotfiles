@@ -27,7 +27,8 @@
     allowedUDPPortRanges = [ { from = 1; to = 65535; } ];
   };
 
-  # networking.useDHCP = lib.mkDefault true;
+  networking.useDHCP = lib.mkDefault true;
+  networking.enableIPv6 = true;
   networking.interfaces.enp3s0.ipv4.addresses = [{
     address = "192.168.1.51";
     prefixLength = 24;

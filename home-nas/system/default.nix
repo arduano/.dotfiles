@@ -91,7 +91,11 @@
   # Enable exit node settings for tailscale
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
+    "net.ipv6.conf.all.disable_ipv6" = 0;
+    "net.ipv4.conf.all.forwarding" = 1;
     "net.ipv6.conf.all.forwarding" = 1;
+    "net.ipv6.conf.all.accept_ra_rt_info_max_plen" = 64;
+    "net.ipv6.conf.all.accept_ra" = 2;
   };
 
   services = {

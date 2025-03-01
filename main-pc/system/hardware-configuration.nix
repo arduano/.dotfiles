@@ -69,6 +69,23 @@
     ];
   };
 
+  fileSystems."/mnt/zhome" = {
+    device = "arduano@192.168.1.51:/home/arduano";
+    fsType = "sshfs";
+    options = [
+      # Filesystem options
+      "allow_other" # for non-root access
+      "_netdev" # this is a network fs
+      # "x-systemd.automount" # mount on demand
+
+      # SSH options
+      "reconnect" # handle connection drops
+      "delay_connect" # wait for network
+      "ServerAliveInterval=15" # keep connections alive
+      "IdentityFile=/home/arduano/.ssh/nas"
+    ];
+  };
+
   swapDevices = [{
     device = "/swapfile";
     size = 64 * 1024;

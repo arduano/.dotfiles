@@ -57,12 +57,12 @@
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  
-  services.hardware.openrgb = {
-    enable = true;
-    package = pkgs.openrgb-with-all-plugins;
-  };
-  boot.blacklistedKernelModules = [ "ee1004" ];
+
+  # services.hardware.openrgb = {
+  #   enable = true;
+  #   package = pkgs.openrgb-with-all-plugins;
+  # };
+  # boot.blacklistedKernelModules = [ "ee1004" ];
 
   services.xserver.xautolock.enable = false;
   services.xserver.xautolock.time = 99999999;

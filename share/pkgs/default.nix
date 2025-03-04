@@ -120,21 +120,21 @@ rec {
       firefox
       steam
       vlc
-      kate
+      kdePackages.kate
       vscode-fhs
       flameshot
-      konversation
+      kdePackages.konversation
       vesktop
       libreoffice
       mpv
       peek
       signal-desktop
       plexamp
-      kdenlive
+      kdePackages.kdenlive
       krita
       qbittorrent
       drawing
-      yakuake
+      kdePackages.yakuake
       libsForQt5.kamoso
       # (callPackage ./imhex { })
       windsurf

@@ -138,6 +138,7 @@ rec {
       libsForQt5.kamoso
       # (callPackage ./imhex { })
       windsurf
+      code-cursor
     ];
   };
 }

@@ -21,8 +21,6 @@
   arduano.kdeSetup.powermanagementFile = ./powermanagementprofilesrc;
   arduano.kdeSetup.screenlockerFile = ./kscreenlockerrc;
 
-  arduano.shell.extra-path = [ "/home/arduano/.bun/bin" ];
-
   services.vscode-server.enable = true;
 
   # The home.packages option allows you to install Nix packages into your

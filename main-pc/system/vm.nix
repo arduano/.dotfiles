@@ -12,7 +12,7 @@
     win-virtio
     win-spice
     looking-glass-client
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     virtiofsd
     xorriso
   ];
@@ -118,7 +118,6 @@
 
   users.users.arduano.extraGroups = [ "libvirtd" ];
 
-  virtualisation.docker.enable = true;
   # services.qemuGuest.enable = true;
   # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

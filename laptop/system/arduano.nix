@@ -23,6 +23,8 @@
 
   virtualisation.docker.enable = true;
 
+  virtualisation.docker.enable = true;
+
   services.logind.extraConfig = ''
     IdleAction=suspend-then-hibernate
     IdleActionSec=5m

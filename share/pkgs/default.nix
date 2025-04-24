@@ -2,13 +2,14 @@
 , pkgs
 }:
 
-{
+rec {
   sunshine_patched = callPackage ./sunshine { };
   wxwidgets_gtk3 = callPackage ./wxwidgets { };
   p7zip-gui = callPackage ./p7zip-gui { };
   tidal-dl = callPackage ./tidal-dl { };
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
+  windsurf = callPackage ./windsurf { };
 
   groups = {
     build-essentials = with pkgs; [
@@ -80,11 +81,13 @@
       nodejs_20
       nodePackages.yarn
       deno
+      pnpm
 
+      dotnet-sdk_8
       rustup
       gdb
       nixpkgs-fmt
-      lldb
+      # lldb # BROKEN
 
       minicom
 
@@ -112,28 +115,29 @@
       google-chrome
       brave
       zoom-us
-      gimp
+      # gimp # BROKEN
       arduano.p7zip-gui
       firefox
       steam
       vlc
-      kate
+      kdePackages.kate
       vscode-fhs
       flameshot
-      konversation
+      kdePackages.konversation
       vesktop
       libreoffice
       mpv
       peek
       signal-desktop
       plexamp
-      kdenlive
+      kdePackages.kdenlive
       krita
       qbittorrent
       drawing
-      yakuake
+      kdePackages.yakuake
       libsForQt5.kamoso
-      (callPackage ./imhex { })
+      # (callPackage ./imhex { })
+      windsurf
     ];
   };
 }

@@ -5,7 +5,7 @@
     ./arduano.nix
     ./hardware-configuration.nix
     ./sdk
-    ./vm.nix
+    # ./vm.nix
     ./ollama.nix
   ];
 
@@ -20,7 +20,15 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = false;
+    settings = {
+      General = {
+        DisplayServer = "x11";
+      };
+    };
+  };
   services.desktopManager.plasma6.enable = true;
 
   environment.sessionVariables = {
@@ -104,7 +112,7 @@
     modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
@@ -125,6 +133,8 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
+
+  boot.kernelParams = [ "nvidia-drm.modeset=1" "fbdev=1" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

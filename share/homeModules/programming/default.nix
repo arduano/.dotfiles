@@ -27,5 +27,7 @@ in
       enable = true;
       nix-direnv.enable = true;
     };
+
+    programs.bun.enable = true;
   };
 }

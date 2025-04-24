@@ -21,7 +21,14 @@
   arduano.shell.enable = true;
   arduano.locale.enable = true;
 
-  # networking.useDHCP = lib.mkDefault true;
+  networking.firewall = {
+    enable = lib.mkForce true;
+    allowedTCPPortRanges = [ { from = 1; to = 65535; } ];
+    allowedUDPPortRanges = [ { from = 1; to = 65535; } ];
+  };
+
+  networking.useDHCP = lib.mkDefault true;
+  networking.enableIPv6 = true;
   networking.interfaces.enp3s0.ipv4.addresses = [{
     address = "192.168.1.51";
     prefixLength = 24;
@@ -81,6 +88,16 @@
     };
   };
 
+  # Enable exit node settings for tailscale
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.ipv6.conf.all.disable_ipv6" = 0;
+    "net.ipv4.conf.all.forwarding" = 1;
+    "net.ipv6.conf.all.forwarding" = 1;
+    "net.ipv6.conf.all.accept_ra_rt_info_max_plen" = 64;
+    "net.ipv6.conf.all.accept_ra" = 2;
+  };
+
   services = {
     syncthing = {
       enable = true;
@@ -92,6 +109,10 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
+
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

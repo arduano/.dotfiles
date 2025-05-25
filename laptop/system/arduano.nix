@@ -6,6 +6,9 @@
   arduano.portals.enable = true;
   arduano.locale.enable = true;
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
     kdePackages.sddm-kcm
   ] ++ build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
@@ -16,15 +19,21 @@
   };
 
   services.fprintd.enable = true;
+  security.pam.services.login.fprintAuth = false; # Disable fprintd for sddm
+
+  virtualisation.docker.enable = true;
 
   virtualisation.docker.enable = true;
 
   services.logind.extraConfig = ''
-    HandlePowerKey=suspend
-    IdleAction=suspend
+    IdleAction=suspend-then-hibernate
     IdleActionSec=5m
   '';
+  services.logind.lidSwitchDocked = "suspend-then-hibernate";
+  services.logind.lidSwitchExternalPower = "suspend-then-hibernate";
+  services.logind.lidSwitch = "suspend-then-hibernate";
 
+  boot.kernelParams = [ "mem_sleep_default=deep" ];
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=30m
     SuspendState=mem

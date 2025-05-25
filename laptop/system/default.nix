@@ -3,6 +3,7 @@
 {
   imports = [
     ./arduano.nix
+    # ./hybernate.nix
     ./hardware-configuration.nix
   ];
 

@@ -9,7 +9,8 @@ rec {
   tidal-dl = callPackage ./tidal-dl { };
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
-  windsurf = callPackage ./windsurf { };
+  # windsurf = callPackage ./windsurf { };
+  prismlauncher = callPackage ./prismlauncher { };
 
   groups = {
     build-essentials = with pkgs; [

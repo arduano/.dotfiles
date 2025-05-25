@@ -27,6 +27,7 @@
   # environment.
   home.packages = with pkgs; [
     arduano.gpustat
+    arduano.prismlauncher
   ] ++ pkgs.arduano.groups.gui-user;
 
 

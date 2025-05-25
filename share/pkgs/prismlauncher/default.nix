@@ -1,0 +1,86 @@
+{
+  prismlauncher,
+
+  alsa-lib,
+  at-spi2-atk,
+  at-spi2-core,
+  atk,
+  cairo,
+  cups,
+  dbus,
+  expat,
+  fontconfig,
+  freetype,
+  gcc-unwrapped,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  gtk4,
+  libdrm,
+  libglvnd,
+  libkrb5,
+  libX11,
+  libxcb,
+  libXcomposite,
+  libXcursor,
+  libXdamage,
+  libXext,
+  libXfixes,
+  libXi,
+  libxkbcommon,
+  libXrandr,
+  libXrender,
+  libXScrnSaver,
+  libxshmfence,
+  libXtst,
+  libgbm,
+  nspr,
+  nss,
+  pango,
+  pipewire,
+  vulkan-loader,
+  wayland, # ozone/wayland
+}:
+prismlauncher.override (oldAttrs: rec {
+  additionalLibs = [
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    atk
+    cairo
+    cups
+    dbus
+    expat
+    fontconfig
+    freetype
+    gcc-unwrapped
+    gdk-pixbuf
+    glib
+    gtk3
+    gtk4
+    libdrm
+    libglvnd
+    libkrb5
+    libX11
+    libxcb
+    libXcomposite
+    libXcursor
+    libXdamage
+    libXext
+    libXfixes
+    libXi
+    libxkbcommon
+    libXrandr
+    libXrender
+    libXScrnSaver
+    libxshmfence
+    libXtst
+    libgbm
+    nspr
+    nss
+    pango
+    pipewire
+    vulkan-loader
+    wayland # ozone/wayland
+  ];
+})

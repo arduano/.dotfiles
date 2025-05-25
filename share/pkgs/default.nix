@@ -140,6 +140,7 @@ rec {
       # (callPackage ./imhex { })
       windsurf
       code-cursor
+      obsidian
     ];
   };
 }

@@ -18,9 +18,14 @@
   # networking.defaultGateway = "192.168.1.1";
   # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
+  services.globalprotect.enable = true;
+
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
     # BROKEN
     # printrun # For 3d printing
+
+    kdePackages.sddm-kcm
+    globalprotect-openconnect
   ] ++
   build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 

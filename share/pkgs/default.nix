@@ -1,16 +1,19 @@
 { callPackage
+, python3Packages
 , pkgs
 }:
 
 rec {
   sunshine_patched = callPackage ./sunshine { };
-  wxwidgets_gtk3 = callPackage ./wxwidgets { };
-  p7zip-gui = callPackage ./p7zip-gui { };
   tidal-dl = callPackage ./tidal-dl { };
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
   # windsurf = callPackage ./windsurf { };
   prismlauncher = callPackage ./prismlauncher { };
+  libvinput = callPackage ./libvinput { };
+  vinput = callPackage ./vinput { };
+  nexus = python3Packages.callPackage ./nexus { };
+  pyside6-essentials = python3Packages.callPackage ./pyside6-essentials { };
 
   groups = {
     build-essentials = with pkgs; [
@@ -116,10 +119,8 @@ rec {
       google-chrome
       brave
       zoom-us
-      # gimp # BROKEN
-      arduano.p7zip-gui
+      gimp
       firefox
-      steam
       vlc
       kdePackages.kate
       vscode-fhs

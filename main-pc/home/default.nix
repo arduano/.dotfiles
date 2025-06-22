@@ -9,7 +9,7 @@
   home.homeDirectory = "/home/arduano";
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
+  # nixpkgs.config.cudaSupport = true;
 
   arduano.shell.enable = true;
   arduano.shell.enable-gui = true;

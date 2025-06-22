@@ -9,7 +9,7 @@ let
     (import ./share/overlayModule.nix)
 
     # TODO: https://github.com/wamserma/flake-programs-sqlite
-    flake-programs-sqlite.nixosModules.programs-sqlite
+    # flake-programs-sqlite.nixosModules.programs-sqlite
   ];
 
   commonHomeModules = [

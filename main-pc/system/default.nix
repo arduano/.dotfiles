@@ -74,7 +74,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
+  # nixpkgs.config.cudaSupport = true;
 
   # Network discovery
   services.avahi = {

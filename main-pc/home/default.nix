@@ -28,6 +28,7 @@
   home.packages = with pkgs; [
     # arduano. # BROKEN
     arduano.prismlauncher
+    arduano.nexus
   ] ++ pkgs.arduano.groups.gui-user;
 
 

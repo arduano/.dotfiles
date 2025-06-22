@@ -45,6 +45,7 @@ buildPythonApplication rec {
     sha256 = "1d9sqp71gr23j7rnhv92cjkk184z9q7dpa8wczsincgyy6h55y1a";
   };
 
+  patches = [ ./banned_modifiers.patch ];
 
   propagatedBuildInputs = [
     arduano.vinput

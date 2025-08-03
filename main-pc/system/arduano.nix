@@ -20,9 +20,16 @@
 
   services.globalprotect.enable = true;
 
+  services.udev.extraRules = ''
+    # ODrive USB device rules
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1209", ATTR{idProduct}=="0d3[0-9]", MODE="0666", ENV{ID_MM_DEVICE_IGNORE}="1"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="df11", MODE="0666"
+  '';
+
+
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
     # BROKEN
-    # printrun # For 3d printing
+    printrun # For 3d printing
 
     kdePackages.sddm-kcm
     globalprotect-openconnect

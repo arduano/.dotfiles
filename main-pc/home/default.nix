@@ -15,13 +15,13 @@
   arduano.shell.enable-gui = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
-  arduano.anydesk.enable = true;
+  # arduano.anydesk.enable = true;
 
   arduano.kdeSetup.enable = true;
   arduano.kdeSetup.powermanagementFile = ./powermanagementprofilesrc;
   arduano.kdeSetup.screenlockerFile = ./kscreenlockerrc;
 
-  services.vscode-server.enable = true;
+  # services.vscode-server.enable = true;
 
   # The home.packages option allows you to install Nix packages into your
   # environment.

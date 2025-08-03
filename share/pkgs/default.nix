@@ -142,6 +142,7 @@ rec {
       windsurf
       code-cursor
       obsidian
+      anydesk
     ];
   };
 }

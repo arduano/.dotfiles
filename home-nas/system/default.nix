@@ -115,7 +115,7 @@
       name  = "overlayfs-casefold";
       patch = pkgs.fetchpatch {
         url = "https://lore.kernel.org/linux-fsdevel/20250520051600.1903319-7-kent.overstreet@linux.dev/raw";
-        sha256 = "095pc7gy1bwls8ymzikd91jlbvy2x7y88qyzxlm2mqix21rhcmpr";
+        sha256 = "sha256-O0bLuEL0oIvVnTu890Um6GmS8cL2QKaTv2Sk9Tf0pAg=";
       };
     }
   ];

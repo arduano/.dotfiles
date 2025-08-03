@@ -109,7 +109,7 @@
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
-  boot.kernelPackages = pkgs.linuxPackages_6_15;
+  boot.kernelPackages = pkgs.linuxPackages_6_14;
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;

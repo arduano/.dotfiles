@@ -107,8 +107,18 @@
     };
   };
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_testing;
+
+  boot.kernelPatches = [
+    {
+      name  = "overlayfs-casefold";
+      patch = pkgs.fetchpatch {
+        url = "https://lore.kernel.org/linux-fsdevel/20250520051600.1903319-7-kent.overstreet@linux.dev/raw";
+        sha256 = "<run nix-prefetch-url>";
+      };
+    }
+  ];
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;

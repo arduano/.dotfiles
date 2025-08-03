@@ -111,16 +111,6 @@
   # boot.kernelPackages = pkgs.linuxPackages_testing;
   boot.kernelPackages = pkgs.linuxPackages_6_15;
 
-  boot.kernelPatches = [
-    {
-      name  = "overlayfs-casefold";
-      patch = pkgs.fetchpatch {
-        url = "https://lore.kernel.org/linux-fsdevel/20250520051600.1903319-7-kent.overstreet@linux.dev/raw";
-        sha256 = "sha256-O0bLuEL0oIvVnTu890Um6GmS8cL2QKaTv2Sk9Tf0pAg=";
-      };
-    }
-  ];
-
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;

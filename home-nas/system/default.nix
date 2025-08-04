@@ -12,33 +12,33 @@
 
   networking.hostName = "home-nas"; # Define your hostname.
 
-  arduano.syncNixChannel.enable = true;
+  # arduano.syncNixChannel.enable = true;
 
   # arduano.vscode-server.enable = true;
   # services.vscode-server.enable = true;
 
-  arduano.networking.enable = true;
-  arduano.shell.enable = true;
-  arduano.locale.enable = true;
+  # arduano.networking.enable = true;
+  # arduano.shell.enable = true;
+  # arduano.locale.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
-  networking.enableIPv6 = true;
-  networking.interfaces.enp3s0.ipv4.addresses = [{
-    address = "192.168.1.51";
-    prefixLength = 24;
-  }];
-  networking.defaultGateway = "192.168.1.1";
-  networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
+  # networking.enableIPv6 = true;
+  # networking.interfaces.enp3s0.ipv4.addresses = [{
+  #   address = "192.168.1.51";
+  #   prefixLength = 24;
+  # }];
+  # networking.defaultGateway = "192.168.1.1";
+  # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
-  services.mullvad-vpn = {
-    enable = true;
-    package = pkgs.mullvad-vpn;
-  };
+  # services.mullvad-vpn = {
+  #   enable = true;
+  #   package = pkgs.mullvad-vpn;
+  # };
 
   users.users.arduano = {
     isNormalUser = true;
@@ -70,36 +70,26 @@
   nixpkgs.config.allowUnfree = true;
 
   # Network discovery
-  services.avahi = {
-    enable = true;
-    reflector = true;
-    nssmdns4 = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      userServices = true;
-      workstation = true;
-    };
-  };
+  # services.avahi = {
+  #   enable = true;
+  #   reflector = true;
+  #   nssmdns4 = true;
+  #   publish = {
+  #     enable = true;
+  #     addresses = true;
+  #     userServices = true;
+  #     workstation = true;
+  #   };
+  # };
 
-  # Enable exit node settings for tailscale
-  boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
-    "net.ipv6.conf.all.disable_ipv6" = 0;
-    "net.ipv4.conf.all.forwarding" = 1;
-    "net.ipv6.conf.all.forwarding" = 1;
-    "net.ipv6.conf.all.accept_ra_rt_info_max_plen" = 64;
-    "net.ipv6.conf.all.accept_ra" = 2;
-  };
-
-  services = {
-    syncthing = {
-      enable = true;
-      user = "arduano";
-      configDir = "/home/arduano/.config/syncthing";
-      guiAddress = "0.0.0.0:8384";
-    };
-  };
+  # services = {
+  #   syncthing = {
+  #     enable = true;
+  #     user = "arduano";
+  #     configDir = "/home/arduano/.config/syncthing";
+  #     guiAddress = "0.0.0.0:8384";
+  #   };
+  # };
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;

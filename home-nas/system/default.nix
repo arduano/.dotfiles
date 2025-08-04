@@ -22,7 +22,7 @@
   arduano.locale.enable = true;
 
   networking.firewall = {
-    enable = lib.mkForce true;
+    enable = lib.mkForce false;
     allowedTCPPortRanges = [ { from = 1; to = 65535; } ];
     allowedUDPPortRanges = [ { from = 1; to = 65535; } ];
   };

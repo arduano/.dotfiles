@@ -17,9 +17,9 @@
   # arduano.vscode-server.enable = true;
   # services.vscode-server.enable = true;
 
-  # arduano.networking.enable = true;
-  # arduano.shell.enable = true;
-  # arduano.locale.enable = true;
+  arduano.networking.enable = true;
+  arduano.shell.enable = true;
+  arduano.locale.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
   # networking.enableIPv6 = true;

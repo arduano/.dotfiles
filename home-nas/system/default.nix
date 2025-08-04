@@ -93,7 +93,7 @@
     argsOverride = rec {
       src = pkgs.fetchgit {
         url = "https://evilpiepirate.org/git/bcachefs.git";
-        rev = "	e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
+        rev = "e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
         sha256 = "sha256-/UcbEeZ7UFQhaAsSHQtEgjv5vude+dMsr0/wS3fiXVk=";
       };
       version = "6.16-bcachefs";

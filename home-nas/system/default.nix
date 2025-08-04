@@ -34,7 +34,6 @@
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "overlay"; # TODO: Remove when bcachefs is supported
 
   users.users.arduano = {
     isNormalUser = true;

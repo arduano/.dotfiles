@@ -33,12 +33,7 @@
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
 
-  # virtualisation.docker.enable = true;
-
-  # services.mullvad-vpn = {
-  #   enable = true;
-  #   package = pkgs.mullvad-vpn;
-  # };
+  virtualisation.docker.enable = true;
 
   users.users.arduano = {
     isNormalUser = true;
@@ -70,26 +65,26 @@
   nixpkgs.config.allowUnfree = true;
 
   # Network discovery
-  # services.avahi = {
-  #   enable = true;
-  #   reflector = true;
-  #   nssmdns4 = true;
-  #   publish = {
-  #     enable = true;
-  #     addresses = true;
-  #     userServices = true;
-  #     workstation = true;
-  #   };
-  # };
+  services.avahi = {
+    enable = true;
+    reflector = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      userServices = true;
+      workstation = true;
+    };
+  };
 
-  # services = {
-  #   syncthing = {
-  #     enable = true;
-  #     user = "arduano";
-  #     configDir = "/home/arduano/.config/syncthing";
-  #     guiAddress = "0.0.0.0:8384";
-  #   };
-  # };
+  services = {
+    syncthing = {
+      enable = true;
+      user = "arduano";
+      configDir = "/home/arduano/.config/syncthing";
+      guiAddress = "0.0.0.0:8384";
+    };
+  };
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;

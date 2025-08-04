@@ -21,12 +21,6 @@
   arduano.shell.enable = true;
   arduano.locale.enable = true;
 
-  networking.firewall = {
-    enable = lib.mkForce false;
-    allowedTCPPortRanges = [ { from = 1; to = 65535; } ];
-    allowedUDPPortRanges = [ { from = 1; to = 65535; } ];
-  };
-
   networking.useDHCP = lib.mkDefault true;
   networking.enableIPv6 = true;
   networking.interfaces.enp3s0.ipv4.addresses = [{

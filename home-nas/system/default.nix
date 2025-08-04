@@ -87,19 +87,19 @@
     };
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
-  # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
-  #   argsOverride = rec {
-  #     src = pkgs.fetchgit {
-  #       url = "https://evilpiepirate.org/git/bcachefs.git";
-  #       rev = "e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
-  #       sha256 = "sha256-/UcbEeZ7UFQhaAsSHQtEgjv5vude+dMsr0/wS3fiXVk=";
-  #     };
-  #     version = "6.16-bcachefs";
-  #     modDirVersion = "6.16.0-rc6";
-  #   };
-  # });
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
+    argsOverride = rec {
+      src = pkgs.fetchgit {
+        url = "https://evilpiepirate.org/git/bcachefs.git";
+        rev = "	e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
+        sha256 = "sha256-/UcbEeZ7UFQhaAsSHQtEgjv5vude+dMsr0/wS3fiXVk=";
+      };
+      version = "6.16-bcachefs";
+      modDirVersion = "6.16.0-rc6";
+    };
+  });
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;

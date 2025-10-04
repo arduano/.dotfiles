@@ -32,6 +32,23 @@
   ] ++ pkgs.arduano.groups.gui-user;
 
 
+  # xdg.mimeApps.enable = true;
+  # # Create a desktop entry that handles the scheme
+  # xdg.desktopEntries.gpclient = {
+  #   name = "GlobalProtect Callback";
+  #   genericName = "GlobalProtect URL handler";
+  #   exec = "${pkgs.gpclient}/bin/gpclient %u";
+  #   terminal = false;
+  #   type = "Application";
+  #   noDisplay = true;
+  #   categories = [ "Network" ];
+  #   mimeType = [ "x-scheme-handler/globalprotectcallback" ];
+  # };
+  # # Make it the default for the scheme
+  # xdg.mimeApps.defaultApplications = {
+  #   "x-scheme-handler/globalprotectcallback" = "gpclient.desktop";
+  # };
+
   home.sessionVariables = {
     # EDITOR = "code";
   };

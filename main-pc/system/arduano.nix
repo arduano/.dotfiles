@@ -18,7 +18,7 @@
   # networking.defaultGateway = "192.168.1.1";
   # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
-  services.globalprotect.enable = true;
+  services.flatpak.enable = true;
 
   services.udev.extraRules = ''
     # ODrive USB device rules
@@ -26,13 +26,18 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="df11", MODE="0666"
   '';
 
-
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
     # BROKEN
     printrun # For 3d printing
 
+    arduano.sendgcode
+
     kdePackages.sddm-kcm
-    globalprotect-openconnect
+    gpclient
+    gpauth
+
+    arduino-ide
+    python3Packages.pyserial
   ] ++
   build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 
@@ -65,6 +70,7 @@
   };
 
   virtualisation.docker.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;

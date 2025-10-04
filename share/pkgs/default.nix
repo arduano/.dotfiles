@@ -14,6 +14,7 @@ rec {
   vinput = callPackage ./vinput { };
   nexus = python3Packages.callPackage ./nexus { };
   pyside6-essentials = python3Packages.callPackage ./pyside6-essentials { };
+  sendgcode = callPackage ./sendgcode.nix { };
 
   groups = {
     build-essentials = with pkgs; [

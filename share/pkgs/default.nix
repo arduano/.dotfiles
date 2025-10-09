@@ -12,8 +12,6 @@ rec {
   prismlauncher = callPackage ./prismlauncher { };
   libvinput = callPackage ./libvinput { };
   vinput = callPackage ./vinput { };
-  nexus = python3Packages.callPackage ./nexus { };
-  pyside6-essentials = python3Packages.callPackage ./pyside6-essentials { };
   sendgcode = callPackage ./sendgcode.nix { };
 
   groups = {
@@ -80,8 +78,7 @@ rec {
     shell-programming = with pkgs; [
       arduano.nodePkgs."@withgraphite/graphite-cli"
 
-      (python3.override { x11Support = true; })
-      python311Packages.tkinter
+      python3
 
       nodejs_20
       nodePackages.yarn
@@ -138,10 +135,7 @@ rec {
       qbittorrent
       drawing
       kdePackages.yakuake
-      libsForQt5.kamoso
       # (callPackage ./imhex { })
-      windsurf
-      code-cursor
       obsidian
       anydesk
     ];

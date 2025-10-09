@@ -48,15 +48,6 @@ in
           kwin."Window Quick Tile Bottom" = [ ];
           kwin."Window Maximize" = "Meta+Up";
           kwin."Window Minimize" = "Meta+Down";
-
-          # I use flameshot instead
-          # "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = [ ];
-          # "org.kde.spectacle.desktop"."CurrentMonitorScreenShot" = [ ];
-          # "org.kde.spectacle.desktop"."FullScreenScreenShot" = [ ];
-          # "org.kde.spectacle.desktop"."OpenWithoutScreenshot" = [ ];
-          # "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = [ ];
-          # "org.kde.spectacle.desktop"."WindowUnderCursorScreenShot" = [ ];
-
           "org.kde.spectacle.desktop"."_launch" = [ ];
           "org.kde.konsole.desktop"."_launch" = [ ];
         };

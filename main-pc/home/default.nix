@@ -26,9 +26,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # arduano. # BROKEN
     arduano.prismlauncher
-    arduano.nexus
   ] ++ pkgs.arduano.groups.gui-user;
 
 

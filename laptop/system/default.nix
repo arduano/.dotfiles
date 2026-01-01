@@ -88,9 +88,6 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
 
-  environment.systemPackages = with pkgs;
-    [ config.boot.kernelPackages.perf ];
-
 
   # Enable OpenGL
   hardware.graphics = {

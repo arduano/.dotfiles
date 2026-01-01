@@ -27,6 +27,7 @@
   # environment.
   home.packages = with pkgs; [
     arduano.prismlauncher
+    arduano.inav-configurator
   ] ++ pkgs.arduano.groups.gui-user;
 
 

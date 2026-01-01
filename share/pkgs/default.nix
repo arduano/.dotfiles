@@ -13,6 +13,7 @@ rec {
   libvinput = callPackage ./libvinput { };
   vinput = callPackage ./vinput { };
   sendgcode = callPackage ./sendgcode.nix { };
+  inav-configurator = callPackage ./inav-configurator.nix { };
 
   groups = {
     build-essentials = with pkgs; [
@@ -47,7 +48,10 @@ rec {
       gh
       unzip
 
+      nix-output-monitor
+
       (pkgs.writeShellScriptBin "switch-system" ''
+        nice -19 nom build --no-link $HOME/.dotfiles#nixosConfigurations.$(hostname).config.system.build.toplevel
         nice -19 sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
         xdg-desktop-menu forceupdate
       '')

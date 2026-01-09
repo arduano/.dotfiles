@@ -20,6 +20,7 @@
 , libpulseaudio
 , libsecret
 , libuuid
+, libgbm
 , nss
 , nspr
 , pango
@@ -72,6 +73,7 @@ stdenv.mkDerivation rec {
     libpulseaudio
     libsecret
     libuuid
+    libgbm
     nss
     nspr
     pango

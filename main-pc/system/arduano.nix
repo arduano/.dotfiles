@@ -64,6 +64,9 @@
   virtualisation.docker.enable = true;
   hardware.nvidia-container-toolkit.enable = true;
 
+  services.scrutiny.enable = true;
+  services.esphome.enable = true;
+
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;

@@ -9,6 +9,7 @@
   arduano.portals.enable = true;
   arduano.locale.enable = true;
   arduano.nix-ld.enable = true;
+  arduano.fonts.enable = true;
 
   networking.useDHCP = lib.mkForce true;
   services.flatpak.enable = true;
@@ -65,6 +66,7 @@
   hardware.nvidia-container-toolkit.enable = true;
 
   services.scrutiny.enable = true;
+  services.scrutiny.settings.web.listen.port = 8091;
   services.esphome.enable = true;
 
   services.blueman.enable = true;

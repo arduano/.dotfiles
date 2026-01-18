@@ -120,6 +120,7 @@ rec {
       slack
       google-chrome
       brave
+      zen-browser
       zoom-us
       gimp
       firefox

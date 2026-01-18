@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     vscode-server = {
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,7 +69,7 @@
 
             pkgs = import nixpkgs {
               inherit system;
-              overlays = [ (import ./share/overlay.nix) ];
+              overlays = [ (import ./share/overlay.nix { inherit inputs; }) ];
             };
           in
           {

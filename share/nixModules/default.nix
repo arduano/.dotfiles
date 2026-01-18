@@ -8,5 +8,6 @@
     ./portals
     ./locale
     ./nix-ld
+    ./fonts
   ];
 }

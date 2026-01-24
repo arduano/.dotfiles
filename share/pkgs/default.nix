@@ -143,6 +143,7 @@ rec {
       # (callPackage ./imhex { })
       obsidian
       anydesk
+      gyroflow
     ];
   };
 }

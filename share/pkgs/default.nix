@@ -77,6 +77,7 @@ rec {
       arduano.nodePkgs."@marp-team/marp-cli"
       xclip
       sapling
+      signal-cli
     ];
 
     shell-programming = with pkgs; [
@@ -84,7 +85,7 @@ rec {
 
       python3
 
-      nodejs_20
+      nodejs_24
       nodePackages.yarn
       deno
       pnpm

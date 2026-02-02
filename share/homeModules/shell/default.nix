@@ -90,6 +90,10 @@ in
           varsInitFishPlugin
           (makeExtraPathConfig { extra-path = cfg.extra-path; })
         ];
+
+        home.sessionPath = [
+          "/home/arduano/.bun/bin"
+        ];
       };
 
       guiConfig = mkIf cfg.enable-gui {

@@ -30,10 +30,6 @@
     arduano.inav-configurator
   ] ++ pkgs.arduano.groups.gui-user;
 
-  home.sessionPath = [
-    "/home/arduano/.bun/bin"
-  ];
-
   # xdg.mimeApps.enable = true;
   # # Create a desktop entry that handles the scheme
   # xdg.desktopEntries.gpclient = {

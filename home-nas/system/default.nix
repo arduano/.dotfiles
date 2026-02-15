@@ -30,8 +30,9 @@
   # networking.defaultGateway = "192.168.1.1";
   # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
-  environment.systemPackages = with pkgs.arduano.groups;
-    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
+  environment.systemPackages = (with pkgs.arduano.groups;
+    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming)
+    ++ [ pkgs.chromium ];
 
   virtualisation.docker.enable = true;
 

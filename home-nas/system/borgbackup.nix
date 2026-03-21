@@ -1,7 +1,7 @@
 { lib, ... }:
 
 let
-  borgRepo = "/mnt/store/archive/shared/home-nas";
+  borgRepo = "/mnt/store/archive/shared/home-nas/borg";
 in
 {
   # Duplicati was left installed after the NAS reimage but had no live jobs,
@@ -10,10 +10,10 @@ in
   services.duplicati.enable = lib.mkForce false;
 
   services.borgbackup.jobs.home-nas = {
-    # Run as the primary NAS user because the desired backup scope lives in
-    # that home directory, and the target repo is inside the shared archive tree.
-    user = "arduano";
-    group = "users";
+    # ~/host contains mixed-ownership container data, so the backup job needs
+    # root-level read access to avoid permission-denied holes.
+    user = "root";
+    group = "root";
 
     paths = [
       "/home/arduano/host"

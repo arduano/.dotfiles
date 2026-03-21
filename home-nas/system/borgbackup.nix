@@ -1,7 +1,7 @@
 { lib, ... }:
 
 let
-  borgRepo = "/mnt/store/archive/borg/home-nas";
+  borgRepo = "/mnt/store/archive/shared/home-nas";
 in
 {
   # Duplicati was left installed after the NAS reimage but had no live jobs,
@@ -10,15 +10,14 @@ in
   services.duplicati.enable = lib.mkForce false;
 
   services.borgbackup.jobs.home-nas = {
-    # Run as root so the backup can read system-owned config/state paths.
-    user = "root";
-    group = "root";
+    # Run as the primary NAS user because the desired backup scope lives in
+    # that home directory, and the target repo is inside the shared archive tree.
+    user = "arduano";
+    group = "users";
 
     paths = [
-      "/home/arduano"
-      "/etc/ssh"
-      "/etc/NetworkManager/system-connections"
-      "/var/lib/tailscale"
+      "/home/arduano/host"
+      "/home/arduano/.openclaw"
     ];
 
     repo = borgRepo;
@@ -29,8 +28,8 @@ in
     startAt = "daily";
     persistentTimer = true;
 
-    # This NAS has plenty of data that changes while services are live; warnings
-    # for "file changed while we were reading it" should not mark the job failed.
+    # Live app data can change during reads; warnings shouldn't turn the whole
+    # backup red for this local snapshotting use case.
     failOnWarnings = false;
 
     prune.keep = {
@@ -41,26 +40,8 @@ in
     };
 
     exclude = [
-      # Borg repo itself (future-proof if paths ever broaden).
+      # Never recurse into the repository itself.
       borgRepo
-
-      # Large caches / ephemeral state.
-      "/home/arduano/.cache"
-      "/home/arduano/.npm/_cacache"
-      "/home/arduano/.local/share/Trash"
-      "/home/arduano/.local/state/nix"
-      "/home/arduano/.cargo"
-      "/home/arduano/.rustup"
-      "/home/arduano/.vscode-server"
-      "/home/arduano/.bun/install/cache"
-
-      # Backup-app data we do not want to recurse or preserve.
-      "/home/arduano/.config/Duplicati"
-      "/var/lib/duplicati"
-
-      # Bulky/generated data that is low-value for snapshot-style config backups.
-      "/home/arduano/host/clips-share"
-      "/home/arduano/host/ipfs"
     ];
   };
 }

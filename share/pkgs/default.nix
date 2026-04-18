@@ -87,7 +87,7 @@ rec {
       python3
 
       nodejs_24
-      nodePackages.yarn
+      yarn
       deno
       pnpm
 

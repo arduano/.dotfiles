@@ -1,7 +1,7 @@
 { lib, ... }:
 
 let
-  borgRepo = "/mnt/store/archive/shared/home-nas/borg";
+  borgRepo = "/mnt/store/archive/shared/home-nas";
 in
 {
   # Duplicati was left installed after the NAS reimage but had no live jobs,

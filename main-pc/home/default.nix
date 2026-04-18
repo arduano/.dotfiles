@@ -28,6 +28,8 @@
   home.packages = with pkgs; [
     arduano.prismlauncher
     arduano.inav-configurator
+    arduano.snapmaker-orca-slicer
+    arduano.snapmaker-orca-full-spectrum
   ] ++ pkgs.arduano.groups.gui-user;
 
   # xdg.mimeApps.enable = true;

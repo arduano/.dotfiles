@@ -207,10 +207,17 @@ let
 
   # Extract the Node.js source code which is used to compile packages with
   # native bindings
-  nodeSources = runCommand "node-sources" {} ''
-    tar --no-same-owner --no-same-permissions -xf ${nodejs.src}
-    mv node-* $out
-  '';
+  nodeSources =
+    let
+      nodeSourceTarball =
+        if nodejs ? src then nodejs.src
+        else if pkgs.nodejs-slim_20 ? src then pkgs.nodejs-slim_20.src
+        else pkgs.nodejs-slim.src;
+    in
+    runCommand "node-sources" {} ''
+      tar --no-same-owner --no-same-permissions -xf ${nodeSourceTarball}
+      mv node-* $out
+    '';
 
   # Script that adds _integrity fields to all package.json files to prevent NPM from consulting the cache (that is empty)
   addIntegrityFieldsScript = writeTextFile {

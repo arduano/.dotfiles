@@ -18,11 +18,15 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    # Gmail/OpenClaw tooling prerequisites
+    google-cloud-sdk
+    jq
   ];
 
 
   home.sessionVariables = {
     # EDITOR = "code";
+    GOG_ACCOUNT = "arduano.mail@gmail.com";
   };
 
   # This value determines the Home Manager release that your configuration is

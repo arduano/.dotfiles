@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./borgbackup.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -30,8 +31,9 @@
   # networking.defaultGateway = "192.168.1.1";
   # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
-  environment.systemPackages = with pkgs.arduano.groups;
-    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
+  environment.systemPackages = (with pkgs.arduano.groups;
+    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming)
+    ++ [ pkgs.chromium pkgs.arduano.gogcli ];
 
   virtualisation.docker.enable = true;
 
@@ -42,7 +44,6 @@
     extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
     packages = with pkgs; [ ];
   };
-
   users.users.recovery = {
     isNormalUser = true;
     createHome = true;

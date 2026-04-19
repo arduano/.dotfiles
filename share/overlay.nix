@@ -1,4 +1,3 @@
-{ inputs }:
 final: prev: {
   arduano = final.callPackage ./pkgs/default.nix { };
 
@@ -19,6 +18,4 @@ final: prev: {
         --add-flags "--enable-gpu --use-vulkan=deferred --enable-features=Vulkan,WebGPU"
     '';
   });
-
-  zen-browser = inputs.zen-browser.packages.${prev.system}.default;
 }

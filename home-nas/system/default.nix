@@ -1,55 +1,14 @@
-{ config, pkgs, inputs, lib, utils, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
-let
-  bcachefsRootMembers = [
-    "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD"
-    "/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
-    "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"
-    "/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6"
-    "/dev/disk/by-id/nvme-eui.0025385581b21585-part2"
-  ];
-  bcachefsRootWhat = lib.concatStringsSep ":" bcachefsRootMembers;
-  bcachefsRootDeviceUnits = map (device: "${utils.escapeSystemdPath device}.device") bcachefsRootMembers;
-in
 {
   imports = [
     ./hardware-configuration.nix
-    ./borgbackup.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 7;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.systemd.enable = true;
-  # Don't let systemd-fstab-generator synthesize the root mount for a
-  # colon-joined multi-device bcachefs filesystem; provide sysroot.mount
-  # explicitly below instead.
-  boot.initrd.systemd.root = null;
-  boot.initrd.systemd.settings.Manager = {
-    # bcachefs root recovery can legitimately take longer than systemd's
-    # default 90s start/device timeouts during early boot.
-    DefaultDeviceTimeoutSec = "infinity";
-    DefaultTimeoutStartSec = "infinity";
-  };
-
-  boot.initrd.systemd.mounts = [
-    {
-      what = bcachefsRootWhat;
-      where = "/sysroot";
-      type = "bcachefs";
-      options = "degraded";
-      unitConfig.DefaultDependencies = false;
-      requiredBy = [ "initrd-root-fs.target" ];
-      before = [ "initrd-root-fs.target" ];
-      after = bcachefsRootDeviceUnits;
-      requires = bcachefsRootDeviceUnits;
-      mountConfig = {
-        TimeoutSec = "infinity";
-      };
-    }
-  ];
 
   networking.hostName = "home-nas"; # Define your hostname.
 
@@ -71,9 +30,8 @@ in
   # networking.defaultGateway = "192.168.1.1";
   # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
-  environment.systemPackages = (with pkgs.arduano.groups;
-    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming)
-    ++ [ pkgs.chromium pkgs.arduano.gogcli ];
+  environment.systemPackages = with pkgs.arduano.groups;
+    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
 
   virtualisation.docker.enable = true;
 
@@ -84,6 +42,7 @@ in
     extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
     packages = with pkgs; [ ];
   };
+
   users.users.recovery = {
     isNormalUser = true;
     createHome = true;
@@ -127,30 +86,23 @@ in
     };
   };
 
-  # Keep root-on-bcachefs off the newest kernel train; pin to the
-  # last stable line before 7.0 while we sort out the boot regression.
-  boot.kernelPackages = pkgs.linuxPackages_6_19;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
-  # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
-  #   argsOverride = rec {
-  #     src = pkgs.fetchgit {
-  #       url = "https://evilpiepirate.org/git/bcachefs.git";
-  #       rev = "e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
-  #       sha256 = "sha256-uzi8J96SQtNZndUhQCNSeNwU2j4PYeuan0CinwdBE7o=";
-  #     };
-  #     version = "6.16-bcachefs";
-  #     modDirVersion = "6.16.0-rc6";
-  #   };
-  # });
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
+    argsOverride = rec {
+      src = pkgs.fetchgit {
+        url = "https://evilpiepirate.org/git/bcachefs.git";
+        rev = "e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
+        sha256 = "sha256-uzi8J96SQtNZndUhQCNSeNwU2j4PYeuan0CinwdBE7o=";
+      };
+      version = "6.16-bcachefs";
+      modDirVersion = "6.16.0-rc6";
+    };
+  });
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-
-  services.duplicati = {
-    enable = true;
-    user = "arduano";
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

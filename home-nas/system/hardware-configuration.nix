@@ -11,11 +11,9 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD:/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6:/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD:/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6:/dev/disk/by-id/nvme-eui.0025385581b21585-part2";
+      device = "/dev/sda:/dev/sdb:/dev/sdc:/dev/sdd:/dev/nvme0n1p2";
       fsType = "bcachefs";
-      options = [
-        "degraded"
-      ];
+      options = [ "degraded" ];
     };
 
   fileSystems."/boot" =

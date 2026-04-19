@@ -127,7 +127,9 @@ in
     };
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Keep root-on-bcachefs off the newest kernel train; pin to the
+  # last stable line before 7.0 while we sort out the boot regression.
+  boot.kernelPackages = pkgs.linuxPackages_6_19;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
   # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
   #   argsOverride = rec {

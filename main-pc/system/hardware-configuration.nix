@@ -43,6 +43,10 @@
   systemd.services.init-fat = {
     wantedBy = [ "default.target" ];
     script = ''
+      if ${pkgs.util-linux}/bin/findmnt -rn /mnt/fat > /dev/null; then
+        exit 0
+      fi
+
       ${pkgs.mount}/bin/mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/7207f8fb-b959-434f-8b91-95cad148e3ef /mnt/fat
     '';
     serviceConfig = {

@@ -10,6 +10,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Multi-device bcachefs root is more reliable here with scripted stage-1.
+  boot.initrd.systemd.enable = false;
 
   networking.hostName = "home-nas"; # Define your hostname.
 

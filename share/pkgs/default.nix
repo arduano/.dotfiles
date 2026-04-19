@@ -9,7 +9,6 @@ rec {
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
   gogcli = callPackage ./gogcli { };
-  # windsurf = callPackage ./windsurf { };
   prismlauncher = callPackage ./prismlauncher { };
   libvinput = callPackage ./libvinput { };
   vinput = callPackage ./vinput { };

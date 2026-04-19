@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./borgbackup.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -30,8 +31,9 @@
   # networking.defaultGateway = "192.168.1.1";
   # networking.nameservers = [ "192.168.1.1" "1.1.1.1" "1.0.0.1" ];
 
-  environment.systemPackages = with pkgs.arduano.groups;
-    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming;
+  environment.systemPackages = (with pkgs.arduano.groups;
+    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming)
+    ++ [ pkgs.chromium pkgs.arduano.gogcli ];
 
   virtualisation.docker.enable = true;
 
@@ -42,7 +44,6 @@
     extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
     packages = with pkgs; [ ];
   };
-
   users.users.recovery = {
     isNormalUser = true;
     createHome = true;
@@ -86,23 +87,28 @@
     };
   };
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
-    argsOverride = rec {
-      src = pkgs.fetchgit {
-        url = "https://evilpiepirate.org/git/bcachefs.git";
-        rev = "e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
-        sha256 = "sha256-uzi8J96SQtNZndUhQCNSeNwU2j4PYeuan0CinwdBE7o=";
-      };
-      version = "6.16-bcachefs";
-      modDirVersion = "6.16.0-rc6";
-    };
-  });
+  # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_16.override {
+  #   argsOverride = rec {
+  #     src = pkgs.fetchgit {
+  #       url = "https://evilpiepirate.org/git/bcachefs.git";
+  #       rev = "e57a3d4f367ea2d2c9887e08b070d5e2a060054d";
+  #       sha256 = "sha256-uzi8J96SQtNZndUhQCNSeNwU2j4PYeuan0CinwdBE7o=";
+  #     };
+  #     version = "6.16-bcachefs";
+  #     modDirVersion = "6.16.0-rc6";
+  #   };
+  # });
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+
+  services.duplicati = {
+    enable = true;
+    user = "arduano";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

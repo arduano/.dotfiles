@@ -14,7 +14,7 @@ let
 
   commonHomeModules = [
     vscode-server.homeModules.default
-    plasma-manager.homeManagerModules.plasma-manager
+    plasma-manager.homeModules.plasma-manager
     (import ./share/homeModules)
     (import ./share/overlayModule.nix)
   ];

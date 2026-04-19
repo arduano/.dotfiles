@@ -11,6 +11,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.settings.Manager = {
+    # bcachefs root recovery can legitimately take longer than systemd's
+    # default 90s start/device timeouts during early boot.
+    DefaultDeviceTimeoutSec = "infinity";
+    DefaultTimeoutStartSec = "infinity";
+  };
 
   networking.hostName = "home-nas"; # Define your hostname.
 

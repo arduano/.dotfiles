@@ -1,5 +1,16 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, lib, utils, ... }:
 
+let
+  bcachefsRootMembers = [
+    "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD"
+    "/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
+    "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"
+    "/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6"
+    "/dev/disk/by-id/nvme-eui.0025385581b21585-part2"
+  ];
+  bcachefsRootWhat = lib.concatStringsSep ":" bcachefsRootMembers;
+  bcachefsRootDeviceUnits = map (device: "${utils.escapeSystemdPath device}.device") bcachefsRootMembers;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -22,24 +33,23 @@
     DefaultDeviceTimeoutSec = "infinity";
     DefaultTimeoutStartSec = "infinity";
   };
-  boot.initrd.systemd.services.mount-bcachefs-root = {
-    description = "Mount bcachefs root directly";
-    unitConfig.DefaultDependencies = false;
-    requiredBy = [ "initrd-root-fs.target" ];
-    before = [ "initrd-root-fs.target" ];
-    requires = [ "unlock-bcachefs--.service" ];
-    after = [ "unlock-bcachefs--.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      mkdir -p /sysroot
-      exec ${pkgs.util-linux}/bin/mount -t bcachefs -o degraded \
-        /dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD:/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6:/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD:/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6:/dev/disk/by-id/nvme-eui.0025385581b21585-part2 \
-        /sysroot
-    '';
-  };
+
+  boot.initrd.systemd.mounts = [
+    {
+      what = bcachefsRootWhat;
+      where = "/sysroot";
+      type = "bcachefs";
+      options = "degraded";
+      unitConfig.DefaultDependencies = false;
+      requiredBy = [ "initrd-root-fs.target" ];
+      before = [ "initrd-root-fs.target" ];
+      after = bcachefsRootDeviceUnits;
+      requires = bcachefsRootDeviceUnits;
+      mountConfig = {
+        TimeoutSec = "infinity";
+      };
+    }
+  ];
 
   networking.hostName = "home-nas"; # Define your hostname.
 

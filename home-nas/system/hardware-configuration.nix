@@ -15,13 +15,6 @@
       fsType = "bcachefs";
       options = [
         "degraded"
-        # Feed the initrd bcachefs unlock helper explicit dependencies on the
-        # real member devices.
-        "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD"
-        "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
-        "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"
-        "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6"
-        "x-systemd.requires=/dev/disk/by-id/nvme-eui.0025385581b21585-part2"
       ];
     };
 

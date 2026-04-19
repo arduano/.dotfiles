@@ -7,6 +7,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.initrd.systemd.enable = false;
   hardware.enableRedistributableFirmware = true;
 
   fileSystems."/" =

@@ -15,11 +15,8 @@
       fsType = "bcachefs";
       options = [
         "degraded"
-        # Multi-device bcachefs root should depend on its real member devices,
-        # not a synthetic device unit for the colon-joined source string.
-        "x-systemd.device-bound=false"
-        "x-systemd.device-timeout=infinity"
-        "x-systemd.mount-timeout=0"
+        # Feed the initrd bcachefs unlock helper explicit dependencies on the
+        # real member devices.
         "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD"
         "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
         "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"

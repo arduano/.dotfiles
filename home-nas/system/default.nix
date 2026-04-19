@@ -9,13 +9,36 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 7;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
+  # Don't let systemd-fstab-generator synthesize the root mount for a
+  # colon-joined multi-device bcachefs filesystem; provide sysroot.mount
+  # explicitly below instead.
+  boot.initrd.systemd.root = null;
   boot.initrd.systemd.settings.Manager = {
     # bcachefs root recovery can legitimately take longer than systemd's
     # default 90s start/device timeouts during early boot.
     DefaultDeviceTimeoutSec = "infinity";
     DefaultTimeoutStartSec = "infinity";
+  };
+  boot.initrd.systemd.services.mount-bcachefs-root = {
+    description = "Mount bcachefs root directly";
+    unitConfig.DefaultDependencies = false;
+    requiredBy = [ "initrd-root-fs.target" ];
+    before = [ "initrd-root-fs.target" ];
+    requires = [ "unlock-bcachefs--.service" ];
+    after = [ "unlock-bcachefs--.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      mkdir -p /sysroot
+      exec ${pkgs.util-linux}/bin/mount -t bcachefs -o degraded \
+        /dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD:/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6:/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD:/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6:/dev/disk/by-id/nvme-eui.0025385581b21585-part2 \
+        /sysroot
+    '';
   };
 
   networking.hostName = "home-nas"; # Define your hostname.

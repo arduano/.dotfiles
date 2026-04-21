@@ -92,6 +92,8 @@ rec {
       deno
       pnpm
 
+      beads
+
       dotnet-sdk_8
       rustup
       gdb

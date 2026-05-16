@@ -1,16 +1,39 @@
 { lib
 , appimageTools
 , fetchurl
+, stdenvNoCC
+, unzip
 }:
 
 let
   pname = "snapmaker-orca-slicer";
-  version = "2.2.4-beta";
+  version = "2.3.1";
 
-  src = fetchurl {
-    url = "https://github.com/Snapmaker/OrcaSlicer/releases/download/v2.2.4/Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.2.4_Beta.AppImage";
-    hash = "sha256-eX1VYiMSW7sF6c9uKsLu9phpPIuQHlk3EzFxcohHZx4=";
+  srcZip = fetchurl {
+    url = "https://github.com/Snapmaker/OrcaSlicer/releases/download/v2.3.1/Snapmaker_Orca_Linux_ubuntu_2404_V2.3.1.zip";
+    hash = "sha256-lC9Waom17oSoO28+AUBAFMBUDK6YvYJZOknEyxErW/s=";
   };
+
+  appimage = stdenvNoCC.mkDerivation {
+    pname = "${pname}-appimage";
+    inherit version;
+
+    src = srcZip;
+    nativeBuildInputs = [ unzip ];
+
+    dontUnpack = true;
+
+    installPhase = ''
+      runHook preInstall
+
+      unzip -j "$src" "Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage"
+      install -Dm755 "Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage" "$out/bin/${pname}.AppImage"
+
+      runHook postInstall
+    '';
+  };
+
+  src = "${appimage}/bin/${pname}.AppImage";
 
   extracted = appimageTools.extractType2 {
     inherit pname version src;
@@ -29,19 +52,19 @@ appimageTools.wrapType2 {
     sed -i '3iunset GTK_PATH GTK_MODULES' "$out/bin/${pname}"
 
     mkdir -p "$out/share/applications"
-    cat > "$out/share/applications/${pname}.desktop" <<EOF
-[Desktop Entry]
-Type=Application
-Name=Snapmaker OrcaSlicer
-Comment=Slice and prepare 3D models for Snapmaker printers
-Exec=${pname} %F
-Icon=${pname}
-Terminal=false
-Categories=Graphics;3DGraphics;
-StartupNotify=true
-StartupWMClass=snapmaker-orca
-MimeType=model/stl;application/sla;application/vnd.ms-pki.stl;
-EOF
+    printf '%s\n' \
+      '[Desktop Entry]' \
+      'Type=Application' \
+      'Name=Snapmaker OrcaSlicer' \
+      'Comment=Slice and prepare 3D models for Snapmaker printers' \
+      'Exec=${pname} %F' \
+      'Icon=${pname}' \
+      'Terminal=false' \
+      'Categories=Graphics;3DGraphics;' \
+      'StartupNotify=true' \
+      'StartupWMClass=snapmaker-orca' \
+      'MimeType=model/stl;application/sla;application/vnd.ms-pki.stl;' \
+      > "$out/share/applications/${pname}.desktop"
 
     icon_src="$(find ${extracted} -type f \( -iname '*.png' -o -iname '*.svg' -o -iname '*.xpm' \) | head -n 1 || true)"
     if [ -n "$icon_src" ]; then

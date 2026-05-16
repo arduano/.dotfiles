@@ -27,8 +27,6 @@
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
     printrun # For 3d printing
 
-    arduano.sendgcode
-
     kdePackages.sddm-kcm
     gpclient
     gpauth

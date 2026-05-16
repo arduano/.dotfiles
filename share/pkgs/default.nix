@@ -5,14 +5,9 @@
 
 rec {
   sunshine_patched = callPackage ./sunshine { };
-  tidal-dl = callPackage ./tidal-dl { };
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
   gogcli = callPackage ./gogcli { };
-  prismlauncher = callPackage ./prismlauncher { };
-  libvinput = callPackage ./libvinput { };
-  vinput = callPackage ./vinput { };
-  sendgcode = callPackage ./sendgcode.nix { };
   inav-configurator = callPackage ./inav-configurator.nix { };
   snapmaker-orca-slicer = callPackage ./snapmaker-orca-slicer.nix { };
   snapmaker-orca-full-spectrum = callPackage ./snapmaker-orca-full-spectrum.nix { };
@@ -146,7 +141,6 @@ rec {
       qbittorrent
       drawing
       kdePackages.yakuake
-      # (callPackage ./imhex { })
       obsidian
       anydesk
       gyroflow

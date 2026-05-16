@@ -4,7 +4,6 @@
   imports = [
     ./arduano.nix
     ./hardware-configuration.nix
-    ./sdk
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

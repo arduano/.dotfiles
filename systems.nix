@@ -71,13 +71,4 @@ in
       ./home-nas/home
     ];
   };
-
-  nixosConfigurations.mira = makeSystem {
-    systemModules = [
-      ./mira/system
-    ];
-    homeModules = [
-      ./mira/home
-    ];
-  };
 }

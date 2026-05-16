@@ -1,11 +1,12 @@
 { lib, fetchFromGitHub, python3 }:
-let
-
-
-in
 python3.pkgs.buildPythonApplication rec {
   pname = "Tidal-Media-Downloader";
   version = "8352f0f";
+
+  pyproject = true;
+  build-system = with python3.pkgs; [
+    setuptools
+  ];
 
   tidalDlSrc = fetchFromGitHub
     {
@@ -22,12 +23,6 @@ python3.pkgs.buildPythonApplication rec {
     };
 
   src = "${tidalDlSrc}/TIDALDL-PY";
-
-  nativeBuildInputs = [
-  ];
-
-  buildInputs = [
-  ];
 
   propagatedBuildInputs = with python3.pkgs; [
     aigpy

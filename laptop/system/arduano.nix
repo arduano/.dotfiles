@@ -23,21 +23,19 @@
 
   virtualisation.docker.enable = true;
 
-  virtualisation.docker.enable = true;
-
-  services.logind.extraConfig = ''
-    IdleAction=suspend-then-hibernate
-    IdleActionSec=5m
-  '';
-  services.logind.lidSwitchDocked = "suspend-then-hibernate";
-  services.logind.lidSwitchExternalPower = "suspend-then-hibernate";
-  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.settings.Login = {
+    IdleAction = "suspend-then-hibernate";
+    IdleActionSec = "5m";
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchDocked = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
+  };
 
   boot.kernelParams = [ "mem_sleep_default=deep" ];
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=30m
-    SuspendState=mem
-  '';
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "30m";
+    SuspendState = "mem";
+  };
 
   services.power-profiles-daemon.enable = false;
   services.tlp = {

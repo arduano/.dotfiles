@@ -22,7 +22,7 @@ let
 
   makeSystem = { systemModules ? [ ], homeModules ? [ ], extraArgs ? { }, system ? "x86_64-linux" }:
     lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
       specialArgs = extraArgs // {
         inherit inputs;
       };

@@ -12,9 +12,10 @@ in
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = "arduano";
-      userEmail = "leonid.shchurov@gmail.com";
-      extraConfig = {
+      signing.format = "ssh";
+      settings = {
+        user.name = "arduano";
+        user.email = "leonid.shchurov@gmail.com";
         pull.rebase = "false";
         gpg.format = "ssh";
         commit.gpgsign = "true";

@@ -4,7 +4,7 @@
 , autoPatchelfHook
 , makeWrapper
 
-# runtime libs (Electron/Chromium-style)
+  # runtime libs (Electron/Chromium-style)
 , alsa-lib
 , at-spi2-core
 , cairo
@@ -112,8 +112,8 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "INAV Configurator ${version}";
-    homepage    = "https://github.com/iNavFlight/inav-configurator";
-    license     = licenses.gpl3Plus;
-    platforms   = [ "x86_64-linux" ];
+    homepage = "https://github.com/iNavFlight/inav-configurator";
+    license = licenses.gpl3Plus;
+    platforms = [ "x86_64-linux" ];
   };
 }

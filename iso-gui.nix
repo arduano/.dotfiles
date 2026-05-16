@@ -43,7 +43,6 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -54,11 +53,10 @@
     jack.enable = true;
   };
 
-  # Enable OpenGL
-  hardware.opengl = {
+  # Enable graphics support.
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # Load nvidia driver for Xorg and Wayland

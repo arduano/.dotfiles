@@ -44,13 +44,7 @@
     let
       systems = (import ./systems.nix) inputs;
 
-      iso = flake-utils.lib.eachDefaultSystem (system:
-        let
-        in
-        { }
-      );
-
-      packages = flake-utils.lib.eachDefaultSystem
+      packages = flake-utils.lib.eachSystem [ "x86_64-linux" ]
         (system:
           let
             baseIso = nixpkgs.lib.nixosSystem {
@@ -73,9 +67,11 @@
               inherit system;
               overlays = [ (import ./share/overlay.nix { inherit inputs; }) ];
             };
+
+            arduanoPackages = nixpkgs.lib.filterAttrs (_: nixpkgs.lib.isDerivation) pkgs.arduano;
           in
           {
-            packages = pkgs.arduano // {
+            packages = arduanoPackages // {
               baseIso = baseIso.config.system.build.isoImage;
               baseGuiIso = baseGuiIso.config.system.build.isoImage;
             };
@@ -83,5 +79,5 @@
         );
 
     in
-    iso // packages // systems;
+    packages // systems;
 }

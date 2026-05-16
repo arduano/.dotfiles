@@ -15,7 +15,7 @@ in
       curtime=$(date +%s)
       echo "$curtime $1" >> /tmp/autohibernate.log
       echo "$curtime" > $HIBERNATE_LOCK
-      ${pkgs.utillinux}/bin/rtcwake -m no -s $HIBERNATE_SECONDS
+      ${pkgs.util-linux}/bin/rtcwake -m no -s $HIBERNATE_SECONDS
 
       echo "Sleeping for $HIBERNATE_SECONDS seconds before hibernating"
     '';
@@ -34,7 +34,7 @@ in
         echo "Hibernated after $HIBERNATE_SECONDS seconds of suspend"
         systemctl hibernate
       else
-        ${pkgs.utillinux}/bin/rtcwake -m no -s 1
+        ${pkgs.util-linux}/bin/rtcwake -m no -s 1
         echo "Sleeping for 1 second before hibernating"
         echo "Other info for debugging:"
         echo "Current time: $curtime"

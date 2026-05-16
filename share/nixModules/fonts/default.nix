@@ -29,7 +29,7 @@ in
       # Optional, but makes fallback deterministic:
       fontconfig.defaultFonts = {
         sansSerif = [ "Noto Sans" "Noto Sans CJK JP" ];
-        serif     = [ "Noto Serif" "Noto Serif CJK JP" ];
+        serif = [ "Noto Serif" "Noto Serif CJK JP" ];
         monospace = [ "Noto Sans Mono" "Noto Sans Mono CJK JP" ];
       };
     };

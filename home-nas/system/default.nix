@@ -33,7 +33,7 @@
 
   environment.systemPackages = (with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming)
-    ++ [ pkgs.chromium pkgs.arduano.gogcli ];
+  ++ [ pkgs.chromium pkgs.arduano.gogcli ];
 
   virtualisation.docker.enable = true;
 

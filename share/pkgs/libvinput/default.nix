@@ -7,7 +7,11 @@
 , pkg-config
 , xdo
 , xdotool
-, xorg
+, libx11
+, libxi
+, libxcb
+, libxtst
+, xinput
 , libevdev
 , libxkbcommon
 }:
@@ -27,11 +31,11 @@ stdenv.mkDerivation rec {
   buildInputs = [
     xdo
     xdotool
-    xorg.libXtst
-    xorg.libX11
-    xorg.libxcb
-    xorg.xinput
-    xorg.libXi
+    libxtst
+    libx11
+    libxcb
+    xinput
+    libxi
     libevdev
     libxkbcommon
   ];

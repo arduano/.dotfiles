@@ -1,27 +1,27 @@
-{
-  lib,
-  stdenv,
-  cmake,
-  llvm,
-  fetchFromGitHub,
-  mbedtls,
-  gtk3,
-  pkg-config,
-  capstone,
-  dbus,
-  libGLU,
-  libGL,
-  glfw3,
-  file,
-  perl,
-  python3,
-  jansson,
-  curl,
-  fmt_8,
-  nlohmann_json,
-  yara,
-  rsync,
-  autoPatchelfHook,
+{ lib
+, stdenv
+, cmake
+, llvm
+, fetchFromGitHub
+, mbedtls
+, gtk3
+, pkg-config
+, capstone
+, dbus
+, libGLU
+, libGL
+, glfw3
+, file
+, perl
+, python3
+, jansson
+, curl
+, fmt_8
+, nlohmann_json
+, yara
+, rsync
+, autoPatchelfHook
+,
 }:
 
 let

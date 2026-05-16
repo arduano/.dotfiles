@@ -80,7 +80,7 @@ rec {
         nice -n 19 nom build --out-link "$out_link" "$attr"
         system_path="$(readlink -f "$out_link")"
 
-        nice -n 19 sudo nixos-rebuild "$action" -L -v --store-path "$system_path"
+        nice -n 19 sudo nixos-rebuild "$action" -L -v --no-reexec --store-path "$system_path"
 
         if [[ "$action" == "switch" || "$action" == "test" ]] && command -v xdg-desktop-menu >/dev/null; then
           xdg-desktop-menu forceupdate || true

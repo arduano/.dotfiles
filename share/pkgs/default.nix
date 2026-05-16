@@ -11,6 +11,7 @@ rec {
   inav-configurator = callPackage ./inav-configurator.nix { };
   snapmaker-orca-slicer = callPackage ./snapmaker-orca-slicer.nix { };
   snapmaker-orca-full-spectrum = callPackage ./snapmaker-orca-full-spectrum.nix { };
+  signal-desktop-xwayland = callPackage ./signal-desktop-xwayland.nix { };
 
   groups = {
     build-essentials = with pkgs; [
@@ -132,7 +133,7 @@ rec {
       libreoffice
       mpv
       peek
-      signal-desktop
+      arduano.signal-desktop-xwayland
       plexamp
       kdePackages.kdenlive
       krita

@@ -25,8 +25,12 @@ appimageTools.wrapType2 {
   ];
 
   extraInstallCommands = ''
+    # Match the stable Snapmaker Orca wrapper behavior: disable WebKit DMABUF
+    # on NVIDIA/Wayland and avoid host GTK module leakage into the AppImage.
     sed -i '2iexport WEBKIT_DISABLE_DMABUF_RENDERER=1' "$out/bin/${pname}"
         sed -i '3iunset GTK_PATH GTK_MODULES' "$out/bin/${pname}"
+        # Keep this fork's mutable app state separate from the primary Orca
+        # profile; both apps otherwise identify as closely related Orca builds.
         sed -i '4iexport XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}/snapmaker-orca-full-spectrum"' "$out/bin/${pname}"
         sed -i '5iexport XDG_DATA_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}/snapmaker-orca-full-spectrum"' "$out/bin/${pname}"
         sed -i '6iexport XDG_CACHE_HOME="''${XDG_CACHE_HOME:-$HOME/.cache}/snapmaker-orca-full-spectrum"' "$out/bin/${pname}"

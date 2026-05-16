@@ -47,9 +47,9 @@ rustPlatform.buildRustPackage rec {
     cp assets/gpustat_icon_* $out/share/pixmaps
   '';
 
-  # Wrap the program in a script that sets the LD_LIBRARY_PATH environment variable
-  # so that it can find the shared libraries it depends on.
   postFixup = ''
+    # gpustat links to graphics libraries that are partly provided by the host
+    # OpenGL driver; keep that runtime path explicit for NixOS.
     wrapProgram $out/bin/gpustat --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}:/run/opengl-driver/lib"
   '';
 

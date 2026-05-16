@@ -102,7 +102,8 @@ stdenv.mkDerivation rec {
     mkdir -p $out/opt/inav-configurator $out/bin
     cp -r ./* $out/opt/inav-configurator/
 
-    # main binary in the archive is typically called "INAV-Configurator"
+    # Upstream ships an unpacked binary bundle; provide the Electron/GTK/X11
+    # runtime library path it expects on non-FHS systems.
     makeWrapper $out/opt/inav-configurator/inav-configurator \
       $out/bin/inav-configurator \
       --set LD_LIBRARY_PATH "${lib.makeLibraryPath buildInputs}"

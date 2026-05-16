@@ -14,17 +14,28 @@
 
   networking.hostName = "main-pc";
 
-  services.xserver.enable = true;
+  # Desktop/display stack.
+  #
+  # Current test baseline: Plasma on Wayland, including SDDM's Wayland greeter,
+  # with the NVIDIA open kernel module. Keep this block easy to find while the
+  # Wayland migration settles; if it remains stable, the comments can be trimmed
+  # and this should be treated as the normal desktop configuration.
+  services = {
+    xserver = {
+      enable = true;
+      xkb.layout = "us";
+      videoDrivers = [ "nvidia" ];
+    };
 
-  services.displayManager.defaultSession = "plasma";
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
-  services.desktopManager.plasma6.enable = true;
+    displayManager = {
+      defaultSession = "plasma";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
 
-  services.xserver.xkb = {
-    layout = "us";
+    desktopManager.plasma6.enable = true;
   };
 
   services.printing.enable = true;
@@ -64,20 +75,20 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
+      open = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
+    };
   };
 
   # This value determines the NixOS release from which the default

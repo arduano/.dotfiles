@@ -48,6 +48,8 @@ appimageTools.wrapType2 {
   ];
 
   extraInstallCommands = ''
+    # The AppImage WebKit view glitches with DMABUF on NVIDIA/Wayland, and
+    # inherited GTK module paths from the host can break the bundled runtime.
     sed -i '2iexport WEBKIT_DISABLE_DMABUF_RENDERER=1' "$out/bin/${pname}"
     sed -i '3iunset GTK_PATH GTK_MODULES' "$out/bin/${pname}"
 

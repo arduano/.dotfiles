@@ -25,6 +25,7 @@ stdenvNoCC.mkDerivation rec {
   '';
 
   postFixup = ''
+    # gog delegates browser/login flows through xdg-open.
     wrapProgram $out/bin/gog \
       --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
   '';

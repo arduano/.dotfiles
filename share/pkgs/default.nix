@@ -72,15 +72,13 @@ rec {
       imagemagick
       p7zip
       ffmpeg
-      arduano.nodePkgs."@marp-team/marp-cli"
+      arduano.nodePkgs
       xclip
       sapling
       signal-cli
     ];
 
     shell-programming = with pkgs; [
-      arduano.nodePkgs."@withgraphite/graphite-cli"
-
       python3
 
       nodejs_24

@@ -5,7 +5,6 @@ let
     name = "workmaps-attention-map";
     runtimeInputs = with pkgs; [
       coreutils
-      pnpm
       tailscale
     ];
     text = ''
@@ -21,7 +20,7 @@ let
       export WORKMAPS_HOST="$ts_ip"
       export WORKMAPS_PORT=6173
       export WORKMAPS_HMR_PORT=6174
-      exec pnpx workmaps@0.0.14 dev
+      exec ${pkgs.arduano.nodePkgs}/bin/workmaps dev
     '';
   };
 in

@@ -1,0 +1,10 @@
+{
+  "name": "arduano-node-packages",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@marp-team/marp-cli": "4.4.0",
+    "@withgraphite/graphite-cli": "1.8.6",
+    "workmaps": "0.0.14"
+  }
+}

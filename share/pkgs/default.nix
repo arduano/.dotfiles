@@ -48,9 +48,43 @@ rec {
       nix-output-monitor
 
       (pkgs.writeShellScriptBin "switch-system" ''
-        nice -19 nom build --no-link $HOME/.dotfiles#nixosConfigurations.$(hostname).config.system.build.toplevel
-        nice -19 sudo nixos-rebuild switch -L -v --flake $HOME/.dotfiles &&
-        xdg-desktop-menu forceupdate
+        set -euo pipefail
+
+        action="''${1:-switch}"
+        host="''${2:-$(hostname)}"
+        flake="''${DOTFILES_DIR:-$HOME/.dotfiles}"
+
+        case "$action" in
+          switch|boot|test|dry-activate|build) ;;
+          -h|--help)
+            echo "usage: switch-system [switch|boot|test|dry-activate|build] [host]"
+            exit 0
+            ;;
+          *)
+            echo "switch-system: unsupported action '$action'" >&2
+            echo "usage: switch-system [switch|boot|test|dry-activate|build] [host]" >&2
+            exit 2
+            ;;
+        esac
+
+        attr="$flake#nixosConfigurations.$host.config.system.build.toplevel"
+
+        if [[ "$action" == "build" ]]; then
+          exec nice -n 19 nom build --out-link result "$attr"
+        fi
+
+        tmpdir="$(mktemp -d)"
+        trap 'rm -rf "$tmpdir"' EXIT
+
+        out_link="$tmpdir/system"
+        nice -n 19 nom build --out-link "$out_link" "$attr"
+        system_path="$(readlink -f "$out_link")"
+
+        nice -n 19 sudo nixos-rebuild "$action" -L -v --store-path "$system_path"
+
+        if [[ "$action" == "switch" || "$action" == "test" ]] && command -v xdg-desktop-menu >/dev/null; then
+          xdg-desktop-menu forceupdate || true
+        fi
       '')
 
       (pkgs.writeShellScriptBin "nrun" ''

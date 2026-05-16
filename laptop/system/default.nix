@@ -3,7 +3,6 @@
 {
   imports = [
     ./arduano.nix
-    # ./hybernate.nix
     ./hardware-configuration.nix
   ];
 
@@ -12,30 +11,19 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "laptop"; # Dmefine your hostname.
+  networking.hostName = "laptop";
 
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  environment.sessionVariables = {
-    GTK_USE_PORTAL = "1";
-  };
-
-  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
   };
 
-  # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -49,32 +37,22 @@
     isNormalUser = true;
     description = "arduano";
     extraGroups = [ "networkmanager" "wheel" "fuse" "docker" "dialout" ];
-    packages = with pkgs; [ ];
   };
 
   users.users.recovery = {
     isNormalUser = true;
     description = "recovery";
     extraGroups = [ "networkmanager" "wheel" "fuse" ];
-    packages = with pkgs; [ ];
   };
 
-  # Enable automatic login for the user.
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "arduano";
-
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Network discovery
   services.avahi = {
     enable = true;
-    reflector = true;
     nssmdns4 = true;
     publish = {
       enable = true;
       addresses = true;
-      userServices = true;
       workstation = true;
     };
   };
@@ -86,10 +64,7 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelPackages = pkgs.linuxPackages_testing;
 
-
-  # Enable OpenGL
   hardware.graphics = {
     enable = true;
     enable32Bit = true;

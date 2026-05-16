@@ -22,8 +22,6 @@ in
         systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
         services.tailscale.enable = true;
-
-        networking.firewall.enable = false;
       };
       useFirewall = mkIf cfg.useFirewall {
         networking.nftables.enable = true;

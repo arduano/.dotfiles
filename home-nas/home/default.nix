@@ -242,10 +242,7 @@ in
   ];
 
 
-  home.sessionVariables = {
-    # EDITOR = "code";
-    GOG_ACCOUNT = "arduano.mail@gmail.com";
-  };
+  home.sessionVariables.GOG_ACCOUNT = "arduano.mail@gmail.com";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

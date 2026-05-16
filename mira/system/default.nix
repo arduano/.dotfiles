@@ -7,7 +7,6 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "mira";
-  networking.domain = "";
   networking.firewall.enable = false;
 
   boot.tmp.cleanOnBoot = true;
@@ -43,11 +42,9 @@
     createHome = true;
     description = "arduano";
     extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
-    packages = with pkgs; [ ];
   };
 
   nixpkgs.config.allowUnfree = true;
-
 
   system.stateVersion = "23.11";
 }

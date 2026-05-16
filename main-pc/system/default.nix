@@ -5,7 +5,6 @@
     ./arduano.nix
     ./hardware-configuration.nix
     ./sdk
-    # ./vm.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -14,12 +13,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "main-pc"; # Dmefine your hostname.
+  networking.hostName = "main-pc";
 
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
+  # TODO: Try modern SDDM/Wayland defaults in the next desktop pass.
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
@@ -31,20 +29,12 @@
   };
   services.desktopManager.plasma6.enable = true;
 
-  environment.sessionVariables = {
-    GTK_USE_PORTAL = "1";
-  };
-
-  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
   };
 
-  # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -58,76 +48,41 @@
     isNormalUser = true;
     description = "arduano";
     extraGroups = [ "networkmanager" "wheel" "fuse" "docker" "dialout" ];
-    packages = with pkgs; [ ];
   };
 
   users.users.recovery = {
     isNormalUser = true;
     description = "recovery";
     extraGroups = [ "networkmanager" "wheel" "fuse" ];
-    packages = with pkgs; [ ];
   };
 
-  # Enable automatic login for the user.
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "arduano";
-
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.cudaSupport = true;
 
-  # Network discovery
   services.avahi = {
     enable = true;
-    reflector = true;
     nssmdns4 = true;
     publish = {
       enable = true;
       addresses = true;
-      userServices = true;
       workstation = true;
     };
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelPackages = pkgs.linuxPackages_testing;
-
 
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      # libvdpau-va-gl
-    ];
   };
 
-  # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-    # Modesetmting is required.
     modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of
-    # supported GPUs is at:
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
     nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 

@@ -1,12 +1,8 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [
-    # ./hyprland.nix
-  ];
+  imports = [ ];
 
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "arduano";
   home.homeDirectory = "/home/arduano";
 
@@ -16,24 +12,12 @@
   arduano.shell.enable-gui = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
-  # arduano.anydesk.enable = true;
 
   arduano.kdeSetup.enable = true;
 
   services.vscode-server.enable = true;
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = with pkgs; [
-    # libsForQt5.polonium
-    # krohnkite
-    # libsForQt5.krohnkite
-  ] ++ pkgs.arduano.groups.gui-user;
-
-
-  home.sessionVariables = {
-    # EDITOR = "code";
-  };
+  home.packages = pkgs.arduano.groups.gui-user;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

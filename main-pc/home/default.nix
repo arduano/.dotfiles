@@ -3,54 +3,23 @@
 {
   imports = [ ];
 
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "arduano";
   home.homeDirectory = "/home/arduano";
 
   nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.cudaSupport = true;
 
   arduano.shell.enable = true;
   arduano.shell.enable-gui = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
-  # arduano.anydesk.enable = true;
 
   arduano.kdeSetup.enable = true;
-  arduano.kdeSetup.powermanagementFile = ./powermanagementprofilesrc;
-  arduano.kdeSetup.screenlockerFile = ./kscreenlockerrc;
 
-  # services.vscode-server.enable = true;
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
   home.packages = with pkgs; [
     arduano.inav-configurator
     arduano.snapmaker-orca-slicer
     arduano.snapmaker-orca-full-spectrum
   ] ++ pkgs.arduano.groups.gui-user;
-
-  # xdg.mimeApps.enable = true;
-  # # Create a desktop entry that handles the scheme
-  # xdg.desktopEntries.gpclient = {
-  #   name = "GlobalProtect Callback";
-  #   genericName = "GlobalProtect URL handler";
-  #   exec = "${pkgs.gpclient}/bin/gpclient %u";
-  #   terminal = false;
-  #   type = "Application";
-  #   noDisplay = true;
-  #   categories = [ "Network" ];
-  #   mimeType = [ "x-scheme-handler/globalprotectcallback" ];
-  # };
-  # # Make it the default for the scheme
-  # xdg.mimeApps.defaultApplications = {
-  #   "x-scheme-handler/globalprotectcallback" = "gpclient.desktop";
-  # };
-
-  home.sessionVariables = {
-    # EDITOR = "code";
-  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

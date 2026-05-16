@@ -23,59 +23,10 @@
 
   virtualisation.docker.enable = true;
 
-  services.logind.settings.Login = {
-    IdleAction = "suspend-then-hibernate";
-    IdleActionSec = "5m";
-    HandleLidSwitch = "suspend-then-hibernate";
-    HandleLidSwitchDocked = "suspend-then-hibernate";
-    HandleLidSwitchExternalPower = "suspend-then-hibernate";
-  };
-
-  boot.kernelParams = [ "mem_sleep_default=deep" ];
-  systemd.sleep.settings.Sleep = {
-    HibernateDelaySec = "30m";
-    SuspendState = "mem";
-  };
-
-  services.power-profiles-daemon.enable = false;
-  services.tlp = {
+  networking.firewall = {
     enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 20;
-
-      #Optional helps save long term battery health
-      START_CHARGE_THRESH_BAT0 = 70; # Below this, it starts to charge
-      STOP_CHARGE_THRESH_BAT0 = 80; # Above this, it stops charging
-    };
+    trustedInterfaces = [ "tailscale0" ];
   };
-
-  networking.networkmanager = {
-    # settings = {
-    #   logging = {
-    #     level = "DEBUG";
-    #   };
-    # };
-    wifi = {
-      # powersave = true;
-      # scanRandMacAddress = false;
-    };
-  };
-
-  # programs.hyprland = {
-  #   # Install the packages from nixpkgs
-  #   enable = true;
-  #   # Whether to enable XWayland
-  #   xwayland.enable = true;
-  # };
 
   services.openssh = {
     enable = true;

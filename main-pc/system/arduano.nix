@@ -1,7 +1,4 @@
 { pkgs, lib, ... }: {
-  # BROKEN
-  # arduano.sunshine.enable = true;
-
   arduano.syncNixChannel.enable = true;
 
   arduano.networking.enable = true;
@@ -12,6 +9,7 @@
   arduano.fonts.enable = true;
 
   networking.useDHCP = lib.mkForce true;
+  networking.firewall.enable = false;
   services.flatpak.enable = true;
 
   services.udev.extraRules = ''
@@ -60,7 +58,7 @@
       enable = true;
       user = "arduano";
       configDir = "/home/arduano/.config/syncthing";
-      guiAddress = "0.0.0.0:8384";
+      guiAddress = "127.0.0.1:8384";
     };
   };
 
@@ -69,14 +67,11 @@
 
   services.scrutiny.enable = true;
   services.scrutiny.settings.web.listen.port = 8091;
-  services.esphome.enable = true;
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
-  services.xserver.xautolock.enable = false;
-  services.xserver.xautolock.time = 99999999;
   services.logind.settings.Login.HandlePowerKey = "suspend";
   programs.steam.enable = true;
 }

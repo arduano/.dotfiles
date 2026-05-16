@@ -10,12 +10,12 @@ in
     arduano.kdeSetup.powermanagementFile = mkOption {
       type = types.nullOr types.path;
       default = null;
-      description = "Enable power management fike";
+      description = "Optional power management config file";
     };
     arduano.kdeSetup.screenlockerFile = mkOption {
       type = types.nullOr types.path;
       default = null;
-      description = "Enable screen locker fike";
+      description = "Optional screen locker config file";
     };
   };
 
@@ -31,55 +31,6 @@ in
       {
         services.kdeconnect.enable = true;
         services.kdeconnect.indicator = true;
-
-        # TODO: Plasma config. Run `nix run github:pjones/plasma-manager` for your current full config.
-        # For more docs, visit https://github.com/pjones/plasma-manager
-        programs.plasma = {
-          enable = true;
-
-          workspace = {
-            clickItemTo = "select";
-            theme = "breeze-dark";
-            colorScheme = "BreezeDark";
-          };
-
-          # Updating these may require a session restart
-          shortcuts = {
-            kwin."Window Quick Tile Top" = [ ];
-            kwin."Window Quick Tile Bottom" = [ ];
-            kwin."Window Maximize" = "Meta+Up";
-            kwin."Window Minimize" = "Meta+Down";
-            "org.kde.spectacle.desktop"."_launch" = [ ];
-            "org.kde.konsole.desktop"."_launch" = [ ];
-          };
-
-          configFile = {
-            kwinrulesrc = {
-              # `rules` is a comma separated list of the properties
-              General = { rules.value = "anydesk"; };
-
-              anydesk = {
-                Description.value = "Window settings for anydesk";
-                clientmachine.value = "localhost";
-                minimize.value = true;
-                minimizerule.value = 3;
-                title.value = "AnyDesk";
-                titlematch.value = 1;
-                types.value = 1;
-                windowrole.value = "MainWindow#1";
-                wmclass.value = "anydesk";
-                wmclassmatch.value = 1;
-              };
-            };
-
-            ksmserverrc.General.loginMode.value = "emptySession";
-
-            kdeglobals = {
-              General.TerminalApplication.value = "konsole";
-              General.TerminalService.value = "konsole.desktop";
-            };
-          };
-        };
       }
     ]);
 }

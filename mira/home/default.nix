@@ -3,8 +3,6 @@
 {
   imports = [ ];
 
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "arduano";
   home.homeDirectory = "/home/arduano";
 
@@ -13,16 +11,6 @@
   arduano.shell.enable = true;
 
   services.vscode-server.enable = true;
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = with pkgs; [
-  ];
-
-
-  home.sessionVariables = {
-    # EDITOR = "code";
-  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

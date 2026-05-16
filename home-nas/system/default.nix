@@ -6,38 +6,19 @@
     ./borgbackup.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  arduano.roles.base = {
+    enable = true;
+    createUserHomes = true;
+    arduanoExtraGroups = [ "docker" ];
+  };
+  arduano.roles.server-common.enable = true;
 
   networking.hostName = "home-nas"; # Define your hostname.
-
-  arduano.networking.enable = true;
-  arduano.shell.enable = true;
-  arduano.locale.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
   networking.firewall.enable = false;
 
-  environment.systemPackages = (with pkgs.arduano.groups;
-    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming)
-  ++ [ pkgs.chromium pkgs.arduano.gogcli ];
-
-  virtualisation.docker.enable = true;
-
-  users.users.arduano = {
-    isNormalUser = true;
-    createHome = true;
-    description = "arduano";
-    extraGroups = [ "networkmanager" "wheel" "fuse" "docker" ];
-  };
-  users.users.recovery = {
-    isNormalUser = true;
-    createHome = true;
-    description = "recovery";
-    extraGroups = [ "networkmanager" "wheel" "fuse" ];
-  };
+  environment.systemPackages = [ pkgs.chromium pkgs.arduano.gogcli ];
 
   services.openssh = {
     enable = true;
@@ -49,18 +30,6 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      workstation = true;
-    };
-  };
-
   services = {
     syncthing = {
       enable = true;
@@ -69,8 +38,6 @@
       guiAddress = "0.0.0.0:8384";
     };
   };
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;

@@ -10,16 +10,11 @@
 
   arduano.shell.enable = true;
   arduano.shell.enable-gui = true;
+  arduano.desktopApps.enable = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
 
   arduano.kdeSetup.enable = true;
-
-  home.packages = with pkgs; [
-    arduano.inav-configurator
-    arduano.snapmaker-orca-slicer
-    arduano.snapmaker-orca-full-spectrum
-  ] ++ pkgs.arduano.groups.gui-user;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

@@ -3,15 +3,13 @@
 
   arduano.networking.enable = true;
   arduano.shell.enable = true;
-  arduano.portals.enable = true;
   arduano.locale.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
-  environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
-    kdePackages.sddm-kcm
-  ] ++ build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
+  environment.systemPackages = with pkgs.arduano.groups;
+    build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 
   services.mullvad-vpn = {
     enable = true;

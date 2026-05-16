@@ -1,11 +1,9 @@
 { config, lib, pkgs, ... }: {
   imports = [
-    ./sunshine
+    ./roles
     ./nixChannel
-    ./vscode
     ./networking
     ./shell
-    ./portals
     ./locale
     ./nix-ld
     ./fonts

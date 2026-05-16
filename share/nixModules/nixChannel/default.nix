@@ -9,7 +9,7 @@ in
 {
   options = {
     arduano.syncNixChannel = {
-      enable = mkEnableOption "nix channel syncing";
+      enable = mkEnableOption "compatibility nixPath pointing at flake nixpkgs";
     };
   };
 

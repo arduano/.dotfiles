@@ -3,7 +3,6 @@
 
   arduano.networking.enable = true;
   arduano.shell.enable = true;
-  arduano.portals.enable = true;
   arduano.locale.enable = true;
   arduano.nix-ld.enable = true;
   arduano.fonts.enable = true;
@@ -12,25 +11,9 @@
   networking.firewall.enable = false;
   services.flatpak.enable = true;
 
-  services.udev.extraRules = ''
-    # ODrive USB device rules
-    SUBSYSTEM=="usb", ATTR{idVendor}=="1209", ATTR{idProduct}=="0d3[0-9]", MODE="0666", ENV{ID_MM_DEVICE_IGNORE}="1"
-    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="df11", MODE="0666"
-  '';
-  services.udev.packages = with pkgs; [
-    qmk-udev-rules
-  ];
-
-
   environment.systemPackages = with pkgs.arduano.groups; with pkgs; [
-    printrun # For 3d printing
-
-    kdePackages.sddm-kcm
     gpclient
     gpauth
-
-    arduino-ide
-    python3Packages.pyserial
   ] ++
   build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 

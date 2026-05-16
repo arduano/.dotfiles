@@ -4,11 +4,9 @@
 }:
 
 rec {
-  sunshine_patched = callPackage ./sunshine { };
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
   gogcli = callPackage ./gogcli { };
-  inav-configurator = callPackage ./inav-configurator.nix { };
   snapmaker-orca-slicer = callPackage ./snapmaker-orca-slicer.nix { };
   snapmaker-orca-full-spectrum = callPackage ./snapmaker-orca-full-spectrum.nix { };
   signal-desktop-xwayland = callPackage ./signal-desktop-xwayland.nix { };

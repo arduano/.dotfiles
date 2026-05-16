@@ -93,6 +93,7 @@ in
 
         home.sessionPath = [
           "/home/arduano/.bun/bin"
+          "/home/arduano/.local/bin"
         ];
       };
 

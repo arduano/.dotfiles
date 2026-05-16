@@ -41,6 +41,7 @@ rec {
       git
       ncdu
       nload
+      lsof
       pv
       jq
       usbutils

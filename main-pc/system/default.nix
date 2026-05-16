@@ -16,15 +16,10 @@
 
   services.xserver.enable = true;
 
-  # TODO: Try modern SDDM/Wayland defaults in the next desktop pass.
+  services.displayManager.defaultSession = "plasma";
   services.displayManager.sddm = {
     enable = true;
-    wayland.enable = false;
-    settings = {
-      General = {
-        DisplayServer = "x11";
-      };
-    };
+    wayland.enable = true;
   };
   services.desktopManager.plasma6.enable = true;
 
@@ -80,12 +75,10 @@
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = false;
+    open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
-
-  boot.kernelParams = [ "nvidia-drm.modeset=1" "fbdev=1" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

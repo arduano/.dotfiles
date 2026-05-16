@@ -12,11 +12,8 @@ final: prev: {
 
   brave = prev.brave.overrideAttrs (old: {
     postFixup = (old.postFixup or "") + ''
-      # Point Brave at the host’s Vulkan loader
       wrapProgram $out/bin/brave \
-        --prefix LD_LIBRARY_PATH : ${prev.vulkan-loader}/lib \
-        --unset MANGOHUD \
-        --add-flags "--enable-gpu --use-vulkan=deferred --enable-features=Vulkan,WebGPU"
+        --unset MANGOHUD
     '';
   });
 

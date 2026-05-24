@@ -7,6 +7,7 @@
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  programs.steam.enable = true;
 
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;

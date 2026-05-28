@@ -39,6 +39,10 @@
         "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"
         "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
         "x-systemd.requires=/dev/disk/by-id/nvme-eui.0025385581b21585-part2"
+        # After an unclean shutdown, bcachefs recovery can legitimately take
+        # longer than systemd's default 90s start timeout for sysroot.mount.
+        # Let the mount/recovery run to completion instead of killing it.
+        "x-systemd.mount-timeout=infinity"
       ];
     };
 

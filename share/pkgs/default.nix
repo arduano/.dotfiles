@@ -174,7 +174,7 @@ rec {
       kdePackages.yakuake
       obsidian
       anydesk
-      gyroflow
+      # gyroflow # BROKEN
     ];
   };
 }

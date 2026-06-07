@@ -78,27 +78,16 @@ in
 
       agents.defaults = {
         model = {
-          primary = "openai-codex/gpt-5.5";
+          primary = "openai/gpt-5.5";
           fallbacks = [
-            "openai-codex/gpt-5.5"
-            "openai-codex/gpt-5.4"
-            "openai-codex/gpt-5.3-codex"
-            "moonshot/kimi-k2-0905"
-            "openrouter/moonshot/kimi-k2-0905"
-            "openrouter/anthropic/claude-sonnet-4.5"
-            "openrouter/anthropic/claude-sonnet-4.6"
-            "openrouter/anthropic/claude-opus-4.6"
-            "deepseek/deepseek-chat"
-            "google/gemini-2.5-flash"
-            "openrouter/deepseek/deepseek-chat"
-            "openrouter/google/gemini-2.5-flash"
-            "openrouter/moonshotai/kimi-k2.5"
+            "openai/gpt-5.5"
+            "openai/gpt-5.4"
           ];
         };
         models = {
-          "openai-codex/gpt-5.5" = { };
-          "openai-codex/gpt-5.4" = { };
-          "openai-codex/gpt-5.3-codex" = { };
+          "openai/gpt-5.5" = { };
+          "openai/gpt-5.4" = { };
+          "openai/gpt-5.3-codex" = { };
           "openrouter/anthropic/claude-sonnet-4.6" = { };
           "openrouter/anthropic/claude-opus-4.6" = { };
         };
@@ -128,6 +117,7 @@ in
           every = "30m";
           target = "signal";
           to = "+61466965098";
+          directPolicy = "allow";
           ackMaxChars = 20;
           prompt = "Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.";
         };
@@ -156,8 +146,11 @@ in
         };
       };
 
+      session.dmScope = "main";
+
       messages = {
-        ackReactionScope = "group-mentions";
+        ackReactionScope = "all";
+        visibleReplies = "automatic";
         groupChat.visibleReplies = "automatic";
       };
 

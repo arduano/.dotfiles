@@ -1,17 +1,5 @@
 { inputs }:
 final: prev:
-let
-  openclaw-gateway = prev.openclaw-gateway.override {
-    # Temporary nix-openclaw overlay compatibility fix for newer nixpkgs
-    # fetchPnpmDeps output. Remove once nix-openclaw updates the pin or
-    # documents/supports this nixpkgs combination.
-    pnpmDepsHash = "sha256-QEMFy/PTb2Lq/2gNP+m6ViiBr4O0jvKvDfcKXY/hrdY=";
-  };
-
-  openclaw = prev.openclaw.override {
-    inherit openclaw-gateway;
-  };
-in
 {
   arduano = final.callPackage ./pkgs/default.nix { };
 
@@ -34,10 +22,4 @@ in
   });
 
   zen-browser = inputs.zen-browser.packages.${prev.stdenv.hostPlatform.system}.default;
-
-  inherit openclaw-gateway openclaw;
-
-  openclawPackages = prev.openclawPackages // {
-    inherit openclaw-gateway openclaw;
-  };
 }

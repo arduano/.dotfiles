@@ -56,11 +56,16 @@ in
         redactSensitive = "tools";
       };
 
-      auth.profiles."openai-codex:leonid.shchurov@gmail.com" = {
-        provider = "openai-codex";
+      auth.profiles."openai:leonid.shchurov@gmail.com" = {
+        provider = "openai";
         mode = "oauth";
         email = "leonid.shchurov@gmail.com";
       };
+
+      auth.order.openai = [
+        "openai:leonid.shchurov@gmail.com"
+        "openai:api-key-backup"
+      ];
 
       browser = {
         enabled = true;
@@ -96,6 +101,11 @@ in
           enabled = true;
           sources = [ "memory" ];
           provider = "openai";
+          remote.apiKey = {
+            provider = "default";
+            source = "env";
+            id = "OPENAI_API_KEY";
+          };
           sync.onSearch = true;
         };
         compaction.mode = "safeguard";
@@ -124,7 +134,7 @@ in
         maxConcurrent = 4;
         subagents = {
           maxConcurrent = 8;
-          model = "openai-codex/gpt-5.4";
+          model = "openai/gpt-5.5";
         };
         sandbox.mode = "off";
       };

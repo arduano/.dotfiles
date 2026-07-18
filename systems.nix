@@ -71,4 +71,16 @@ in
       ./home-nas/home
     ];
   };
+
+  nixosConfigurations.kiosk-laptop-1 = makeSystem {
+    systemModules = [
+      ./kiosk-laptop-1/system
+      nixos-hardware.nixosModules.common-pc
+      nixos-hardware.nixosModules.common-pc-ssd
+      nixos-hardware.nixosModules.common-cpu-intel
+    ];
+    homeModules = [
+      ./kiosk-laptop-1/home
+    ];
+  };
 }

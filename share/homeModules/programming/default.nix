@@ -10,6 +10,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = [ pkgs.opencode ];
+
     programs.git = {
       enable = true;
       signing.format = "ssh";

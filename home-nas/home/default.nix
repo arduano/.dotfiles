@@ -42,6 +42,7 @@ in
   programs.openclaw = {
     enable = true;
     reloadScript.enable = true;
+    runtimePlugins = [ "signal" ];
 
     config = {
       diagnostics = {
@@ -83,13 +84,16 @@ in
 
       agents.defaults = {
         model = {
-          primary = "openai/gpt-5.5";
+          primary = "openai/gpt-5.6-sol";
           fallbacks = [
             "openai/gpt-5.5"
             "openai/gpt-5.4"
           ];
         };
         models = {
+          "openai/gpt-5.6-sol" = { };
+          "openai/gpt-5.6-terra" = { };
+          "openai/gpt-5.6-luna" = { };
           "openai/gpt-5.5" = { };
           "openai/gpt-5.4" = { };
           "openai/gpt-5.3-codex" = { };

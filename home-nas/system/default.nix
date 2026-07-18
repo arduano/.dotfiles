@@ -13,6 +13,14 @@
   };
   arduano.roles.server-common.enable = true;
 
+
+  users.users.andrey = {
+    isNormalUser = true;
+    home = "/home/andrey";
+    createHome = true;
+    description = "Andrey FTP access";
+  };
+
   networking.hostName = "home-nas"; # Define your hostname.
 
   networking.useDHCP = lib.mkDefault true;
@@ -36,6 +44,24 @@
       user = "arduano";
       configDir = "/home/arduano/.config/syncthing";
       guiAddress = "0.0.0.0:8384";
+    };
+
+    vsftpd = {
+      enable = true;
+      localUsers = true;
+      writeEnable = true;
+      chrootlocalUser = true;
+      allowWriteableChroot = true;
+      userlistEnable = true;
+      userlistDeny = false;
+      userlist = [ "andrey" ];
+
+      extraConfig = ''
+        anonymous_enable=NO
+        pasv_enable=YES
+        pasv_min_port=50000
+        pasv_max_port=50100
+      '';
     };
   };
 

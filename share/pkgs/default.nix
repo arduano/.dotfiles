@@ -7,6 +7,7 @@ rec {
   nodePkgs = callPackage ./nodePkgs { };
   gpustat = callPackage ./gpustat { };
   gogcli = callPackage ./gogcli { };
+  opencode-latest = callPackage ./opencode-latest { };
   snapmaker-orca-slicer = callPackage ./snapmaker-orca-slicer.nix { };
   snapmaker-orca-full-spectrum = callPackage ./snapmaker-orca-full-spectrum.nix { };
   signal-desktop-xwayland = callPackage ./signal-desktop-xwayland.nix { };
@@ -120,6 +121,7 @@ rec {
       pnpm
 
       beads
+      opencode
 
       dotnet-sdk_8
       rustup

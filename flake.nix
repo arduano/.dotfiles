@@ -5,6 +5,10 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
+    # Kept separate so OpenClaw can use a SQLite-safe Node release without
+    # forcing every system onto a newer nixpkgs revision.
+    nixpkgs-openclaw-runtime.url = "github:NixOS/nixpkgs/18b9261cb3294b6d2a06d03f96872827b8fe2698";
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";

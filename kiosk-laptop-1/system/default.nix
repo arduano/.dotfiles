@@ -50,6 +50,7 @@
 
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
+  hardware.graphics.enable = true;
   services.thermald.enable = true;
   services.fstrim.enable = true;
   zramSwap.enable = true;

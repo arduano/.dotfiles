@@ -9,12 +9,12 @@
 }:
 
 let
-  version = "1.18.1";
+  version = "1.18.4";
 
   source = {
     x86_64-linux = {
       url = "https://github.com/anomalyco/opencode/releases/download/v${version}/opencode-linux-x64.tar.gz";
-      hash = "sha256-nszifPUpreXxd/q0eLSHa1wx2d3IIWuZSBas8ZIVlRE=";
+      hash = "sha256-urRjw/syJNOIu3z61j84cD35zwviz9LOjLSdiGtToXQ=";
     };
   }.${stdenvNoCC.hostPlatform.system} or (throw "opencode-latest: unsupported platform ${stdenvNoCC.hostPlatform.system}");
 in

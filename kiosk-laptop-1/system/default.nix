@@ -72,7 +72,7 @@
     wget
     lm_sensors
     (pkgs.writeShellScriptBin "kiosk-rebuild" ''
-      exec sudo nixos-rebuild switch --refresh \\
+      exec sudo nixos-rebuild switch --refresh \
         --flake 'github:arduano/.dotfiles#kiosk-laptop-1' "$@"
     '')
   ];

@@ -6,11 +6,13 @@
   arduano.roles.base = {
     enable = true;
     createUserHomes = true;
-    arduanoExtraGroups = [ "video" "input" ];
+    arduanoExtraGroups = [ "video" "input" "docker" ];
   };
 
   networking.hostName = "kiosk-laptop-1";
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
+  virtualisation.docker.enable = true;
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
@@ -68,6 +70,11 @@
     usbutils
     vim
     wget
+    lm_sensors
+    (pkgs.writeShellScriptBin "kiosk-rebuild" ''
+      exec sudo nixos-rebuild switch --refresh \\
+        --flake 'github:arduano/.dotfiles#kiosk-laptop-1' "$@"
+    '')
   ];
 
   nix.settings.auto-optimise-store = true;

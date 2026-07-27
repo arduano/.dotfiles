@@ -36,6 +36,7 @@ in
 
   arduano.shell.enable = true;
   arduano.programming.enable = true;
+  arduano.tmux.enable = true;
 
   services.vscode-server.enable = true;
 

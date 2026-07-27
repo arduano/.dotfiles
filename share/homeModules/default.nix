@@ -5,5 +5,6 @@
     ./programming
     ./kdeSetup
     ./desktopApps
+    ./tmux
   ];
 }

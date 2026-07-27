@@ -36,5 +36,21 @@
     };
   };
 
-  services.logind.settings.Login.HandlePowerKey = "suspend";
+  # Keep the laptop's existing suspend-then-hibernate policy when syncing the
+  # canonical dotfiles back from home-nas. The current active boot entry
+  # already resumes from the labelled swap partition.
+  boot.resumeDevice = "/dev/disk/by-label/swap";
+
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
+    HandlePowerKey = "suspend-then-hibernate";
+    HandleSuspendKey = "suspend-then-hibernate";
+  };
+
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "30min";
+    HibernateOnACPower = true;
+    SuspendState = "mem";
+  };
 }

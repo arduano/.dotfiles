@@ -57,6 +57,65 @@ in
         redactSensitive = "tools";
       };
 
+      secrets.providers.codex_lb_api_key = {
+        source = "file";
+        path = "/home/arduano/.openclaw/secrets/codex-lb-api-key";
+        mode = "singleValue";
+      };
+
+      models.providers.codex-lb = {
+        baseUrl = "http://100.82.173.47:2455/v1";
+        apiKey = {
+          source = "file";
+          provider = "codex_lb_api_key";
+          id = "value";
+        };
+        auth = "api-key";
+        authHeader = true;
+        api = "openai-responses";
+        # Codex LB can spend many minutes queued before emitting the first byte.
+        timeoutSeconds = 900;
+        agentRuntime.id = "openclaw";
+        request.allowPrivateNetwork = true;
+        models = map
+          (model: {
+            inherit (model) id name;
+            reasoning = true;
+            input = [ "text" "image" ];
+            contextWindow = 272000;
+            maxTokens = 128000;
+            thinkingLevelMap = {
+              off = "none";
+              minimal = "minimal";
+              low = "low";
+              medium = "medium";
+              high = "high";
+              xhigh = "xhigh";
+              max = "xhigh";
+            };
+            compat = {
+              supportsPromptCacheKey = true;
+              supportsReasoningEffort = true;
+              supportsTools = true;
+              supportedReasoningEfforts = [
+                "none"
+                "minimal"
+                "low"
+                "medium"
+                "high"
+                "xhigh"
+              ];
+            };
+          })
+          [
+            { id = "gpt-5.6-sol"; name = "GPT-5.6 Sol via Codex LB"; }
+            { id = "gpt-5.6-terra"; name = "GPT-5.6 Terra via Codex LB"; }
+            { id = "gpt-5.6-luna"; name = "GPT-5.6 Luna via Codex LB"; }
+            { id = "gpt-5.5"; name = "GPT-5.5 via Codex LB"; }
+            { id = "gpt-5.4"; name = "GPT-5.4 via Codex LB"; }
+          ];
+      };
+
       auth.profiles."openai:leonid.shchurov@gmail.com" = {
         provider = "openai";
         mode = "oauth";
@@ -84,13 +143,20 @@ in
 
       agents.defaults = {
         model = {
-          primary = "openai/gpt-5.6-sol";
+          primary = "codex-lb/gpt-5.6-sol";
           fallbacks = [
+            "codex-lb/gpt-5.5"
+            "codex-lb/gpt-5.4"
             "openai/gpt-5.5"
             "openai/gpt-5.4"
           ];
         };
         models = {
+          "codex-lb/gpt-5.6-sol" = { };
+          "codex-lb/gpt-5.6-terra" = { };
+          "codex-lb/gpt-5.6-luna" = { };
+          "codex-lb/gpt-5.5" = { };
+          "codex-lb/gpt-5.4" = { };
           "openai/gpt-5.6-sol" = { };
           "openai/gpt-5.6-terra" = { };
           "openai/gpt-5.6-luna" = { };
@@ -112,7 +178,15 @@ in
           };
           sync.onSearch = true;
         };
-        compaction.mode = "safeguard";
+        compaction = {
+          mode = "safeguard";
+          model = "codex-lb/gpt-5.6-sol";
+          reserveTokensFloor = 50000;
+          timeoutSeconds = 900;
+          truncateAfterCompaction = true;
+          midTurnPrecheck.enabled = false;
+          qualityGuard.enabled = false;
+        };
         elevatedDefault = "full";
         blockStreamingDefault = "on";
         blockStreamingBreak = "message_end";
@@ -129,6 +203,8 @@ in
         };
         heartbeat = {
           every = "30m";
+          isolatedSession = true;
+          lightContext = true;
           target = "signal";
           to = "+61466965098";
           directPolicy = "allow";
@@ -138,7 +214,7 @@ in
         maxConcurrent = 4;
         subagents = {
           maxConcurrent = 8;
-          model = "openai/gpt-5.5";
+          model = "codex-lb/gpt-5.6-sol";
         };
         sandbox.mode = "off";
       };
@@ -160,7 +236,9 @@ in
         };
       };
 
-      session.dmScope = "main";
+      session = {
+        dmScope = "main";
+      };
 
       messages = {
         ackReactionScope = "all";
@@ -246,6 +324,10 @@ in
     # Gmail/OpenClaw tooling prerequisites
     google-cloud-sdk
     jq
+
+    # General-purpose/coding agent. Hermes keeps mutable state in ~/.hermes;
+    # only the executable and dependencies are managed declaratively here.
+    inputs.hermes-agent.packages.${pkgs.system}.default
   ];
 
 

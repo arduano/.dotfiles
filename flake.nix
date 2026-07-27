@@ -37,6 +37,10 @@
 
     nix-openclaw.url = "github:openclaw/nix-openclaw";
 
+    # Use the official Hermes flake, pinned through flake.lock. The git URL
+    # avoids unauthenticated GitHub API rate limits during lock updates.
+    hermes-agent.url = "git+https://github.com/NousResearch/hermes-agent.git";
+
     flake-utils.url = "github:numtide/flake-utils";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

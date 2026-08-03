@@ -34,7 +34,6 @@
         # - NixOS/nixpkgs#451418
         #
         # Keep these as stable by-id paths, not /dev/sdX names.
-        "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NDW6"
         "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1B44VD"
         "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"
         "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
@@ -51,6 +50,22 @@
       device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
+
+  # hdd8 (ST8000VN002, serial WPV2NDW6) was removed from the bcachefs root
+  # and repurposed as disposable Frigate media storage. Mount by the ext4
+  # label that the preparation step assigns, never by its mutable /dev/sdX
+  # name. `nofail` keeps the NAS repairable when the media disk is absent;
+  # docker.service separately requires this mount so Frigate cannot silently
+  # recreate the bind-mount path and write camera media onto bcachefs.
+  fileSystems."/mnt/store/camera/recordings" = {
+    device = "/dev/disk/by-label/frigate-media";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "nofail"
+      "x-systemd.device-timeout=30s"
+    ];
+  };
 
   swapDevices = [{
     device = "/dev/nvme0n1p3";

@@ -69,6 +69,14 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
+  # Docker restores Frigate's restart-policy container automatically. Refuse
+  # to start Docker until the dedicated media filesystem is mounted, otherwise
+  # its host bind path could be recreated on the bcachefs root after a missing
+  # or failed media-disk mount.
+  systemd.services.docker.unitConfig.RequiresMountsFor = [
+    "/mnt/store/camera/recordings"
+  ];
+
   services.duplicati = {
     enable = true;
     user = "arduano";

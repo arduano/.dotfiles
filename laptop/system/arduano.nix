@@ -12,11 +12,6 @@
   environment.systemPackages = with pkgs.arduano.groups;
     build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 
-  services.mullvad-vpn = {
-    enable = true;
-    package = pkgs.mullvad-vpn;
-  };
-
   services.fprintd.enable = true;
   security.pam.services.login.fprintAuth = false; # Disable fprintd for sddm
 

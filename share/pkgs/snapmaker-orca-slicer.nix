@@ -8,11 +8,11 @@
 
 let
   pname = "snapmaker-orca-slicer";
-  version = "2.3.1";
+  version = "2.3.5";
 
   srcZip = fetchurl {
-    url = "https://github.com/Snapmaker/OrcaSlicer/releases/download/v2.3.1/Snapmaker_Orca_Linux_ubuntu_2404_V2.3.1.zip";
-    hash = "sha256-lC9Waom17oSoO28+AUBAFMBUDK6YvYJZOknEyxErW/s=";
+    url = "https://github.com/Snapmaker/OrcaSlicer/releases/download/v2.3.5/Snapmaker_Orca_Linux_ubuntu_2404_V2.3.5.zip";
+    hash = "sha256-KzYe2ccOLkXh+la8HS0NFB2VHsz62R8ieXOnrLZJlLs=";
   };
 
   appimage = stdenvNoCC.mkDerivation {
@@ -27,8 +27,8 @@ let
     installPhase = ''
       runHook preInstall
 
-      unzip -j "$src" "Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage"
-      install -Dm755 "Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.3.1.AppImage" "$out/bin/${pname}.AppImage"
+      unzip -j "$src" "Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.3.5.AppImage"
+      install -Dm755 "Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V2.3.5.AppImage" "$out/bin/${pname}.AppImage"
 
       runHook postInstall
     '';

@@ -26,6 +26,7 @@ in
   arduano.desktopApps.enable = true;
   arduano.mangohud.enable = true;
   arduano.programming.enable = true;
+  arduano.tmux.enable = true;
 
   arduano.kdeSetup.enable = true;
 

@@ -90,6 +90,25 @@
     ];
   };
 
+  fileSystems."/mnt/celine-nas" = {
+    device = "cedo246@100.68.251.119:/mnt/storage";
+    fsType = "sshfs";
+    options = [
+      # Filesystem options
+      "allow_other" # for non-root access
+      "_netdev" # this is a network fs
+      # "x-systemd.automount" # mount on demand
+
+      # SSH options
+      "reconnect" # handle connection drops
+      "delay_connect" # wait for network
+      "ServerAliveInterval=15" # keep connections alive
+      "IdentityFile=/home/arduano/.ssh/common"
+      "UserKnownHostsFile=/home/arduano/.ssh/known_hosts"
+      "BatchMode=yes"
+    ];
+  };
+
   swapDevices = [{
     device = "/swapfile";
     size = 64 * 1024;

@@ -6,11 +6,11 @@
 
 let
   pname = "snapmaker-orca-full-spectrum";
-  version = "0.9.7";
+  version = "0.9.9";
 
   src = fetchurl {
-    url = "https://github.com/ratdoux/OrcaSlicer-FullSpectrum/releases/download/v0.9.7/Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V0.9.7.AppImage";
-    hash = "sha256-ddDhT0olmnuHGC1+aoZUA4/L0YQcC7X918hKVmTND3Y=";
+    url = "https://github.com/ratdoux/OrcaSlicer-FullSpectrum/releases/download/v0.9.9/Snapmaker_Orca_Linux_AppImage_Ubuntu2404_V0.9.9.AppImage";
+    hash = "sha256-qAMpXVDapRYFX6gZWaNSD34Zmve2e43Kkosw4XvXLIU=";
   };
 
   extracted = appimageTools.extractType2 {

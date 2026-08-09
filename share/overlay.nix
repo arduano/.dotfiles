@@ -3,37 +3,27 @@ final: prev:
 let
   # OpenClaw uses Node's built-in SQLite support at runtime. Node 22.23.1
   # embeds SQLite 3.51.2, which OpenClaw rejects because of the upstream WAL
-  # reset corruption bug. Build only the OpenClaw runtime packages in a scope
-  # where its nodejs_22 dependency resolves to the safe Node 24 release.
-  openclawRuntimePkgs = inputs.nixpkgs-openclaw-runtime.legacyPackages.${prev.stdenv.hostPlatform.system};
-  openclawPkgs = prev // {
-    callPackage = prev.lib.callPackageWith openclawPkgs;
+  # reset corruption bug. Apply the OpenClaw overlay only to a private package
+  # scope where its nodejs_22 dependency resolves to the safe Node 24 release.
+  # This prevents OpenClaw's pinned build tools (notably pnpm_11) from replacing
+  # the corresponding packages in nixpkgs for unrelated applications.
+  openclawRuntimePkgs =
+    inputs.nixpkgs-openclaw-runtime.legacyPackages.${prev.stdenv.hostPlatform.system};
+  scopedOpenclawPkgs = prev // {
+    callPackage = prev.lib.callPackageWith scopedOpenclawPkgs;
     nodejs_22 = openclawRuntimePkgs.nodejs_24;
   };
-  safeOpenclawSet = import "${inputs.nix-openclaw}/nix/packages" {
-    pkgs = openclawPkgs;
-  };
-  safeOpenclawGateway = safeOpenclawSet.openclaw-gateway;
-  withSafeOpenclawGateway = packageSet:
-    packageSet // {
-      openclaw-gateway = safeOpenclawGateway;
-      openclawRuntimePlugins = safeOpenclawSet.openclawRuntimePlugins;
-      openclaw = packageSet.openclaw.override {
-        openclaw-gateway = safeOpenclawGateway;
-      };
-    };
+  scopedOpenclaw = inputs.nix-openclaw.overlays.default scopedOpenclawPkgs scopedOpenclawPkgs;
 in
 {
   arduano = final.callPackage ./pkgs/default.nix { };
 
-  inherit (safeOpenclawSet) openclawRuntimePlugins;
-  openclaw-gateway = safeOpenclawGateway;
-  openclaw = prev.openclaw.override {
-    openclaw-gateway = safeOpenclawGateway;
-  };
-  openclawPackages = (withSafeOpenclawGateway prev.openclawPackages) // {
-    withTools = args: withSafeOpenclawGateway (prev.openclawPackages.withTools args);
-  };
+  inherit (scopedOpenclaw)
+    openclaw
+    openclaw-gateway
+    openclawPackages
+    openclawRuntimePlugins
+    ;
 
   # OpenCode releases faster than nixpkgs. Keep the generic `pkgs.opencode`
   # name pinned to our verified upstream package so shared programming-tool

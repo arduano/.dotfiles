@@ -37,9 +37,6 @@
 
     nix-openclaw.url = "github:openclaw/nix-openclaw";
 
-    # Use the official Hermes flake, pinned through flake.lock. The git URL
-    # avoids unauthenticated GitHub API rate limits during lock updates.
-    hermes-agent.url = "git+https://github.com/NousResearch/hermes-agent.git";
 
     flake-utils.url = "github:numtide/flake-utils";
 
@@ -71,6 +68,14 @@
               modules = [ ./iso-gui.nix ];
             };
 
+            universalRecoveryIso = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs;
+              };
+              modules = [ ./iso-universal-recovery.nix ];
+            };
+
             pkgs = import nixpkgs {
               inherit system;
               overlays = [ (import ./share/overlay.nix { inherit inputs; }) ];
@@ -82,6 +87,7 @@
             packages = arduanoPackages // {
               baseIso = baseIso.config.system.build.isoImage;
               baseGuiIso = baseGuiIso.config.system.build.isoImage;
+              universalRecoveryIso = universalRecoveryIso.config.system.build.isoImage;
             };
           }
         );

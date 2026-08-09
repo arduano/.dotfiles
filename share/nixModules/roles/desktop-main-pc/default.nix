@@ -10,12 +10,22 @@ in
   config = mkIf cfg.enable {
     arduano.roles.desktop-common.enable = true;
 
+    nixpkgs.config = {
+      cudaCapabilities = [ "8.6" ];
+      cudaForwardCompat = false;
+    };
+
     # Current main-pc baseline: Plasma on Wayland, including SDDM's Wayland
     # greeter, with the NVIDIA open kernel module. Keep this host-specific while
     # the Wayland migration settles; laptop display policy intentionally lives in
     # a separate role.
     services = {
       xserver.videoDrivers = [ "nvidia" ];
+
+      ollama = {
+        enable = true;
+        package = pkgs.ollama-cuda;
+      };
 
       displayManager = {
         defaultSession = "plasma";

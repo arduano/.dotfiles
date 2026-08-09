@@ -17,11 +17,6 @@
   ] ++
   build-essentials ++ shell-essentials ++ shell-useful ++ shell-programming ++ gui-root;
 
-  services.mullvad-vpn = {
-    enable = true;
-    package = pkgs.mullvad-vpn;
-  };
-
   services.openssh = {
     enable = true;
     ports = [ 45754 ];
@@ -50,6 +45,8 @@
 
   services.scrutiny.enable = true;
   services.scrutiny.settings.web.listen.port = 8091;
+
+  services.sunshine.enable = true;
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;

@@ -29,6 +29,8 @@ in
 
     # Desktop slicer workflows.
     home-manager.users.arduano.home.packages = with pkgs; [
+      orca-slicer
+      lycheeslicer
       arduano.snapmaker-orca-slicer
       arduano.snapmaker-orca-full-spectrum
     ];

@@ -31,7 +31,7 @@ rec {
       fastfetch
       pciutils
       htop
-      btop
+      btop-cuda
       tmux
       git
       ncdu

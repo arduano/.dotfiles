@@ -53,14 +53,18 @@
     };
   };
 
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    publish = {
+  services = {
+    avahi = {
       enable = true;
-      addresses = true;
-      workstation = true;
+      nssmdns4 = true;
+      publish = {
+        enable = true;
+        addresses = true;
+        workstation = true;
+      };
     };
+
+    tailscale.enable = true;
   };
 
   systemd.services = {

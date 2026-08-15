@@ -1,6 +1,13 @@
 {
   description = "Arduano's systems";
 
+  nixConfig = {
+    extra-substituters = [ "https://nixos-raspberrypi.cachix.org" ];
+    extra-trusted-public-keys = [
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+    ];
+  };
+
   # The inputs of the flake, usually some git repositories, e.g. `nixpkgs`
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -41,6 +48,14 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Maintained Raspberry Pi kernel, firmware and generational boot support.
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/v1.20260801.0";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # The output is your built and working system configuration

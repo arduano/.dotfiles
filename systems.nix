@@ -83,4 +83,12 @@ in
       ./kiosk-laptop-1/home
     ];
   };
+
+  nixosConfigurations.rpi5-test = nixos-raspberrypi.lib.nixosSystem {
+    specialArgs = { inherit inputs; };
+    modules = [
+      disko.nixosModules.disko
+      ./rpi5-test/system
+    ];
+  };
 }

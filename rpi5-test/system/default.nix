@@ -58,6 +58,10 @@
     systemd-networkd-wait-online.enable = lib.mkForce false;
   };
 
+  # raspberrypi-eeprom's debugfs tmpfiles rule uses the conventional sudo
+  # group even though NixOS grants administration through wheel.
+  users.groups.sudo = { };
+
   users.users.arduano = {
     isNormalUser = true;
     createHome = true;

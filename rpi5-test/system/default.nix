@@ -53,6 +53,16 @@
     };
   };
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
   systemd.services = {
     NetworkManager-wait-online.enable = lib.mkForce false;
     systemd-networkd-wait-online.enable = lib.mkForce false;

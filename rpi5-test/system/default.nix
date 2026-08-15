@@ -45,7 +45,7 @@
   };
 
   networking = {
-    hostName = "rpi5-test";
+    hostName = "rpi";
     networkmanager.enable = true;
     firewall = {
       enable = true;

@@ -325,10 +325,6 @@ in
     # Gmail/OpenClaw tooling prerequisites
     google-cloud-sdk
     jq
-
-    # General-purpose/coding agent. Hermes keeps mutable state in ~/.hermes;
-    # only the executable and dependencies are managed declaratively here.
-    inputs.hermes-agent.packages.${pkgs.system}.default
   ];
 
 

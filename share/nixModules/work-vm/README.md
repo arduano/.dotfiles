@@ -22,6 +22,11 @@ The module currently provides:
 - a non-secret list of expected private destination IPv4 CIDRs for auditing and
   fail-closed enforcement.
 
+The firewall has no separate enable/disable command or helper script. Its
+dedicated table follows `arduano.workVm.enable`: change the NixOS configuration
+and run `nixos-rebuild switch` to add, update, or remove it. Do not manage the
+generated `work-vm-firewall.service` as an operator-facing lifecycle control.
+
 Enrollment is deliberately runtime state. Do not put the Zero Trust team name,
 authentication URL, device token, identity, or organization-managed policy in
 this repository. After activation, enroll interactively with:

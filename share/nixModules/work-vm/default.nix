@@ -34,6 +34,9 @@ let
     && builtins.match "(0|[1-9]|[12][0-9]|3[0-2])" (builtins.elemAt parts 1) != null;
 
   firewallRules = pkgs.writeText "work-vm-uplink.nft" ''
+    table inet ${firewallTable}
+    delete table inet ${firewallTable}
+
     table inet ${firewallTable} {
       chain input {
         type filter hook input priority filter - 5; policy accept;
@@ -250,24 +253,23 @@ in
 
     # WARP's tunnel, routes, DNS, and firewall changes happen inside this
     # namespace. Host VPNs therefore remain authoritative for host traffic,
-    # even when their destination ranges overlap the work tunnel. Load only our
-    # dedicated table instead of enabling NixOS's global nftables mode, which
-    # would otherwise conflict with hosts still using Docker's iptables backend.
+    # even when their destination ranges overlap the work tunnel. Reconcile only
+    # our dedicated table instead of enabling NixOS's global nftables mode,
+    # which would otherwise conflict with hosts still using Docker's iptables
+    # backend. Its lifecycle follows the declarative module configuration; there
+    # are no separate firewall enable/disable helpers.
     systemd.services.work-vm-firewall = {
       description = "Fail-closed nftables boundary for the work VM namespace";
+      wantedBy = [ "multi-user.target" ];
       before = [ "work-vm-netns.service" ];
-      path = [ pkgs.nftables ];
+      reloadIfChanged = true;
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
+        ExecStart = "${pkgs.nftables}/bin/nft --file ${firewallRules}";
+        ExecReload = "${pkgs.nftables}/bin/nft --file ${firewallRules}";
+        ExecStop = "-${pkgs.nftables}/bin/nft delete table inet ${firewallTable}";
       };
-      script = ''
-        nft delete table inet ${lib.escapeShellArg firewallTable} 2>/dev/null || true
-        nft --file ${firewallRules}
-      '';
-      preStop = ''
-        nft delete table inet ${lib.escapeShellArg firewallTable} 2>/dev/null || true
-      '';
     };
 
     # When the NixOS firewall filters forwarded traffic, also permit namespace

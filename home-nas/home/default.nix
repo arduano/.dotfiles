@@ -153,11 +153,14 @@ in
           ];
         };
         models = {
-          "codex-lb/gpt-5.6-sol" = { };
-          "codex-lb/gpt-5.6-terra" = { };
-          "codex-lb/gpt-5.6-luna" = { };
-          "codex-lb/gpt-5.5" = { };
-          "codex-lb/gpt-5.4" = { };
+          # Temporary safety workaround: codex-lb's upstream rejects
+          # prompt_cache_retention on some routed requests. "none" suppresses
+          # both OpenAI prompt-cache request fields until the route is fixed.
+          "codex-lb/gpt-5.6-sol".params.cacheRetention = "none";
+          "codex-lb/gpt-5.6-terra".params.cacheRetention = "none";
+          "codex-lb/gpt-5.6-luna".params.cacheRetention = "none";
+          "codex-lb/gpt-5.5".params.cacheRetention = "none";
+          "codex-lb/gpt-5.4".params.cacheRetention = "none";
           "openai/gpt-5.6-sol" = { };
           "openai/gpt-5.6-terra" = { };
           "openai/gpt-5.6-luna" = { };

@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -8,12 +13,25 @@
 
   arduano.roles.base = {
     enable = true;
-    arduanoExtraGroups = [ "docker" "dialout" ];
+    arduanoExtraGroups = [
+      "docker"
+      "dialout"
+    ];
   };
   arduano.roles.desktop-main-pc.enable = true;
   arduano.roles.main-pc-hardware-workbench.enable = true;
+  arduano.workVm = {
+    enable = true;
+    cloudflareWarp = {
+      enable = true;
+      expectedPrivateDestinations = [ "100.64.0.0/10" ];
+    };
+  };
 
-  nix.settings.trusted-users = [ "root" "arduano" ];
+  nix.settings.trusted-users = [
+    "root"
+    "arduano"
+  ];
 
   networking.hostName = "main-pc";
 

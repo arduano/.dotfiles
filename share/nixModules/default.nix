@@ -1,6 +1,13 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./roles
+    ./work-vm
     ./nixChannel
     ./networking
     ./shell

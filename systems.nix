@@ -61,6 +61,19 @@ in
     ];
   };
 
+  nixosConfigurations.dell-pro-max-16 = makeSystem {
+    systemModules = [
+      ./dell-pro-max-16/system
+      nixos-hardware.nixosModules.common-pc
+      nixos-hardware.nixosModules.common-pc-ssd
+      nixos-hardware.nixosModules.common-pc-laptop
+      nixos-hardware.nixosModules.common-cpu-intel
+    ];
+    homeModules = [
+      ./dell-pro-max-16/home
+    ];
+  };
+
   nixosConfigurations.laptop = makeSystem {
     systemModules = [
       ./laptop/system

@@ -24,6 +24,28 @@
     enable = true;
     cloudflareWarp = {
       enable = true;
+      package = pkgs.cloudflare-warp.overrideAttrs (previous: {
+        version = "2026.7.1343.0";
+        src = pkgs.fetchurl {
+          name = "cloudflare-warp_2026.7.1343.0_amd64.deb";
+          url = "https://downloads.cloudflareclient.com/v1/download/noble-intel/version/2026.7.1343.0";
+          hash = "sha256-C0u01lhECaHPBDHPIc+yOlDYyHepwCBzJxEaHAV7EF4=";
+        };
+        buildInputs = previous.buildInputs ++ [ pkgs.tpm2-tss ];
+        # The daemon and CLI are fully patched. The remaining optional shared
+        # objects belong to the inactive Flutter taskbar/captive-portal UI.
+        autoPatchelfIgnoreMissingDeps = previous.autoPatchelfIgnoreMissingDeps ++ [
+          "libayatana-appindicator3.so.1"
+          "libayatana-ido3-0.4.so.0"
+          "libayatana-indicator3.so.7"
+          "libcurl.so.4"
+          "libdbusmenu-glib.so.4"
+          "libjavascriptcoregtk-4.1.so.0"
+          "libjvm.so"
+          "libsoup-3.0.so.0"
+          "libwebkit2gtk-4.1.so.0"
+        ];
+      });
       expectedPrivateDestinations = [ "100.64.0.0/10" ];
     };
   };

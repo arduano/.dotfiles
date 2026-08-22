@@ -14,6 +14,7 @@ let
     ;
   cfg = config.arduano.workVm;
   firewallTable = "work-vm-uplink";
+  warpPackage = cfg.cloudflareWarp.package;
 
   isInterfaceName = value: builtins.match "[a-zA-Z0-9_.-]+" value != null;
   isIPv4Address =
@@ -109,16 +110,147 @@ let
   warpCli = pkgs.writeShellApplication {
     name = "work-vm-warp";
     runtimeInputs = [
-      pkgs.cloudflare-warp
-      pkgs.iproute2
-      pkgs.nftables
+      warpPackage
       pkgs.systemd
     ];
     text = ''
       systemctl is-active --quiet work-vm-firewall.service
       systemctl is-active --quiet cloudflare-warp.service
-      nft list table inet ${lib.escapeShellArg firewallTable} >/dev/null
-      exec ip netns exec ${lib.escapeShellArg cfg.networkNamespace} warp-cli "$@"
+      # The daemon's IPC socket is host-visible. Keeping this client unprivileged
+      # lets enrollment callbacks and SSH operators reach the namespace daemon
+      # without entering the root-owned network namespace.
+      exec warp-cli "$@"
+    '';
+  };
+
+  warpReauthBrowser = pkgs.writeShellApplication {
+    name = "work-vm-warp-auth-browser";
+    runtimeInputs = [
+      pkgs.brave
+      pkgs.coreutils
+      pkgs.findutils
+    ];
+    text = ''
+      state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/work-vm-warp-auth"
+      profile_dir="$state_dir/brave-profile"
+      runtime_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+      install -d -m 0700 "$state_dir" "$profile_dir"
+
+      export DISPLAY="''${DISPLAY:-:0}"
+      export XDG_RUNTIME_DIR="$runtime_dir"
+      export DBUS_SESSION_BUS_ADDRESS="''${DBUS_SESSION_BUS_ADDRESS:-unix:path:$runtime_dir/bus}"
+      if [[ -z "''${XAUTHORITY:-}" || ! -r "''${XAUTHORITY:-}" ]]; then
+        xauth_line="$(${pkgs.findutils}/bin/find "$runtime_dir" -maxdepth 1 -type f -user "$(id -u)" -name 'xauth_*' -printf '%T@ %p\n' | sort -rn | head -n 1)"
+        export XAUTHORITY="''${xauth_line#* }"
+      fi
+      [[ -n "''${XAUTHORITY:-}" && -r "$XAUTHORITY" ]] || {
+        echo 'No active graphical desktop Xauthority was found; log into the main-pc desktop first.' >&2
+        exit 1
+      }
+
+      nohup brave \
+        --user-data-dir="$profile_dir" \
+        --no-first-run \
+        --no-default-browser-check \
+        --new-window "$@" \
+        >"$state_dir/browser.log" 2>&1 &
+    '';
+  };
+
+  warpReauthServer = pkgs.writeShellApplication {
+    name = "work-vm-warp-reauth-server";
+    runtimeInputs = [
+      warpPackage
+      pkgs.bind
+      pkgs.coreutils
+      pkgs.curl
+      pkgs.gawk
+      pkgs.gnugrep
+      pkgs.util-linux
+    ];
+    text = ''
+      state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/work-vm-warp-auth"
+      result="$state_dir/last-result.json"
+      install -d -m 0700 "$state_dir"
+      exec 9>"$state_dir/reauth.lock"
+      flock -n 9 || { echo 'A WARP reauthentication is already running.' >&2; exit 1; }
+
+      status="$(warp-cli --accept-tos status)"
+      printf '%s\n' "$status"
+      grep -q 'Status update: Connected' <<<"$status"
+      grep -q 'Network: healthy' <<<"$status"
+      organization="$(warp-cli --accept-tos registration organization)"
+      [[ -n "$organization" ]] || {
+        echo 'The WARP client has no Zero Trust organization registration.' >&2
+        exit 1
+      }
+      printf 'Registered WARP organization: %s\n' "$organization"
+
+      probe_endpoint() {
+        local hostname=$1 address code
+        address="$(host -W 2 -R 1 "$hostname" 127.0.2.3 2>/dev/null | awk '/ has address / { print $4; exit }')"
+        [[ -n "$address" ]] || return 1
+        code="$(curl \
+          --http1.1 \
+          --resolve "$hostname:443:$address" \
+          --connect-timeout 5 \
+          --max-time 20 \
+          --silent \
+          --show-error \
+          --output /dev/null \
+          --write-out '%{http_code}' \
+          "https://$hostname/" 2>/dev/null)" || return 1
+        [[ "$code" =~ ^[1-5][0-9][0-9]$ ]]
+      }
+
+      printf 'Opening the WiseTech reauthentication flow inside %s...\n' ${lib.escapeShellArg cfg.networkNamespace}
+      BROWSER=${lib.getExe warpReauthBrowser} warp-cli --accept-tos debug access-reauth
+      echo 'Approve the two-digit sign-in notification on your phone when prompted.'
+      echo 'Waiting for three consecutive protected HTTPS passes...'
+
+      deadline=$((SECONDS + 900))
+      consecutive=0
+      attempts=0
+      while (( SECONDS < deadline )); do
+        attempts=$((attempts + 1))
+        if probe_endpoint devtools-build-targets.wtg.zone \
+          && probe_endpoint proget.wtg.zone \
+          && probe_endpoint crikey.wtg.zone; then
+          consecutive=$((consecutive + 1))
+          printf 'Protected HTTPS pass %d/3.\n' "$consecutive"
+          if (( consecutive >= 3 )); then
+            finished="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            printf '{"schema":1,"status":"passed","consecutiveProtectedHttpsPasses":3,"finishedUtc":"%s"}\n' "$finished" > "$result.tmp"
+            mv "$result.tmp" "$result"
+            chmod 0600 "$result"
+            echo 'WARP reauthentication and protected HTTPS validation passed.'
+            exit 0
+          fi
+        else
+          consecutive=0
+          if (( attempts == 1 || attempts % 6 == 0 )); then
+            echo 'Still waiting for the authenticated protected path...'
+          fi
+        fi
+        sleep 5
+      done
+
+      finished="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+      printf '{"schema":1,"status":"failed","reason":"protected HTTPS did not recover before timeout","finishedUtc":"%s"}\n' "$finished" > "$result.tmp"
+      mv "$result.tmp" "$result"
+      chmod 0600 "$result"
+      echo 'Timed out waiting for authenticated protected HTTPS.' >&2
+      exit 1
+    '';
+  };
+
+  warpReauthClient = pkgs.writeShellApplication {
+    name = "work-vm-warp-reauth";
+    runtimeInputs = [ pkgs.socat ];
+    text = ''
+      socket=/run/work-vm-warp-reauth.sock
+      [[ -S "$socket" ]] || { echo "WARP reauthentication socket is unavailable: $socket" >&2; exit 1; }
+      exec socat -T 1200 - "UNIX-CONNECT:$socket"
     '';
   };
 in
@@ -177,6 +309,18 @@ in
 
     cloudflareWarp = {
       enable = mkEnableOption "Cloudflare WARP isolated inside the work-VM namespace";
+
+      package = mkOption {
+        type = types.package;
+        default = pkgs.cloudflare-warp;
+        description = "Cloudflare WARP package used by the isolated daemon and CLI helpers.";
+      };
+
+      reauthUser = mkOption {
+        type = types.str;
+        default = "arduano";
+        description = "Desktop user allowed to trigger and complete WARP reauthentication.";
+      };
 
       expectedPrivateDestinations = mkOption {
         type = types.listOf types.str;
@@ -242,7 +386,13 @@ in
       }
     ];
 
-    environment.systemPackages = [ namespaceExec ] ++ lib.optional cfg.cloudflareWarp.enable warpCli;
+    environment.systemPackages = [
+      namespaceExec
+    ]
+    ++ lib.optionals cfg.cloudflareWarp.enable [
+      warpCli
+      warpReauthClient
+    ];
 
     boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
@@ -333,6 +483,7 @@ in
 
     services.cloudflare-warp = mkIf cfg.cloudflareWarp.enable {
       enable = true;
+      package = warpPackage;
       # Outer WARP packets leave through the namespace's NAT uplink; no
       # host-facing inbound port is required.
       openFirewall = false;
@@ -351,6 +502,41 @@ in
         ReadWritePaths = [
           "/etc/netns/${cfg.networkNamespace}/resolv.conf"
         ];
+      };
+    };
+
+    systemd.sockets.work-vm-warp-reauth = mkIf cfg.cloudflareWarp.enable {
+      description = "User trigger for work-VM WARP reauthentication";
+      wantedBy = [ "sockets.target" ];
+      socketConfig = {
+        ListenStream = "/run/work-vm-warp-reauth.sock";
+        Accept = true;
+        SocketUser = cfg.cloudflareWarp.reauthUser;
+        SocketMode = "0600";
+        RemoveOnStop = true;
+      };
+    };
+
+    systemd.services."work-vm-warp-reauth@" = mkIf cfg.cloudflareWarp.enable {
+      description = "Work-VM WARP reauthentication and protected-path validation";
+      requires = [
+        "cloudflare-warp.service"
+        "work-vm-netns.service"
+      ];
+      after = [
+        "cloudflare-warp.service"
+        "work-vm-netns.service"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = lib.getExe warpReauthServer;
+        NetworkNamespacePath = "/run/netns/${cfg.networkNamespace}";
+        User = cfg.cloudflareWarp.reauthUser;
+        StandardInput = "socket";
+        StandardOutput = "socket";
+        StandardError = "socket";
+        TimeoutStartSec = "20min";
+        UMask = "0077";
       };
     };
 

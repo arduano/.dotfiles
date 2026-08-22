@@ -499,6 +499,12 @@ in
         BindPaths = [
           "/etc/netns/${cfg.networkNamespace}/resolv.conf:/etc/resolv.conf"
         ];
+        # Cloudflare One Client 2026.7 invokes nft through this fixed FHS path
+        # instead of resolving it through PATH. Expose only nftables' bin
+        # directory inside this service's private mount namespace.
+        BindReadOnlyPaths = [
+          "${lib.getBin pkgs.nftables}/bin:/usr/sbin"
+        ];
         ReadWritePaths = [
           "/etc/netns/${cfg.networkNamespace}/resolv.conf"
         ];

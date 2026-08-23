@@ -38,6 +38,10 @@
         "x-systemd.requires=/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD1DNDWD"
         "x-systemd.requires=/dev/disk/by-id/ata-ST8000VN002-2ZM188_WPV2NBA6"
         "x-systemd.requires=/dev/disk/by-id/nvme-eui.0025385581b21585-part2"
+        # Keep background reconciliation disabled from the earliest root mount.
+        # The deployed bcachefs 1.38.8 metadata-target regression consumed SSD
+        # endurance; upgrading the module is not permission to re-enable it.
+        "reconcile_enabled=0"
         # After an unclean shutdown, bcachefs recovery can legitimately take
         # longer than systemd's default 90s start timeout for sysroot.mount.
         # Let the mount/recovery run to completion instead of killing it.

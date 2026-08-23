@@ -28,6 +28,38 @@ in
   arduano.programming.enable = true;
   arduano.tmux.enable = true;
 
+  # Makera Studio remains installed in its isolated per-user prefix; Wine and
+  # both launch paths are pinned by Nix. The legacy launcher is an immediate
+  # rollback if the draft portal integration regresses.
+  home.packages = [ pkgs.arduano.makera-studio ];
+  home.file.".local/bin/makera-studio" = {
+    source = "${pkgs.arduano.makera-studio}/bin/makera-studio";
+    force = true;
+  };
+  home.file.".local/bin/makera-studio-legacy" = {
+    source = "${pkgs.arduano.makera-studio}/bin/makera-studio-legacy";
+    force = true;
+  };
+
+  # Keep the OAuth protocol handler and Plasma launcher under Home Manager.
+  # `xdg.desktopEntries` is inactive here because this profile intentionally
+  # leaves `xdg.enable` off, so manage the one desktop file explicitly.
+  home.file.".local/share/applications/makera-studio.desktop" = {
+    force = true;
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Makera Studio
+      Comment=Makera Studio with native KDE portal file dialogs
+      Exec=${pkgs.arduano.makera-studio}/bin/makera-studio %u
+      Terminal=false
+      Categories=Graphics;Engineering;
+      MimeType=x-scheme-handler/makera-studio;
+      StartupNotify=true
+      StartupWMClass=makerastudio.exe
+    '';
+  };
+
   arduano.kdeSetup.enable = true;
 
   systemd.user.services.pc-lock-mqtt = {

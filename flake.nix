@@ -44,6 +44,8 @@
 
     nix-openclaw.url = "github:openclaw/nix-openclaw";
 
+    # Standalone declarative Makera Studio/Wine integration owned by Leo.
+    makera-studio-nix.url = "github:arduano/makera-studio-nix";
 
     flake-utils.url = "github:numtide/flake-utils";
 

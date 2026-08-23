@@ -11,8 +11,6 @@ rec {
   snapmaker-orca-slicer = callPackage ./snapmaker-orca-slicer.nix { };
   snapmaker-orca-full-spectrum = callPackage ./snapmaker-orca-full-spectrum.nix { };
   signal-desktop-xwayland = callPackage ./signal-desktop-xwayland.nix { };
-  wine-makera-portal = callPackage ./wine-makera-portal.nix { };
-  makera-studio = callPackage ./makera-studio.nix { wineMakeraPortal = wine-makera-portal; };
 
   groups = {
     build-essentials = with pkgs; [

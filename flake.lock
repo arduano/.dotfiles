@@ -189,12 +189,30 @@
         "type": "github"
       }
     },
+    "makera-studio-nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1787468401,
+        "narHash": "sha256-JyXPydUhYiiWVZoBoYE4h6FjpNcWMmEsuM6Yo16V4kw=",
+        "owner": "arduano",
+        "repo": "makera-studio-nix",
+        "rev": "77fe4fdd8333bf6857ce077e9f2ff7e6fe962514",
+        "type": "github"
+      },
+      "original": {
+        "owner": "arduano",
+        "repo": "makera-studio-nix",
+        "type": "github"
+      }
+    },
     "nix-openclaw": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "home-manager": "home-manager_2",
         "nix-openclaw-tools": "nix-openclaw-tools",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "qmd": "qmd"
       },
       "locked": {
@@ -213,7 +231,7 @@
     },
     "nix-openclaw-tools": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1778060041,
@@ -231,7 +249,7 @@
     },
     "nixos-hardware": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1785232496,
@@ -279,7 +297,7 @@
         "argononed": "argononed",
         "flake-compat": "flake-compat",
         "nixos-images": "nixos-images",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1785596452,
@@ -298,18 +316,14 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1767364772,
-        "narHash": "sha256-fFUnEYMla8b7UKjijLnMe+oVFOz6HjijGGNS1l7dYaQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "16c7794d0a28b5a37904d55bcca36003b9109aaa",
-        "type": "github"
+        "lastModified": 1787360063,
+        "narHash": "sha256-dt4WdcvsA8/RCe+VZZwqU0X+XMM3wBbGCWA0/sFWzGo=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/2c423e03bbafcff28bfadc6781a4a8257f205cb5.tar.gz"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/2c423e03bbafcff28bfadc6781a4a8257f205cb5.tar.gz"
       }
     },
     "nixpkgs-lib": {
@@ -345,6 +359,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1767364772,
+        "narHash": "sha256-fFUnEYMla8b7UKjijLnMe+oVFOz6HjijGGNS1l7dYaQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "16c7794d0a28b5a37904d55bcca36003b9109aaa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1783776592,
         "narHash": "sha256-UgCQzxeWI75XM8G+hPrPh+MKzEPjG3SpAj7dtqSbksA=",
         "owner": "NixOS",
@@ -359,7 +389,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1767892417,
         "narHash": "sha256-8bW3q88CEg2u4hSP66Vf4lpbLonHz7hqDNBMcCY7E9U=",
@@ -372,7 +402,7 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1784856561,
         "narHash": "sha256-J+Bx1Z6Oeoj2FgnBhRMKyUhhtDoOpTgXYaVLZpDjW4A=",
@@ -388,7 +418,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_6": {
       "locked": {
         "lastModified": 1787360063,
         "narHash": "sha256-95aJfHyQTLWslCXFVNB0odgmVkpdmDezQwTg9mhqV1E=",
@@ -458,10 +488,11 @@
         "flake-programs-sqlite": "flake-programs-sqlite",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
+        "makera-studio-nix": "makera-studio-nix",
         "nix-openclaw": "nix-openclaw",
         "nixos-hardware": "nixos-hardware",
         "nixos-raspberrypi": "nixos-raspberrypi",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_6",
         "nixpkgs-openclaw-runtime": "nixpkgs-openclaw-runtime",
         "plasma-manager": "plasma-manager",
         "vscode-server": "vscode-server",

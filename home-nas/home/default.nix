@@ -1,6 +1,18 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
+  openclawBeta = pkgs.callPackage ../../pkgs/openclaw-beta {
+    nixOpenclawSrc = inputs.nix-openclaw.outPath;
+    nodejs =
+      inputs.nixpkgs-openclaw-runtime.legacyPackages.${pkgs.stdenv.hostPlatform.system}.nodejs_24;
+  };
+
   workmapsAttentionMap = pkgs.writeShellApplication {
     name = "workmaps-attention-map";
     runtimeInputs = with pkgs; [
@@ -43,8 +55,7 @@ in
   programs.openclaw = {
     enable = true;
     reloadScript.enable = true;
-    runtimePlugins = [ "signal" ];
-
+    package = openclawBeta;
     config = {
       diagnostics = {
         enabled = true;
@@ -54,13 +65,17 @@ in
       logging = {
         level = "debug";
         consoleLevel = "info";
-        consoleStyle = "compact";
-        redactSensitive = "tools";
+        consoleStyle = "pretty";
       };
 
       secrets.providers.codex_lb_api_key = {
         source = "file";
         path = "/home/arduano/.openclaw/secrets/codex-lb-api-key";
+        mode = "singleValue";
+      };
+      secrets.providers.gateway_token = {
+        source = "file";
+        path = "/home/arduano/.openclaw/secrets/gateway-token";
         mode = "singleValue";
       };
 
@@ -78,43 +93,62 @@ in
         timeoutSeconds = 900;
         agentRuntime.id = "openclaw";
         request.allowPrivateNetwork = true;
-        models = map
-          (model: {
-            inherit (model) id name;
-            reasoning = true;
-            input = [ "text" "image" ];
-            contextWindow = 272000;
-            maxTokens = 128000;
-            thinkingLevelMap = {
-              off = "none";
-              minimal = "minimal";
-              low = "low";
-              medium = "medium";
-              high = "high";
-              xhigh = "xhigh";
-              max = "xhigh";
-            };
-            compat = {
-              supportsPromptCacheKey = true;
-              supportsReasoningEffort = true;
-              supportsTools = true;
-              supportedReasoningEfforts = [
-                "none"
-                "minimal"
-                "low"
-                "medium"
-                "high"
-                "xhigh"
+        models =
+          map
+            (model: {
+              inherit (model) id name;
+              reasoning = true;
+              input = [
+                "text"
+                "image"
               ];
-            };
-          })
-          [
-            { id = "gpt-5.6-sol"; name = "GPT-5.6 Sol via Codex LB"; }
-            { id = "gpt-5.6-terra"; name = "GPT-5.6 Terra via Codex LB"; }
-            { id = "gpt-5.6-luna"; name = "GPT-5.6 Luna via Codex LB"; }
-            { id = "gpt-5.5"; name = "GPT-5.5 via Codex LB"; }
-            { id = "gpt-5.4"; name = "GPT-5.4 via Codex LB"; }
-          ];
+              contextWindow = 272000;
+              maxTokens = 128000;
+              thinkingLevelMap = {
+                off = "none";
+                minimal = "minimal";
+                low = "low";
+                medium = "medium";
+                high = "high";
+                xhigh = "xhigh";
+                max = "xhigh";
+              };
+              compat = {
+                supportsPromptCacheKey = true;
+                supportsReasoningEffort = true;
+                supportsTools = true;
+                supportedReasoningEfforts = [
+                  "none"
+                  "minimal"
+                  "low"
+                  "medium"
+                  "high"
+                  "xhigh"
+                ];
+              };
+            })
+            [
+              {
+                id = "gpt-5.6-sol";
+                name = "GPT-5.6 Sol via Codex LB";
+              }
+              {
+                id = "gpt-5.6-terra";
+                name = "GPT-5.6 Terra via Codex LB";
+              }
+              {
+                id = "gpt-5.6-luna";
+                name = "GPT-5.6 Luna via Codex LB";
+              }
+              {
+                id = "gpt-5.5";
+                name = "GPT-5.5 via Codex LB";
+              }
+              {
+                id = "gpt-5.4";
+                name = "GPT-5.4 via Codex LB";
+              }
+            ];
       };
 
       auth.profiles."openai:leonid.shchurov@gmail.com" = {
@@ -125,7 +159,6 @@ in
 
       auth.order.openai = [
         "openai:leonid.shchurov@gmail.com"
-        "openai:api-key-backup"
       ];
 
       browser = {
@@ -138,7 +171,6 @@ in
           cdpPort = 18800;
           cdpUrl = "http://127.0.0.1:18800";
           driver = "clawd";
-          color = "#FF4500";
         };
       };
 
@@ -171,23 +203,31 @@ in
           "openrouter/anthropic/claude-opus-4.6" = { };
         };
         workspace = "/home/arduano/.openclaw/workspace";
-        memorySearch = {
-          enabled = true;
-          sources = [ "memory" ];
-          provider = "openai";
-          remote.apiKey = {
-            provider = "default";
-            source = "env";
-            id = "OPENAI_API_KEY";
-          };
-          sync.onSearch = true;
+        modelPolicy.allow = [
+          "codex-lb/gpt-5.6-sol"
+          "codex-lb/gpt-5.6-terra"
+          "codex-lb/gpt-5.6-luna"
+          "codex-lb/gpt-5.5"
+          "codex-lb/gpt-5.4"
+          "openai/gpt-5.6-sol"
+          "openai/gpt-5.6-terra"
+          "openai/gpt-5.6-luna"
+          "openai/gpt-5.5"
+          "openai/gpt-5.4"
+          "openai/gpt-5.3-codex"
+          "openrouter/anthropic/claude-sonnet-4.6"
+          "openrouter/anthropic/claude-opus-4.6"
+        ];
+        contextPruning = {
+          mode = "cache-ttl";
+          ttl = "5m";
         };
         compaction = {
           mode = "safeguard";
           model = "codex-lb/gpt-5.6-sol";
-          reserveTokensFloor = 50000;
-          timeoutSeconds = 900;
-          truncateAfterCompaction = true;
+          thinkingLevel = "low";
+          timeoutSeconds = 240;
+          notifyUser = true;
           midTurnPrecheck.enabled = false;
           qualityGuard.enabled = false;
         };
@@ -212,7 +252,6 @@ in
           target = "signal";
           to = "+61466965098";
           directPolicy = "allow";
-          ackMaxChars = 20;
           prompt = "Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.";
         };
         maxConcurrent = 4;
@@ -221,6 +260,18 @@ in
           model = "codex-lb/gpt-5.6-sol";
         };
         sandbox.mode = "off";
+      };
+      agents.entries.main = { };
+
+      memory.search = {
+        enabled = true;
+        sources = [ "memory" ];
+        provider = "openai";
+        remote.apiKey = {
+          provider = "default";
+          source = "env";
+          id = "OPENAI_API_KEY";
+        };
       };
 
       tools = {
@@ -254,7 +305,6 @@ in
         native = "auto";
         nativeSkills = "auto";
         restart = true;
-        ownerDisplay = "raw";
       };
 
       hooks.internal = {
@@ -265,18 +315,47 @@ in
         };
       };
 
+      plugins = {
+        allow = [
+          "signal"
+          "openai"
+          "openrouter"
+          "browser"
+          "active-memory"
+          "brave"
+          "codex"
+          "perplexity"
+        ];
+        entries = {
+          active-memory.enabled = true;
+          brave.enabled = true;
+          browser.enabled = true;
+          codex.enabled = true;
+          openai.enabled = true;
+          openrouter.enabled = true;
+          perplexity.enabled = true;
+        };
+      };
+
       channels.signal = {
         enabled = true;
         account = "+61493904969";
-        cliPath = "${pkgs.signal-cli}/bin/signal-cli";
+        transport = {
+          kind = "managed-native";
+          cliPath = "${pkgs.signal-cli}/bin/signal-cli";
+        };
         dmPolicy = "allowlist";
         allowFrom = [ "+61466965098" ];
+        groupAllowFrom = [ "+61466965098" ];
         groupPolicy = "allowlist";
-        blockStreaming = true;
-        blockStreamingCoalesce = {
-          minChars = 1;
-          maxChars = 256;
-          idleMs = 0;
+        groups."*".requireMention = false;
+        streaming.block = {
+          enabled = true;
+          coalesce = {
+            minChars = 1;
+            maxChars = 256;
+            idleMs = 0;
+          };
         };
       };
 
@@ -286,7 +365,11 @@ in
         bind = "loopback";
         auth = {
           mode = "token";
-          token = "nix-managed-local-gateway";
+          token = {
+            source = "file";
+            provider = "gateway_token";
+            id = "value";
+          };
         };
         tailscale = {
           mode = "off";
@@ -294,7 +377,37 @@ in
         };
       };
 
-      skills.install.nodeManager = "bun";
+      skills = {
+        install.nodeManager = "bun";
+        entries = lib.genAttrs [
+          "1password"
+          "blogwatcher"
+          "blucli"
+          "camsnap"
+          "coding-agent"
+          "eightctl"
+          "gemini"
+          "gifgrep"
+          "goplaces"
+          "himalaya"
+          "mcporter"
+          "model-usage"
+          "nano-pdf"
+          "obsidian"
+          "openai-whisper"
+          "openhue"
+          "oracle"
+          "ordercli"
+          "sag"
+          "sherpa-onnx-tts"
+          "songsee"
+          "sonoscli"
+          "spotify-player"
+          "summarize"
+          "trello"
+          "xurl"
+        ] (_: { enabled = false; });
+      };
     };
   };
 
@@ -329,7 +442,6 @@ in
     google-cloud-sdk
     jq
   ];
-
 
   home.sessionVariables.GOG_ACCOUNT = "arduano.mail@gmail.com";
 

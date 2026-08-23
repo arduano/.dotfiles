@@ -15,25 +15,36 @@ let
   commonHomeModules = [
     vscode-server.homeModules.default
     plasma-manager.homeModules.plasma-manager
-    nix-openclaw.homeManagerModules.openclaw
     (import ./share/homeModules)
     (import ./share/overlayModule.nix)
   ];
 
-  makeSystem = { systemModules ? [ ], homeModules ? [ ], extraArgs ? { }, system ? "x86_64-linux" }:
+  makeSystem =
+    {
+      systemModules ? [ ],
+      homeModules ? [ ],
+      openclawModule ? nix-openclaw.homeManagerModules.openclaw,
+      extraArgs ? { },
+      system ? "x86_64-linux",
+    }:
     lib.nixosSystem {
       inherit system;
       specialArgs = extraArgs // {
         inherit inputs;
       };
-      modules = commonSystemModules ++ systemModules ++ [{
-        home-manager.users.arduano = {
-          imports = commonHomeModules ++ homeModules;
-        };
-        home-manager.extraSpecialArgs = {
-          inherit inputs;
-        };
-      }];
+      modules =
+        commonSystemModules
+        ++ systemModules
+        ++ [
+          {
+            home-manager.users.arduano = {
+              imports = [ openclawModule ] ++ commonHomeModules ++ homeModules;
+            };
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+          }
+        ];
     };
 in
 
@@ -61,6 +72,7 @@ in
   };
 
   nixosConfigurations.home-nas = makeSystem {
+    openclawModule = import ./pkgs/openclaw-beta/home-manager;
     systemModules = [
       ./home-nas/system
       nixos-hardware.nixosModules.common-pc

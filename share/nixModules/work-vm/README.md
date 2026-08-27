@@ -21,7 +21,7 @@ The module currently provides:
   the namespace daemon;
 - `work-vm-warp-reauth`, a narrow socket-activated SSH/CLI harness that opens a
   persistent auth-browser profile inside the namespace and waits for three
-  consecutive protected HTTPS passes; and
+  consecutive HTTPS passes against caller-supplied protected hosts; and
 - a non-secret list of expected private destination IPv4 CIDRs for auditing and
   fail-closed enforcement.
 
@@ -47,17 +47,44 @@ history, logs, and reports.
 Trigger routine reauthentication locally or over SSH with:
 
 ```console
-work-vm-warp-reauth
+work-vm-warp-reauth PROTECTED_HOST [PROTECTED_HOST...]
 # or
-ssh main-pc work-vm-warp-reauth
+ssh main-pc work-vm-warp-reauth PROTECTED_HOST [PROTECTED_HOST...]
 ```
 
-The harness opens a dedicated persistent Brave profile on the active desktop,
-routed through the `work-vm` namespace. Complete the identity-provider flow and
-approve the two-digit phone notification; the command returns only after
-DevTools Build Targets, ProGet, and Crikey pass protected HTTPS three times in
-a row. The first use may require signing into the dedicated browser profile;
-later reauthentication can reuse its identity-provider session.
+The client exits successfully only after the socket-bound server emits its
+schema-qualified, three-pass protected-HTTPS completion receipt. A closed
+connection or browser-launch failure is terminal even when the socket
+transport itself exits cleanly.
+
+The harness opens a headed Chromium persistent profile through Playwright on
+the active desktop. Playwright owns navigation instead of handing the URL to a
+desktop browser or simulating keyboard input. The browser is routed through the
+`work-vm` namespace and bound to its WARP-managed resolver rather than the host
+resolver. Before navigation, the launcher resolves the authentication host
+explicitly through WARP DNS, then maps that validated IPv4 address in the
+dedicated Chromium process. It deliberately does not require libc resolution:
+split-DNS names are not necessarily available through the namespace's first
+general resolver. This keeps browser DoH and HTTPS/SVCB address hints from
+bypassing hostname-based split inclusion. Browser QUIC is disabled to avoid
+racing the host's enforced MASQUE HTTP/2 path.
+
+Each attempt writes a private, mode-0700 run directory below
+`$XDG_STATE_HOME/work-vm-warp-auth/runs/`. Its sanitized JSONL events, live
+status, startup result, browser log, remote response address, and failure
+screenshot make the auth path inspectable without desktop-control tooling.
+Default events retain only URL origins and omit console text. Playwright
+tracing and console text are disabled by default because they can contain
+authentication state. They may be enabled only through an explicit private
+service environment with `WORK_VM_WARP_AUTH_TRACE=1`.
+
+Complete the identity-provider flow in the headed window and approve the
+two-digit phone notification; the command returns only after every
+caller-supplied host passes protected HTTPS three times in a row.
+Workload repositories own those hostnames and the stronger end-to-end VM
+validation; this generic module does not embed organization-specific
+endpoints. The first use may require signing into the dedicated browser
+profile; later reauthentication can reuse its identity-provider session.
 
 The team administrator must ensure the intended private routes are included by
 the Zero Trust device profile. Cloudflare commonly excludes CGNAT/private

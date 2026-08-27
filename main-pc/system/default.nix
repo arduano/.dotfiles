@@ -9,7 +9,12 @@
   imports = [
     ./arduano.nix
     ./hardware-configuration.nix
+    inputs.vm-harness.nixosModules.vm-harness-host
   ];
+
+  # The broker authenticates the unprivileged controller with SO_PEERCRED, so
+  # this host identity is deliberately stable and explicit.
+  users.users.arduano.uid = 1000;
 
   arduano.roles.base = {
     enable = true;
@@ -24,6 +29,10 @@
     enable = true;
     cloudflareWarp = {
       enable = true;
+      # The managed client currently establishes MASQUE/HTTP3 successfully but
+      # receives no inner packets. Force its concurrent HTTP/2 transport to win
+      # without changing host-root networking or organization credentials.
+      forceMasqueHttp2 = true;
       package = pkgs.cloudflare-warp.overrideAttrs (previous: {
         version = "2026.7.1343.0";
         src = pkgs.fetchurl {
@@ -47,6 +56,34 @@
         ];
       });
       expectedPrivateDestinations = [ "100.64.0.0/10" ];
+    };
+  };
+
+  # This is the only VM Harness component that crosses the root boundary. It
+  # exposes a fixed, peer-authenticated Unix-socket protocol to the unprivileged
+  # workspace controller; workload selection and all VM orchestration remain in
+  # the user's workspace flake.
+  services.vm-harness-host-broker = {
+    enable = true;
+    controllerUser = "arduano";
+    controllerUid = 1000;
+    controllerGroup = "vm-harness-controller";
+    controllerGid = 981;
+    networkNamespacePath = "/run/netns/work-vm";
+    namespaceUnit = "work-vm-netns.service";
+    warpUnit = "cloudflare-warp.service";
+    warpPackage = config.arduano.workVm.cloudflareWarp.package;
+    policyProfiles.private-split = {
+      dns = [
+        {
+          # The guest sees only this synthetic address. passt translates its
+          # DNS traffic to WARP's namespace-local resolver below.
+          forward = "10.0.2.3";
+          host = "127.0.2.3";
+        }
+      ];
+      mtu = 1280;
+      digest = "sha256:c426223b8999b49efe1f36ce924ef776e8d6b33da47e5c4ae940e67f01f363db";
     };
   };
 

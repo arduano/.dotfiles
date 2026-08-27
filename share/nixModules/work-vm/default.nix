@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 let
@@ -15,6 +14,10 @@ let
   cfg = config.arduano.workVm;
   firewallTable = "work-vm-uplink";
   warpPackage = cfg.cloudflareWarp.package;
+  warpAuthBrowserHarness = builtins.path {
+    path = ./warp-auth-browser.mjs;
+    name = "work-vm-warp-auth-browser.mjs";
+  };
 
   isInterfaceName = value: builtins.match "[a-zA-Z0-9_.-]+" value != null;
   isIPv4Address =
@@ -53,6 +56,9 @@ let
 
       chain forward {
         type filter hook forward priority filter - 5; policy accept;
+        ${lib.optionalString (cfg.cloudflareWarp.enable && cfg.cloudflareWarp.forceMasqueHttp2) ''
+          iifname "${cfg.hostInterface}" udp dport { 443, 500, 1701, 4443, 4500, 8095, 8443 } counter drop comment "force WARP MASQUE HTTP/2 fallback"
+        ''}
         ${lib.optionalString
           (cfg.cloudflareWarp.enable && cfg.cloudflareWarp.expectedPrivateDestinations != [ ])
           ''
@@ -126,16 +132,40 @@ let
   warpReauthBrowser = pkgs.writeShellApplication {
     name = "work-vm-warp-auth-browser";
     runtimeInputs = [
-      pkgs.brave
+      pkgs.chromium
       pkgs.coreutils
       pkgs.findutils
+      pkgs.gawk
+      pkgs.glibc.bin
+      pkgs.jq
+      pkgs.nodejs
     ];
     text = ''
       state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/work-vm-warp-auth"
-      profile_dir="$state_dir/brave-profile"
+      profile_dir="$state_dir/chromium-profile"
+      runs_dir="$state_dir/runs"
       runtime_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-      install -d -m 0700 "$state_dir" "$profile_dir"
+      install -d -m 0700 "$state_dir" "$profile_dir" "$runs_dir"
 
+      IFS= read -r auth_url || auth_url=""
+      authority="''${auth_url#*://}"
+      authority="''${authority%%/*}"
+      auth_hostname="''${authority%%:*}"
+      [[ -n "$auth_hostname" ]] || {
+        echo 'The WARP client did not provide an authentication URL.' >&2
+        exit 1
+      }
+      if [[ "$auth_url" != https://* \
+        || ! "$auth_hostname" =~ ^([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$ ]]; then
+        echo 'The WARP client did not provide a valid HTTPS authentication URL.' >&2
+        exit 1
+      fi
+      auth_address="$(${lib.getExe' pkgs.bind.host "host"} -W 2 -R 2 -t A "$auth_hostname" 127.0.2.3 \
+        | awk '/ has address / { print $4; exit }')"
+      [[ -n "$auth_address" ]] || {
+        printf 'The WARP authentication hostname did not resolve through namespace DNS: %s\n' "$auth_hostname" >&2
+        exit 1
+      }
       export DISPLAY="''${DISPLAY:-:0}"
       export XDG_RUNTIME_DIR="$runtime_dir"
       export DBUS_SESSION_BUS_ADDRESS="''${DBUS_SESSION_BUS_ADDRESS:-unix:path:$runtime_dir/bus}"
@@ -147,13 +177,67 @@ let
         echo 'No active graphical desktop Xauthority was found; log into the main-pc desktop first.' >&2
         exit 1
       }
+      unset HTTP_PROXY HTTPS_PROXY ALL_PROXY NO_PROXY
+      unset http_proxy https_proxy all_proxy no_proxy
 
-      nohup brave \
-        --user-data-dir="$profile_dir" \
-        --no-first-run \
-        --no-default-browser-check \
-        --new-window "$@" \
-        >"$state_dir/browser.log" 2>&1 &
+      run_id="$(date -u +%Y%m%dT%H%M%SZ)-$$"
+      run_dir="$runs_dir/$run_id"
+      install -d -m 0700 "$run_dir"
+      ln -sfn "$run_id" "$runs_dir/latest"
+
+      printf '%s\n' "$auth_url" | nohup node ${warpAuthBrowserHarness} \
+        --auth-address "$auth_address" \
+        --profile-directory "$profile_dir" \
+        --run-directory "$run_dir" \
+        --playwright-module ${pkgs.playwright}/index.mjs \
+        --chromium-executable ${lib.getExe pkgs.chromium} \
+        >"$run_dir/harness.log" 2>&1 &
+      harness_pid=$!
+      chmod 0600 "$run_dir/harness.log"
+
+      deadline=$((SECONDS + 60))
+      while [[ ! -s "$run_dir/ready.json" && $SECONDS -lt $deadline ]]; do
+        if ! kill -0 "$harness_pid" 2>/dev/null; then
+          wait "$harness_pid" || true
+          echo "The Playwright WARP authentication harness exited during launch. Evidence: $run_dir" >&2
+          exit 1
+        fi
+        sleep 1
+      done
+      [[ -s "$run_dir/ready.json" ]] || {
+        kill "$harness_pid" 2>/dev/null || true
+        wait "$harness_pid" || true
+        echo "The Playwright WARP authentication harness did not become ready. Evidence: $run_dir" >&2
+        exit 1
+      }
+
+      browser_netns="$(readlink "/proc/$harness_pid/ns/net")"
+      launcher_netns="$(readlink /proc/self/ns/net)"
+      if [[ "$browser_netns" != "$launcher_netns" ]]; then
+        kill "$harness_pid" 2>/dev/null || true
+        wait "$harness_pid" || true
+        echo 'The Playwright WARP authentication harness escaped its network namespace.' >&2
+        exit 1
+      fi
+
+      status="$(jq -r '.status' "$run_dir/ready.json")"
+      case "$status" in
+        interactive)
+          printf 'Playwright authentication browser ready. Evidence: %s\n' "$run_dir"
+          ;;
+        warp_not_detected)
+          kill "$harness_pid" 2>/dev/null || true
+          wait "$harness_pid" || true
+          printf 'Cloudflare Access did not recognize WARP. Evidence: %s\n' "$run_dir" >&2
+          exit 1
+          ;;
+        *)
+          kill "$harness_pid" 2>/dev/null || true
+          wait "$harness_pid" || true
+          printf 'The Playwright authentication harness failed with status %s. Evidence: %s\n' "$status" "$run_dir" >&2
+          exit 1
+          ;;
+      esac
     '';
   };
 
@@ -161,7 +245,6 @@ let
     name = "work-vm-warp-reauth-server";
     runtimeInputs = [
       warpPackage
-      pkgs.bind
       pkgs.coreutils
       pkgs.curl
       pkgs.gawk
@@ -174,6 +257,28 @@ let
       install -d -m 0700 "$state_dir"
       exec 9>"$state_dir/reauth.lock"
       flock -n 9 || { echo 'A WARP reauthentication is already running.' >&2; exit 1; }
+
+      IFS= read -r probe_count || {
+        echo 'The reauthentication request omitted its probe count.' >&2
+        exit 2
+      }
+      if [[ ! "$probe_count" =~ ^[1-9][0-9]*$ ]] || (( probe_count > 16 )); then
+        echo 'WARP reauthentication requires between 1 and 16 protected probe hosts.' >&2
+        exit 2
+      fi
+      probe_hosts=()
+      for (( index = 0; index < probe_count; index++ )); do
+        IFS= read -r hostname || {
+          echo 'The reauthentication request ended before every probe host was received.' >&2
+          exit 2
+        }
+        [[ ''${#hostname} -le 253 \
+          && "$hostname" =~ ^([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$ ]] || {
+          echo 'A protected probe host is not a valid DNS hostname.' >&2
+          exit 2
+        }
+        probe_hosts+=("$hostname")
+      done
 
       status="$(warp-cli --accept-tos status)"
       printf '%s\n' "$status"
@@ -188,8 +293,11 @@ let
 
       probe_endpoint() {
         local hostname=$1 address code
-        address="$(host -W 2 -R 1 "$hostname" 127.0.2.3 2>/dev/null | awk '/ has address / { print $4; exit }')"
-        [[ -n "$address" ]] || return 1
+        address="$(${lib.getExe' pkgs.bind.host "host"} -W 2 -R 1 "$hostname" 127.0.2.3 2>/dev/null | awk '/ has address / { print $4; exit }')"
+        if [[ -z "$address" ]]; then
+          printf 'Protected probe %s did not resolve through WARP DNS.\n' "$hostname"
+          return 1
+        fi
         code="$(curl \
           --http1.1 \
           --resolve "$hostname:443:$address" \
@@ -199,23 +307,43 @@ let
           --show-error \
           --output /dev/null \
           --write-out '%{http_code}' \
-          "https://$hostname/" 2>/dev/null)" || return 1
-        [[ "$code" =~ ^[1-5][0-9][0-9]$ ]]
+          "https://$hostname/" 2>/dev/null)" || {
+            printf 'Protected probe %s -> %s failed before receiving HTTP.\n' "$hostname" "$address"
+            return 1
+          }
+        printf 'Protected probe %s -> %s returned HTTP %s.\n' "$hostname" "$address" "$code"
+        [[ "$code" =~ ^[23][0-9][0-9]$ ]]
       }
 
-      printf 'Opening the WiseTech reauthentication flow inside %s...\n' ${lib.escapeShellArg cfg.networkNamespace}
-      BROWSER=${lib.getExe warpReauthBrowser} warp-cli --accept-tos debug access-reauth
+      printf 'Creating the WARP reauthentication flow inside %s...\n' ${lib.escapeShellArg cfg.networkNamespace}
+      reauth_output="$(BROWSER=${pkgs.coreutils}/bin/true \
+        warp-cli --accept-tos debug access-reauth 2>&1)" || {
+          echo 'The WARP client failed to create a reauthentication URL.' >&2
+          exit 1
+        }
+      auth_url="$(grep -Eo 'https://[^[:space:]]+' <<<"$reauth_output" | head -n 1 || true)"
+      [[ -n "$auth_url" ]] || {
+        echo 'The WARP client did not return a reauthentication URL.' >&2
+        exit 1
+      }
+      echo 'Launching the WARP reauthentication flow through the Playwright harness.'
+      printf '%s\n' "$auth_url" | ${lib.getExe warpReauthBrowser}
       echo 'Approve the two-digit sign-in notification on your phone when prompted.'
-      echo 'Waiting for three consecutive protected HTTPS passes...'
+      printf 'Waiting for three consecutive protected HTTPS passes across %d configured host(s)...\n' "$probe_count"
 
       deadline=$((SECONDS + 900))
       consecutive=0
       attempts=0
       while (( SECONDS < deadline )); do
         attempts=$((attempts + 1))
-        if probe_endpoint devtools-build-targets.wtg.zone \
-          && probe_endpoint proget.wtg.zone \
-          && probe_endpoint crikey.wtg.zone; then
+        all_passed=true
+        for hostname in "''${probe_hosts[@]}"; do
+          if ! probe_endpoint "$hostname"; then
+            all_passed=false
+            break
+          fi
+        done
+        if "$all_passed"; then
           consecutive=$((consecutive + 1))
           printf 'Protected HTTPS pass %d/3.\n' "$consecutive"
           if (( consecutive >= 3 )); then
@@ -223,7 +351,8 @@ let
             printf '{"schema":1,"status":"passed","consecutiveProtectedHttpsPasses":3,"finishedUtc":"%s"}\n' "$finished" > "$result.tmp"
             mv "$result.tmp" "$result"
             chmod 0600 "$result"
-            echo 'WARP reauthentication and protected HTTPS validation passed.'
+              echo '{"schema":"work-vm-warp-reauth-result/v1","status":"passed"}'
+              echo 'WARP reauthentication and protected HTTPS validation passed.'
             exit 0
           fi
         else
@@ -246,11 +375,36 @@ let
 
   warpReauthClient = pkgs.writeShellApplication {
     name = "work-vm-warp-reauth";
-    runtimeInputs = [ pkgs.socat ];
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.gnugrep
+      pkgs.socat
+    ];
     text = ''
       socket=/run/work-vm-warp-reauth.sock
       [[ -S "$socket" ]] || { echo "WARP reauthentication socket is unavailable: $socket" >&2; exit 1; }
-      exec socat -T 1200 - "UNIX-CONNECT:$socket"
+      (( $# >= 1 && $# <= 16 )) || {
+        echo 'usage: work-vm-warp-reauth PROTECTED_HOST [PROTECTED_HOST...]' >&2
+        exit 2
+      }
+
+      response_file="$(mktemp --tmpdir work-vm-warp-reauth.XXXXXXXXXX)"
+      trap 'rm -f "$response_file"' EXIT
+      set +o errexit
+      {
+        printf '%d\n' "$#"
+        printf '%s\n' "$@"
+      } | socat -T 1200 STDIO,ignoreeof "UNIX-CONNECT:$socket" | tee "$response_file"
+      pipeline_status=("''${PIPESTATUS[@]}")
+      set -o errexit
+      if (( pipeline_status[1] != 0 || pipeline_status[2] != 0 )); then
+        echo 'The WARP reauthentication socket transport failed.' >&2
+        exit 1
+      fi
+      grep -Fxq '{"schema":"work-vm-warp-reauth-result/v1","status":"passed"}' "$response_file" || {
+        echo 'The WARP reauthentication server closed without a passed completion receipt.' >&2
+        exit 1
+      }
     '';
   };
 in
@@ -320,6 +474,18 @@ in
         type = types.str;
         default = "arduano";
         description = "Desktop user allowed to trigger and complete WARP reauthentication.";
+      };
+
+      forceMasqueHttp2 = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Drop the fixed UDP destination-port set advertised by the WARP client
+          for MASQUE protocol racing so its HTTP/2 transport wins. This also
+          disables direct traffic to those UDP ports for other namespace
+          clients and should be enabled only when the managed HTTP/3 data plane
+          is known to be unhealthy.
+        '';
       };
 
       expectedPrivateDestinations = mkOption {
@@ -441,6 +607,7 @@ in
       path = [
         pkgs.coreutils
         pkgs.iproute2
+        pkgs.procps
       ];
       serviceConfig = {
         Type = "oneshot";
@@ -451,6 +618,11 @@ in
         ip netns delete ${lib.escapeShellArg cfg.networkNamespace} 2>/dev/null || true
         ip link delete ${lib.escapeShellArg cfg.hostInterface} 2>/dev/null || true
         ip netns add ${lib.escapeShellArg cfg.networkNamespace}
+        # passt preserves guest UDP source ports. Keep this namespace capable
+        # of binding the full port range without granting the broker or passt
+        # CAP_NET_BIND_SERVICE; the host root namespace is unaffected.
+        ip netns exec ${lib.escapeShellArg cfg.networkNamespace} \
+          sysctl --write net.ipv4.ip_unprivileged_port_start=0
         ip link add ${lib.escapeShellArg cfg.hostInterface} type veth \
           peer name ${lib.escapeShellArg cfg.namespaceInterface} \
           netns ${lib.escapeShellArg cfg.networkNamespace}
@@ -537,6 +709,13 @@ in
         Type = "oneshot";
         ExecStart = lib.getExe warpReauthServer;
         NetworkNamespacePath = "/run/netns/${cfg.networkNamespace}";
+        # NetworkNamespacePath moves sockets into the work namespace, but it
+        # does not apply ip-netns' namespace-specific resolver convention.
+        # Keep authentication DNS on the same WARP-managed resolver as the
+        # daemon and VM traffic without exposing that resolver to the host.
+        BindReadOnlyPaths = [
+          "/etc/netns/${cfg.networkNamespace}/resolv.conf:/etc/resolv.conf"
+        ];
         User = cfg.cloudflareWarp.reauthUser;
         StandardInput = "socket";
         StandardOutput = "socket";

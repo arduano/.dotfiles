@@ -12,6 +12,14 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
+    # Local generic VM Harness host boundary. Workload policy remains in the
+    # user-space workspace; this input contributes only the narrow namespace
+    # broker which NixOS must install as a system service.
+    vm-harness = {
+      url = "path:/home/arduano/programming/wtg/vm/vm-harness";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Kept separate so OpenClaw can use a SQLite-safe Node release without
     # forcing every system onto a newer nixpkgs revision.
     nixpkgs-openclaw-runtime.url = "github:NixOS/nixpkgs/18b9261cb3294b6d2a06d03f96872827b8fe2698";

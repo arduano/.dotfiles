@@ -571,8 +571,8 @@
         "vm-runtime-nixpkgs": "vm-runtime-nixpkgs"
       },
       "locked": {
-        "lastModified": 1787815882,
-        "narHash": "sha256-TA9g6EG4HG4HkCuN4/TiC48lWAczTLmO8OFXP5jf+d4=",
+        "lastModified": 1787894233,
+        "narHash": "sha256-Vmr+dWwk/Cz2Xuf/DuWeT9ZMjVDVKm0dwupCvPI5NS0=",
         "path": "/home/arduano/programming/wtg/vm/vm-harness",
         "type": "path"
       },

@@ -154,7 +154,7 @@ rec {
       slack
       google-chrome
       brave
-      zen-browser
+      # zen-browser # BROKEN
       zoom-us
       gimp
       firefox

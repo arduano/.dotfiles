@@ -9,5 +9,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = pkgs.arduano.groups.gui-user;
+
+    programs.ghostty.enable = true;
   };
 }

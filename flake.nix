@@ -12,14 +12,6 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
-    # Local generic VM Harness host boundary. Workload policy remains in the
-    # user-space workspace; this input contributes only the narrow namespace
-    # broker which NixOS must install as a system service.
-    vm-harness = {
-      url = "path:/home/arduano/programming/wtg/vm/vm-harness";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Kept separate so OpenClaw can use a SQLite-safe Node release without
     # forcing every system onto a newer nixpkgs revision.
     nixpkgs-openclaw-runtime.url = "github:NixOS/nixpkgs/18b9261cb3294b6d2a06d03f96872827b8fe2698";
@@ -69,53 +61,80 @@
   };
 
   # The output is your built and working system configuration
-  outputs = { self, nixpkgs, nixos-hardware, vscode-server, flake-utils, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixos-hardware,
+      vscode-server,
+      flake-utils,
+      ...
+    }@inputs:
     with inputs;
     let
       systems = (import ./systems.nix) inputs;
 
-      packages = flake-utils.lib.eachSystem [ "x86_64-linux" ]
-        (system:
-          let
-            baseIso = nixpkgs.lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs;
-              };
-              modules = [ ./iso.nix ];
+      packages = flake-utils.lib.eachSystem [ "x86_64-linux" ] (
+        system:
+        let
+          baseIso = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs;
             };
+            modules = [ ./iso.nix ];
+          };
 
-            baseGuiIso = nixpkgs.lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs;
-              };
-              modules = [ ./iso-gui.nix ];
+          baseGuiIso = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs;
             };
+            modules = [ ./iso-gui.nix ];
+          };
 
-            universalRecoveryIso = nixpkgs.lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs;
-              };
-              modules = [ ./iso-universal-recovery.nix ];
+          universalRecoveryIso = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs;
             };
+            modules = [ ./iso-universal-recovery.nix ];
+          };
 
-            pkgs = import nixpkgs {
-              inherit system;
-              overlays = [ (import ./share/overlay.nix { inherit inputs; }) ];
-            };
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ (import ./share/overlay.nix { inherit inputs; }) ];
+          };
 
-            arduanoPackages = nixpkgs.lib.filterAttrs (_: nixpkgs.lib.isDerivation) pkgs.arduano;
-          in
-          {
-            packages = arduanoPackages // {
-              baseIso = baseIso.config.system.build.isoImage;
-              baseGuiIso = baseGuiIso.config.system.build.isoImage;
-              universalRecoveryIso = universalRecoveryIso.config.system.build.isoImage;
-            };
-          }
-        );
+          flakeLock = builtins.fromJSON (builtins.readFile ./flake.lock);
+          localPathInputNames = builtins.attrNames (
+            nixpkgs.lib.filterAttrs (
+              _: node:
+              let
+                locked = node.locked or { };
+                original = node.original or { };
+              in
+              (locked.type or null) == "path" || (original.type or null) == "path"
+            ) flakeLock.nodes
+          );
+
+          arduanoPackages = nixpkgs.lib.filterAttrs (_: nixpkgs.lib.isDerivation) pkgs.arduano;
+        in
+        {
+          packages = arduanoPackages // {
+            baseIso = baseIso.config.system.build.isoImage;
+            baseGuiIso = baseGuiIso.config.system.build.isoImage;
+            universalRecoveryIso = universalRecoveryIso.config.system.build.isoImage;
+          };
+          checks.no-local-path-flake-inputs =
+            assert nixpkgs.lib.assertMsg (
+              localPathInputNames == [ ]
+            ) "flake.lock contains local path inputs: ${nixpkgs.lib.concatStringsSep ", " localPathInputNames}";
+            pkgs.runCommand "no-local-path-flake-inputs" { } ''
+              touch "$out"
+            '';
+        }
+      );
 
     in
     packages // systems;

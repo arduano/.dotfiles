@@ -7,7 +7,6 @@
 {
   imports = [
     ./roles
-    ./work-vm
     ./nixChannel
     ./networking
     ./shell

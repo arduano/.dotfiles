@@ -495,7 +495,6 @@
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-openclaw-runtime": "nixpkgs-openclaw-runtime",
         "plasma-manager": "plasma-manager",
-        "vm-harness": "vm-harness",
         "vscode-server": "vscode-server",
         "zen-browser": "zen-browser"
       }
@@ -560,40 +559,6 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "vm-harness": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "vm-runtime-nixpkgs": "vm-runtime-nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1787894233,
-        "narHash": "sha256-Vmr+dWwk/Cz2Xuf/DuWeT9ZMjVDVKm0dwupCvPI5NS0=",
-        "path": "/home/arduano/programming/wtg/vm/vm-harness",
-        "type": "path"
-      },
-      "original": {
-        "path": "/home/arduano/programming/wtg/vm/vm-harness",
-        "type": "path"
-      }
-    },
-    "vm-runtime-nixpkgs": {
-      "locked": {
-        "lastModified": 1786539781,
-        "narHash": "sha256-ps9d4S9I9f0JIsYlPMv59fgDrcWyDsGNQ151QmoGmog=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "2febe9cff51e904a39bef44048b32e44664200b9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "2febe9cff51e904a39bef44048b32e44664200b9",
         "type": "github"
       }
     },

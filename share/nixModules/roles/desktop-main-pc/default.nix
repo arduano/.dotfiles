@@ -22,11 +22,10 @@ in
     services = {
       xserver.videoDrivers = [ "nvidia" ];
 
-      # BROKEN (temporarily disabled)
-      # ollama = {
-      #   enable = true;
-      #   package = pkgs.ollama-cuda;
-      # };
+      ollama = {
+        enable = true;
+        package = pkgs.ollama-cuda;
+      };
 
       displayManager = {
         defaultSession = "plasma";

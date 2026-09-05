@@ -102,9 +102,9 @@ in
                 "text"
                 "image"
               ];
-              contextWindow = 272000;
-              maxTokens = 128000;
-              thinkingLevelMap = {
+              contextWindow = model.contextWindow or 272000;
+              maxTokens = model.maxTokens or 128000;
+              thinkingLevelMap = model.thinkingLevelMap or {
                 off = "none";
                 minimal = "minimal";
                 low = "low";
@@ -117,7 +117,7 @@ in
                 supportsPromptCacheKey = true;
                 supportsReasoningEffort = true;
                 supportsTools = true;
-                supportedReasoningEfforts = [
+                supportedReasoningEfforts = model.supportedReasoningEfforts or [
                   "none"
                   "minimal"
                   "low"
@@ -128,6 +128,28 @@ in
               };
             })
             [
+              {
+                id = "gpt-6-astra";
+                name = "GPT-6 Astra via Codex LB";
+                contextWindow = 1050000;
+                maxTokens = 128000;
+                thinkingLevelMap = {
+                  off = "low";
+                  minimal = "low";
+                  low = "low";
+                  medium = "medium";
+                  high = "high";
+                  xhigh = "xhigh";
+                  max = "max";
+                };
+                supportedReasoningEfforts = [
+                  "low"
+                  "medium"
+                  "high"
+                  "xhigh"
+                  "max"
+                ];
+              }
               {
                 id = "gpt-5.6-sol";
                 name = "GPT-5.6 Sol via Codex LB";
@@ -193,6 +215,7 @@ in
           "codex-lb/gpt-5.6-luna".params.cacheRetention = "none";
           "codex-lb/gpt-5.5".params.cacheRetention = "none";
           "codex-lb/gpt-5.4".params.cacheRetention = "none";
+          "codex-lb/gpt-6-astra".params.cacheRetention = "none";
           "openai/gpt-5.6-sol" = { };
           "openai/gpt-5.6-terra" = { };
           "openai/gpt-5.6-luna" = { };
@@ -204,6 +227,7 @@ in
         };
         workspace = "/home/arduano/.openclaw/workspace";
         modelPolicy.allow = [
+          "codex-lb/gpt-6-astra"
           "codex-lb/gpt-5.6-sol"
           "codex-lb/gpt-5.6-terra"
           "codex-lb/gpt-5.6-luna"

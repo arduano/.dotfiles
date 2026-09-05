@@ -103,6 +103,7 @@ in
                 "image"
               ];
               contextWindow = model.contextWindow or 272000;
+              contextTokens = model.contextTokens or model.contextWindow or 272000;
               maxTokens = model.maxTokens or 128000;
               thinkingLevelMap = model.thinkingLevelMap or {
                 off = "none";
@@ -132,6 +133,7 @@ in
                 id = "gpt-6-astra";
                 name = "GPT-6 Astra via Codex LB";
                 contextWindow = 1050000;
+                contextTokens = 922000;
                 maxTokens = 128000;
                 thinkingLevelMap = {
                   off = "low";

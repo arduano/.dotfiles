@@ -133,7 +133,9 @@ in
                 id = "gpt-6-astra";
                 name = "GPT-6 Astra via Codex LB";
                 contextWindow = 1050000;
-                contextTokens = 922000;
+                # The Codex subscription catalog currently caps Astra at 872k,
+                # below the public API's 922k maximum input limit.
+                contextTokens = 872000;
                 maxTokens = 128000;
                 thinkingLevelMap = {
                   off = "low";

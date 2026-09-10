@@ -14,7 +14,9 @@ let
 in
 
 {
-  imports = [ inputs.makera-studio-nix.homeManagerModules.default ];
+  imports = [
+    inputs.makera-studio-nix.homeManagerModules.default
+  ];
 
   home.username = "arduano";
   home.homeDirectory = "/home/arduano";

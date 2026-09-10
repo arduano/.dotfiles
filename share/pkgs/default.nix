@@ -120,7 +120,7 @@ rec {
       deno
       pnpm
 
-      beads
+      # beads
       opencode
 
       dotnet-sdk_8

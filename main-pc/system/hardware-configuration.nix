@@ -26,8 +26,8 @@
   };
 
   fileSystems."/home/arduano" = {
-    device = "/dev/disk/by-uuid/9a3e36de-d2f2-4021-a10f-3f134fd8f62f";
-    fsType = "ext4";
+     device = "/dev/disk/by-uuid/e32bdefc-42fb-4510-a86f-bb47c93065a0";
+    fsType = "bcachefs";
   };
 
   # fileSystems."/mnt/fat" =
@@ -47,7 +47,7 @@
         exit 0
       fi
 
-      ${pkgs.mount}/bin/mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/7207f8fb-b959-434f-8b91-95cad148e3ef /mnt/fat
+      ${pkgs.mount}/bin/mount -t bcachefs /dev/disk/by-partuuid/27b59535-73da-4aaf-be97-87c9205be787:/dev/disk/by-partuuid/f0a47190-c40e-48fa-ae7d-c79a26f3f25d /mnt/fat
     '';
     serviceConfig = {
       Type = "oneshot";
@@ -109,10 +109,16 @@
     ];
   };
 
-  swapDevices = [{
-    device = "/swapfile";
-    size = 64 * 1024;
-  }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 64 * 1024;
+    }
+    {
+      device = "/swapfile2";
+      size = 64 * 1024;
+    }
+  ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
 }

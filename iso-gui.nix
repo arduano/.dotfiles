@@ -25,6 +25,20 @@
 
   boot.supportedFilesystems = lib.mkForce [ "btrfs" "cifs" "f2fs" "jfs" "ntfs" "reiserfs" "vfat" "xfs" "bcachefs" ];
 
+  users.users.nixos.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTRANHakQog7l2Ftk/3EtcExKJJ1PmG8lytv+9LXxl9 arduano@home-nas"
+  ];
+
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      KbdInteractiveAuthentication = false;
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
+
   environment.systemPackages = with pkgs; [ bcachefs-tools ] ++ pkgs.arduano.groups.shell-essentials;
 
   # Enable the X11 windowing system.

@@ -45,7 +45,7 @@
     nix-openclaw.url = "github:openclaw/nix-openclaw";
 
     # Same published host revision as main-pc; retains its tested nixpkgs.
-    leo-multiplex.url = "github:arduano/leo-multiplex/3181e95fcff366e15e8348367fe0c835e3c8ba1e";
+    leo-multiplex.url = "github:arduano/leo-multiplex/3f444901ad38fa2c220a816400635f07ebef00ef";
 
     # Standalone declarative Makera Studio/Wine integration owned by Leo.
     makera-studio-nix.url = "github:arduano/makera-studio-nix";

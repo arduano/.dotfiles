@@ -177,6 +177,46 @@ in
             ];
       };
 
+      # Forward-compatible direct OpenAI/Codex registration until this model
+      # ships in OpenClaw's bundled provider catalog.
+      models.providers.openai = {
+        auth = "oauth";
+        api = "openai-chatgpt-responses";
+        agentRuntime.id = "codex";
+        models = [ {
+          id = "gpt-6-astra";
+          name = "GPT-6 Astra";
+          reasoning = true;
+          input = [
+            "text"
+            "image"
+          ];
+          contextWindow = 1050000;
+          contextTokens = 272000;
+          maxTokens = 128000;
+          thinkingLevelMap = {
+            off = "low";
+            minimal = "low";
+            low = "low";
+            medium = "medium";
+            high = "high";
+            xhigh = "xhigh";
+            max = "max";
+          };
+          compat = {
+            supportsReasoningEffort = true;
+            supportsTools = true;
+            supportedReasoningEfforts = [
+              "low"
+              "medium"
+              "high"
+              "xhigh"
+              "max"
+            ];
+          };
+        } ];
+      };
+
       auth.profiles."openai:leonid.shchurov@gmail.com" = {
         provider = "openai";
         mode = "oauth";
@@ -202,8 +242,9 @@ in
 
       agents.defaults = {
         model = {
-          primary = "codex-lb/gpt-5.6-sol";
+          primary = "codex-lb/gpt-6-astra";
           fallbacks = [
+            "codex-lb/gpt-5.6-sol"
             "codex-lb/gpt-5.5"
             "codex-lb/gpt-5.4"
             "openai/gpt-5.5"
@@ -220,6 +261,7 @@ in
           "codex-lb/gpt-5.5".params.cacheRetention = "none";
           "codex-lb/gpt-5.4".params.cacheRetention = "none";
           "codex-lb/gpt-6-astra".params.cacheRetention = "none";
+          "openai/gpt-6-astra" = { };
           "openai/gpt-5.6-sol" = { };
           "openai/gpt-5.6-terra" = { };
           "openai/gpt-5.6-luna" = { };
@@ -237,6 +279,7 @@ in
           "codex-lb/gpt-5.6-luna"
           "codex-lb/gpt-5.5"
           "codex-lb/gpt-5.4"
+          "openai/gpt-6-astra"
           "openai/gpt-5.6-sol"
           "openai/gpt-5.6-terra"
           "openai/gpt-5.6-luna"
@@ -401,7 +444,6 @@ in
         };
         tailscale = {
           mode = "off";
-          resetOnExit = false;
         };
       };
 

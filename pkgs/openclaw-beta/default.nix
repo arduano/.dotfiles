@@ -3,12 +3,28 @@
   stdenv,
   buildNpmPackage,
   makeWrapper,
+  writeText,
   nodejs,
   nixOpenclawSrc,
 }:
 
 let
-  version = "2026.8.1-beta.2";
+  version = "2026.9.1";
+  # OpenClaw 2026.9.1 moved plugin realpath lookups into its shared cache.
+  patchNpmDistScript = writeText "patch-openclaw-npm-dist.mjs" (
+    builtins.replaceStrings
+      [
+        "isNixStorePluginRoot(params.rootDir, params.realpathCache)"
+        "safeRealpathSync(params.rootDir, params.realpathCache)"
+        "safeRealpathSync"
+      ]
+      [
+        "isNixStorePluginRoot(params.rootDir)"
+        "pluginCacheRealpathSync(params.rootDir)"
+        "pluginCacheRealpathSync"
+      ]
+      (builtins.readFile "${nixOpenclawSrc}/nix/scripts/patch-openclaw-npm-dist.mjs")
+  );
   buildNpmPackageForOpenClaw = buildNpmPackage.override {
     inherit nodejs;
   };
@@ -18,7 +34,7 @@ buildNpmPackageForOpenClaw {
   inherit version;
 
   src = ./npm;
-  npmDepsHash = "sha256-Y2u1wzFoNdUB6QNGZlplJzlyHKai0LxeDikeUtBRn+M=";
+  npmDepsHash = "sha256-lyfePSNUF50Eep9C2ImSnsixOpyUJRtN3tLoaCUGMJ4=";
   dontNpmBuild = true;
   makeCacheWritable = true;
 
@@ -34,7 +50,7 @@ buildNpmPackageForOpenClaw {
   env = {
     NODE_BIN = "${nodejs}/bin/node";
     OPENCLAW_NPM_PACKAGE_ROOT = "node_modules/openclaw";
-    OPENCLAW_PATCH_NPM_DIST_SCRIPT = "${nixOpenclawSrc}/nix/scripts/patch-openclaw-npm-dist.mjs";
+    OPENCLAW_PATCH_NPM_DIST_SCRIPT = "${patchNpmDistScript}";
     STDENV_SETUP = "${stdenv}/setup";
   };
 
@@ -59,9 +75,9 @@ buildNpmPackageForOpenClaw {
     # The npm tarball carries source-checkout markers even though this is an
     # immutable runtime package. Leaving this marker triggers a false plugin
     # dependency warning because Nix deliberately uses npm's nested layout.
-    # Without that marker, beta.2 prefers dist-runtime over the complete
+    # Without that marker, OpenClaw prefers dist-runtime over the complete
     # dist/extensions tree, but nix-openclaw's staged dist-runtime lacks the
-    # shared root chunks imported by beta.2 provider plugins. Remove both the
+    # shared root chunks imported by provider plugins. Remove both the
     # marker and incomplete fallback so OpenClaw selects dist/extensions.
     rm -f "$out/lib/openclaw/pnpm-workspace.yaml"
     rm -rf "$out/lib/openclaw/dist-runtime"
@@ -72,12 +88,12 @@ buildNpmPackageForOpenClaw {
   dontPatchShebangs = true;
 
   passthru = {
-    beta = true;
+    beta = false;
     inherit version;
   };
 
   meta = with lib; {
-    description = "OpenClaw beta gateway (local reversible test package)";
+    description = "OpenClaw stable gateway";
     homepage = "https://github.com/openclaw/openclaw";
     license = licenses.mit;
     platforms = platforms.linux;

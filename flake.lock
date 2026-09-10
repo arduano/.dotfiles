@@ -194,17 +194,17 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1788599607,
-        "narHash": "sha256-NwknYZb+0H3mAuyQWmn0O7YvJiAL4AqWmeFapG1FGI4=",
+        "lastModified": 1788782815,
+        "narHash": "sha256-O2TMdB2uhG8jH5ytxBoNuq+VfmY7yfPjXaJo7Z2GA64=",
         "owner": "arduano",
         "repo": "leo-multiplex",
-        "rev": "3181e95fcff366e15e8348367fe0c835e3c8ba1e",
+        "rev": "3f444901ad38fa2c220a816400635f07ebef00ef",
         "type": "github"
       },
       "original": {
         "owner": "arduano",
         "repo": "leo-multiplex",
-        "rev": "3181e95fcff366e15e8348367fe0c835e3c8ba1e",
+        "rev": "3f444901ad38fa2c220a816400635f07ebef00ef",
         "type": "github"
       }
     },
